@@ -636,18 +636,17 @@ bool nnIsConsistent(bit *picture)
           {
             if (*border!=rv) 
             {
-              debug && fprintf(stderr, "Inconsistency at column %u!\n", j+1);
+              debug && fprintf(stderr, "Inconsistency at row #%u! (%u =/= %u)!\n", i, *border, rv);
               debug1++;
               return false;
             }
             rv=0; r++, border++;
           }
       }
-      if (!fr) break;
     }
     if (fr && *border!=rv)
     {
-      debug && fprintf(stderr, "Inconsistency at the end of column %u!\n", j+1);
+      debug && fprintf(stderr, "Inconsistency at the end of row #%u! (%u =/= %u)\n", i, *border, rv);
       return false;
     }
   }
@@ -670,17 +669,16 @@ bool nnIsConsistent(bit *picture)
           {
             if (*border!=rv) 
             {
-              debug && fprintf(stderr, "Inconsistency at row %u\n", j+1);
+              debug && fprintf(stderr, "Inconsistency at column #%u! (%u =/= %u)\n", i, *border, rv);
               return false;
             }
             rv=0; r++, border++;
           }
       }
-      if (!fr) break;
     }
     if (fr && *border!=rv) 
     {
-      debug && fprintf(stderr, "Inconsistency at the end of row %u\n", j+1);
+      debug && fprintf(stderr, "Inconsistency at the end of column #%u! (%u =/= %u)\n", i, *border, rv);
       return false;
     }
   }
@@ -742,7 +740,7 @@ inline void nnNCopy(tPicture *src, tPicture *dst)
 
 void nnFirstShake(tPicture *mpicture) 
 // Note: 
-// | namely, this is a QuickShake :=)
+// | actually, this is a QuickShake :=)
 {
   unsigned int i, j, k;
   unsigned int R, ML;
