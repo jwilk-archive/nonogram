@@ -28,11 +28,29 @@ typedef signed char bit;
 
 #define max(p,q) ((p)>(q))?(p):(q)
 
-typedef struct tPicture
+#define c_maxsize 999
+#define c_maxfactor 10000
+
+typedef struct
 {
   unsigned int counter; // how many Q-fields do we have
+  unsigned int *linecounter;
   bit bits[];
 } tPicture;
+
+typedef struct
+{
+  unsigned int id;
+  int factor;
+} tQueueElement;
+
+typedef struct
+{
+  unsigned int size;
+  bool *enqueued;
+  tQueueElement *elements;
+  char space[];
+} tQueue;
 
 tPicture *mainpicture;
 unsigned int *leftborder, *topborder;
@@ -87,7 +105,7 @@ void pf(const char *str)
 
 void mpf(unsigned int count, ...)
 // Synopsis:
-// | prints strings to standard output
+// | prints `count' strings to standard output
 {
   unsigned int i;
   va_list ap;
@@ -100,7 +118,7 @@ void mpf(unsigned int count, ...)
 #ifdef EVILCHECK
 double binomln(int n, int k)
 // Synopsis:
-// | evaluates ln binom(n,k)
+// | evaluates ln binom(`n', `k')
 // | if possible, returns the result
 // | otherwise, returns +0.0
 {
@@ -123,7 +141,7 @@ double binomln(int n, int k)
 void nnSignal(int sn)
 // Synopsis:
 // | signal support function
-// | says `Ouch!'
+// | says ``Ouch!''
 // | if necessary, turns all colors off
 // | `sn' is a signal number which we have caught
 {
@@ -218,7 +236,7 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
       if (t!=0)
         pf(strColor), printf("%2u",t), pf(strDark);
       else
-        mpf(3,strColor,"  ",strDark);
+        mpf(3, strColor, "  ", strDark);
     }
     pf("\n");
   }
@@ -231,10 +249,10 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
     {
       strColor=(j&1)?strLight:strLight2;
       t=leftborder[i*xsize+j];
-      if (t!=0)
-        pf(strColor), printf("%2u",t), pf(strDark);
+      if (t != 0)
+        pf(strColor), printf("%2u", t), pf(strDark);
       else
-        mpf(3,strColor,"  ",strDark);
+        mpf(3, strColor, "  ", strDark);
     }
     pf(strV);
     for (j=0; j<xsize; j++)
@@ -243,24 +261,24 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
       switch (*picture)
       {
         case Q:
-          mpf(3,strColor,"<>",strDark);
+          mpf(3, strColor, "<>", strDark);
           break;
         case O:
 #ifdef DEBUG
-          if (*cpicture==X)
-            mpf(2,strError,"..");
+          if (*cpicture == X)
+            mpf(2, strError, "..");
           else
 #endif
-            mpf(2,strColor,"  ");
+            mpf(2, strColor, "  ");
           pf(strDark);
           break;
         case X:
 #ifdef DEBUG
-          if (*cpicture==O)
-            mpf(2,strError,strHash);
+          if (*cpicture == O)
+            mpf(2, strError, strHash);
           else
 #endif
-            mpf(2,strColor,strHash);
+            mpf(2, strColor, strHash);
           pf(strDark);
           break;
       }
@@ -269,10 +287,10 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
       cpicture++;
 #endif
     }
-    mpf(2,strV,"\n");
+    mpf(2, strV, "\n");
   }
   for (i=0; i<2*lmax; i++) pf(" ");
-  pf(strBL); for (i=0; i<xsize; i++) pf(strH); mpf(2,strBR,"\n\n");
+  pf(strBL); for (i=0; i<xsize; i++) pf(strH); mpf(2, strBR, "\n\n");
 }
 
 #ifdef CHROME
@@ -281,8 +299,7 @@ void nnDrawPictureHTML(bit *picture)
 // | HTML version of generic picture printer
 // | `picture' is a picture with our result
 {
-  unsigned int i,j;
-  unsigned int t;
+  unsigned int i, j, t;
   
   pf("<html>\n"
      "<head>\n"
@@ -316,7 +333,7 @@ void nnDrawPictureHTML(bit *picture)
     for (j=0; j<lmax; j++) 
     {
       t=leftborder[i*xsize+j];
-      if (t!=0)
+      if (t != 0)
         printf("<th>%u</th>",t);
       else
         pf("<th>&nbsp;</th>");
@@ -376,44 +393,44 @@ uint64_t nnTouchLine(bit *picture, unsigned int range, uint64_t* testfield, unsi
   sum=count=0;
   mul=vert?xsize:1;
 
-  for(i=0; borderitem[i]>0; i++)
+  for (i=0; borderitem[i]>0; i++)
   {
     count++;
     sum+=borderitem[i];
   }
-  if (sum+count<=range+1)
+  if (sum+count <= range+1)
   {
     k=borderitem[0];
     z=0;
     if (count==1)
-      for(i=0; i+k<=range; i++)
+      for (i=0; i+k<=range; i++)
       {
         ok=true;
-        for(j=0; j<i; j++)             if (picture[j*mul]==X) { ok=false; break; };
+        for (j=0; j<i; j++)             if (picture[j*mul]==X) { ok=false; break; };
         if (!ok) break;
-        for(j=i; j<i+k && ok; j++)     if (picture[j*mul]==O) ok=false;
-        for(j=i+k; j<range && ok; j++) if (picture[j*mul]==X) ok=false;
+        for (j=i; j<i+k && ok; j++)     if (picture[j*mul]==O) ok=false;
+        for (j=i+k; j<range && ok; j++) if (picture[j*mul]==X) ok=false;
         if (ok)
         {
-          for(j=i; j<i+k; j++) testfield[j]++;
+          for (j=i; j<i+k; j++) testfield[j]++;
           z++;
         }
       }
     else
     {
-      for(i=0; i<=range-sum-count+1; i++)
+      for (i=0; i<=range-sum-count+1; i++)
       {
         ok=true;
-        for(j=0; j<i; j++)         if (picture[j*mul]==X) { ok=false; break; };
+        for (j=0; j<i; j++)         if (picture[j*mul]==X) { ok=false; break; };
         if (!ok) break;
-        for(j=i; j<i+k && ok; j++) if (picture[j*mul]==O) ok=false;
+        for (j=i; j<i+k && ok; j++) if (picture[j*mul]==O) ok=false;
         if (!ok) continue; 
         if (i+k<range && picture[(i+k)*mul]==X) continue;
         j=i+k+1;
-        ink=(count==1)?1:nnTouchLine(picture+j*mul,range-j,testfield+j,borderitem+1,vert);
-        if (ink!=0)
+        ink=(count==1)?1:nnTouchLine(picture+j*mul, range-j, testfield+j, borderitem+1, vert);
+        if (ink != 0)
         {
-          for(j=i;j<i+k;j++)
+          for (j=i; j<i+k; j++)
             testfield[j]+=ink;
           z+=ink;
         }
@@ -425,67 +442,116 @@ uint64_t nnTouchLine(bit *picture, unsigned int range, uint64_t* testfield, unsi
     return 0;
 }
 
-inline bool nnQueueEmpty(unsigned int *queue)
+inline tQueue* nnQueueAlloc(void) 
+// Synopsis:
+// | allocates a queue
+{ 
+  tQueue *temp = 
+    xcalloc(
+      sizeof(unsigned int) + 
+      sizeof(bool*) + 
+      sizeof(tQueueElement*) +
+      (xsize+ysize)*(sizeof(bool) + sizeof(tQueueElement)) );
+  temp->size=0;
+  temp->enqueued=(bool*)temp->space;
+  temp->elements=(tQueueElement*)temp->space+(xsize+ysize)*sizeof(bool);
+  return temp;
+}
+
+inline void nnQueueFree(void *queue) 
+// Synopsis:
+// | frees `queue'
+{ 
+  free(queue); 
+}
+
+inline bool nnQueueEmpty(tQueue *queue)
 // Synopsis:
 // | checks if a queue (which `queue' points to) is empty
 {
-  return queue[0]==0;
+  return queue->size==0;
 }
 
-bool nnQueuePush(unsigned int *queue, unsigned int i)
+void nnQueueHeapify(tQueue *queue)
+{
+  unsigned int i, l, r, max;
+  tQueueElement ivalue;
+  
+  i=0;
+  while (true)
+  {
+    ivalue=queue->elements[i];
+    l=2*i+1;
+    r=2*i+2;
+    if (l<queue->size && queue->elements[l].factor>ivalue.factor)
+      max=l;
+    else
+      max=i;
+    if (r<queue->size && queue->elements[r].factor>queue->elements[max].factor)
+      max=r;
+    if (max!=i)
+    {
+      queue->elements[i]=queue->elements[max];
+      queue->elements[max]=ivalue;
+      i=max;
+    }
+    else 
+      return;
+  }
+}
+
+bool nnQueuePush(tQueue *queue, unsigned int id, int factor)
 // Synopsis:
 // | pushes a number (`i') to a queue (which `queue' points to)
 // | if the number has been already queued, nothing happens
 {
-  i++;
-  if (queue[i] == 0)
+  int last;
+  if (queue->enqueued[id])
+    return false;
+  else
   {
-    queue[i]=queue[0];
-    if (queue[i] == 0)
-      queue[i]=i;
-    queue[0]=i;
+    last = queue->size++;
+    queue->elements[last]=queue->elements[0];
+    queue->elements[0].id=id;
+    queue->elements[0].factor=-factor;
+    nnQueueHeapify(queue);
     return true;
   }
-  else
-    return false;
 }
 
-int nnQueuePop(unsigned int *queue)
+int nnQueuePop(tQueue *queue)
 // Synopsis:
 // | pops a number from a queue (which `queue' points to)
 // | if the queue is empty, the result might be strange
 {
-  unsigned int r = queue[0];
-  queue[0]=queue[r];
-  if (queue[0] == r)
-    queue[0]=0;
-  queue[r]=0;
-  return r-1;
+  unsigned int resultid, last;
+  assert(queue->size > 0);
+  resultid=queue->elements[0].id;
+  last=--queue->size;
+  queue->elements[0]=queue->elements[last];
+  nnQueueHeapify(queue);
+  return resultid;
 }
 
-void nnFingerLine(tPicture *mpicture, unsigned int* queue) // shouldn't it be splitted into two functions?
+void nnFingerLine(tPicture *mpicture, tQueue* queue) 
+// shouldn't it be splitted into two functions?
 {
   bit *picture;
   uint64_t *testfield;
   uint64_t q, u;
-  unsigned int i, c, imul, mul, size, line;
+  unsigned int i, j, imul, mul, size, oline, line;
+  int factor;
   bool vert;
   
   fingercounter++;
-  line=nnQueuePop(queue);
-  if (line<ysize)
+  line=oline=nnQueuePop(queue);
+  if (line < ysize)
     imul=xsize, mul=1, size=xsize, vert=false;
   else
     imul=1, mul=xsize, size=ysize, line-=ysize, vert=true;
   
-  picture=mpicture->bits + line*imul;
-  for (i=c=0; i<size; i++)
-  {
-    if (*picture == Q)
-      c++;
-    picture+=mul;
-  }
-  if (c==0 || c==size)
+  j=mpicture->linecounter[oline];  
+  if (j==0 || j==size)
     return;
   
   picture=mpicture->bits + line*imul;
@@ -496,14 +562,17 @@ void nnFingerLine(tPicture *mpicture, unsigned int* queue) // shouldn't it be sp
     q=nnTouchLine(picture, size, testfield, &topborder[line*size], true);
   else
     q=nnTouchLine(picture, size, testfield, &leftborder[line*size], false);
-
-  for (i=0; i<size; i++)
+  
+  j=vert?0:ysize;
+  for (i=j; i<j+size; i++)
   {
     u=*(testfield++);
     if ((u==q || u==0) && (*picture==Q))
     {
       mpicture->counter--;
-      nnQueuePush(queue,i+(vert?0:ysize));
+      mpicture->linecounter[oline]--;
+      factor=c_maxfactor*(--mpicture->linecounter[i])/size;
+      nnQueuePush(queue, i, factor);
       *picture=u?X:O;
     }
     picture+=mul;
@@ -524,9 +593,9 @@ bool nnIsConsistent(bit *picture)
     r=0;
     rv=0;
     border=leftborder+(i*xsize);
-    for(j=0; j<xsize && fr; j++,tpicture++)
+    for (j=0; j<xsize && fr; j++,tpicture++)
     {
-      switch(*tpicture)
+      switch (*tpicture)
       {
         case Q: fr=false; break;
         case X: rv++; break;
@@ -542,16 +611,16 @@ bool nnIsConsistent(bit *picture)
     if (fr && *border!=rv) return false;
   }
 
-  for(i=0;i<xsize;i++)
+  for (i=0;i<xsize;i++)
   {
     fr=true;
     r=0;
     rv=0;
     border=topborder+(i*ysize);
     tpicture=picture+i;
-    for(j=0; j<ysize && fr; j++,tpicture+=xsize)
+    for (j=0; j<ysize && fr; j++,tpicture+=xsize)
     {
-      switch(*tpicture)
+      switch (*tpicture)
       {
         case Q: fr=false; break;
         case X: rv++; break;
@@ -570,19 +639,6 @@ bool nnIsConsistent(bit *picture)
   return true;
 }
 
-inline void* nnQAlloc(unsigned int size) 
-// Synopsis:
-// | allocates a queue of size `size'
-{ 
-  return xcalloc((size+1)*sizeof(unsigned int)); 
-}
-
-inline void nnQFree(void *queue) 
-// Synopsis:
-// | frees `queue'
-{ 
-  free(queue); 
-}
 
 inline void* nnBAlloc(void) 
 // Synopsis:
@@ -602,23 +658,32 @@ void* nnNAlloc(void)
 // Synopsis:
 // | allocates a picture
 { 
-  tPicture *tmp = xcalloc(sizeof(unsigned int) + vsize*sizeof(bit)); 
+  int i;
+  tPicture *tmp = xcalloc(sizeof(unsigned int) +sizeof(unsigned int*) + vsize*sizeof(bit));
+  tmp->linecounter=xcalloc(sizeof(unsigned int)*(xsize+ysize));
+  for (i=0; i<ysize; i++)
+    tmp->linecounter[i]=xsize;
+  for (i=0; i<xsize; i++)
+    tmp->linecounter[ysize+i]=ysize;
   tmp->counter=vsize;
   return tmp;
 }
 
-inline void nnNFree(void* picture)
+inline void nnNFree(tPicture *picture)
 // Synopsis:
-// | frees `ptr'
+// | frees `picture'
 { 
+  free(picture->linecounter);
   free(picture); 
 }
 
-inline void nnNCopy(tPicture *source, tPicture *destination) 
+inline void nnNCopy(tPicture *src, tPicture *dst) 
 // Synopsis:
 // | copies picture `source' onto picture `destination'
 { 
-  memcpy(destination, source, sizeof(unsigned int)+vsize*sizeof(bit)); 
+  dst->counter=src->counter;
+  memcpy(dst->linecounter, src->linecounter, sizeof(unsigned int)*(xsize+ysize));
+  memcpy(dst->bits, src->bits, vsize*sizeof(bit)); 
 }
 
 void nnFirstShake(tPicture *mpicture) 
@@ -630,7 +695,7 @@ void nnFirstShake(tPicture *mpicture)
   bit *picture;
   unsigned int *band;
   
-  for (i=0;i<ysize;i++)
+  for (i=0; i<ysize; i++)
   {
     band=&leftborder[i*xsize];
     R=*(band++);
@@ -645,7 +710,7 @@ void nnFirstShake(tPicture *mpicture)
       if (k < R)
       {
         picture=&mpicture->bits[i*xsize+k];
-        for (; k<R; k++,picture++)
+        for (; k<R; k++, picture++)
           if (*picture==Q)
           {
             *picture=X;
@@ -654,10 +719,10 @@ void nnFirstShake(tPicture *mpicture)
       }
       ML -= (*band); ML--;
       R++; R += *(++band);
-    }  
+    }
   }
 
-  for (i=0;i<xsize;i++)
+  for (i=0; i<xsize; i++)
   {
     band=&topborder[i*ysize];
     R=*(band++);
@@ -672,7 +737,7 @@ void nnFirstShake(tPicture *mpicture)
       if (k < R)
       {
         picture=&mpicture->bits[k*xsize+i];
-        for (; k<R; k++,picture+=xsize)
+        for (; k<R; k++, picture+=xsize)
           if (*picture==Q)
           {
             *picture=X;
@@ -681,25 +746,43 @@ void nnFirstShake(tPicture *mpicture)
       }
       ML -= (*band); ML--;
       R++; R += *(++band);
-    }  
+    }
   }  
+
+  picture=mpicture->bits;
+  for (i=0; i<ysize; i++)
+  for (j=0; j<xsize; j++, picture++)
+  {
+    if (*picture != Q)
+    {
+      mpicture->linecounter[i]--;
+      mpicture->linecounter[ysize+j]--;
+    }
+  }
 }
 
 inline void nnShake(tPicture *mpicture)
 {
-  unsigned int i;
-  unsigned int *queue = nnQAlloc(xsize+ysize);
+  unsigned int i, j;
+  int factor;
+  tQueue* queue = nnQueueAlloc();
 
   for (i=0; i<ysize; i++)
-    nnQueuePush(queue, i);
+  {
+    factor=c_maxfactor*mpicture->linecounter[i]/xsize;
+    nnQueuePush(queue, i, factor);
+  }
 
-  for (i=0;i<xsize;i++)
-    nnQueuePush(queue, ysize+i);
-  
-  while(!nnQueueEmpty(queue))
+  for (i=0, j=ysize; i<xsize; i++, j++)
+  {
+    factor=c_maxfactor*mpicture->linecounter[j]/ysize;
+    nnQueuePush(queue, j, factor);
+  }
+
+  while (!nnQueueEmpty(queue))
     nnFingerLine(mpicture, queue);
 
-  nnQFree(queue);
+  nnQueueFree(queue);
   return;
 }
 
@@ -707,18 +790,22 @@ bool nnUnambiguous(tPicture *mpicture)
 {
   tPicture* mclone;
   bit *picture;
-  unsigned int n;
+  unsigned int i, j, n;
   bool res = false;
-  
+
   mclone=nnNAlloc();
   picture=mpicture->bits;
-  for(n=0; n<vsize && !res; n++, picture++)
+  n=0;
+  for (i=0; i<ysize && !res; i++)
+  for (j=0; j<xsize && !res; j++, n++, picture++)
   {
     if (*picture!=Q)
       continue;
-    assert(*picture==Q);
     nnNCopy(mpicture, mclone);
     mclone->bits[n]=O;
+    mclone->counter--;
+    mclone->linecounter[i]--;
+    mclone->linecounter[ysize+j]--;
     nnShake(mclone);
     res=nnUnambiguous(mclone);
     if (res)
@@ -726,11 +813,14 @@ bool nnUnambiguous(tPicture *mpicture)
     else
     {
       *picture=X;
+      mpicture->counter--;
+      mpicture->linecounter[i]--;
+      mpicture->linecounter[ysize+j]--;
       nnShake(mpicture);
     }
   }
   nnNFree(mclone);
-  return nnIsConsistent(mpicture->bits);;
+  return nnIsConsistent(mpicture->bits);
 }
 
 void nnUsage(void)
@@ -785,7 +875,7 @@ void nnParseArgs(int argc, char **argv, char** vfn)
 
   int optindex, c;
 
-  while(true)
+  while (true)
   {
     optindex = 0;
     c=getopt_long(argc,argv,"vhmHsf:",options,&optindex);
@@ -793,7 +883,7 @@ void nnParseArgs(int argc, char **argv, char** vfn)
       break;
     if (c==0)
       c=options[optindex].val;
-    switch(c)
+    switch (c)
     {
       case 'v':
         nnVersion();
@@ -817,7 +907,6 @@ void nnParseArgs(int argc, char **argv, char** vfn)
     }
   }
 }
-
 
 int main(int argc, char **argv)
 {
@@ -849,13 +938,13 @@ int main(int argc, char **argv)
 #ifdef LINUX
   if (!isatty(STDOUT_FILENO))  
     optionColor=false;
+#ifdef LINUXEXT
   else
   {
-#ifdef LINUXEXT
     if (!strcmp(getenv("TERM"), "linux"))
       optionLinux=true;
-#endif
   }
+#endif
 #endif
 
   xsize=ysize=0;
@@ -865,7 +954,7 @@ int main(int argc, char **argv)
   while (c>='0' && c<='9') { ysize*=10; ysize+=c-'0'; c=readchar(); }
   while (c<=' ') c=readchar();
   
-  if (xsize<1 || ysize<1 || xsize>999 || ysize>999)
+  if (xsize<1 || ysize<1 || xsize>c_maxsize || ysize>c_maxsize)
     nnErrorInput(1);
   
   vsize=xsize*ysize;
@@ -882,13 +971,13 @@ int main(int argc, char **argv)
 #endif
   sane=-1;
   lmax=0;
-  for (i=j=0;i<ysize;)
+  for (i=j=0; i<ysize; )
   {
     k=0;
     while (c>='0' && c<='9') { k*=10; k+=c-'0'; c=readchar(); }
-    if (k==0) nnErrorInput(2+i);
+    if (k == 0) nnErrorInput(2+i);
     sane+=k+1;
-    if (sane>xsize) nnErrorInput(2+i);
+    if (sane > xsize) nnErrorInput(2+i);
     leftborder[i*xsize+j]=k;
 #ifdef EVILCHECK
     evs+=k;
@@ -902,7 +991,7 @@ int main(int argc, char **argv)
       if (j>lmax)
         lmax=j;
 #ifdef EVILCHECK
-      evn1+=binomln(xsize-evs+1,j+1);
+      evn1+=binomln(xsize-evs+1, j+1);
       evn2+=(double)(evs+evm+j)-(double)(1+xsize);
       evs=evm=0;
 #endif        
@@ -916,7 +1005,7 @@ int main(int argc, char **argv)
 
   assert(sane == -1);
   tmax=0;
-  for (i=j=0;i<xsize;)
+  for (i=j=0; i<xsize; )
   {
     k=0;
     while (c>='0' && c<='9') { k*=10; k+=c-'0'; c=readchar(); }
@@ -966,11 +1055,11 @@ int main(int argc, char **argv)
       checkpicture=nnNAlloc();
       checkpicture->counter=0;
       c=0;
-      for(i=0;i<ysize;i++)
+      for (i=0;i<ysize;i++)
       {
-        while(c<' ') 
+        while (c<' ') 
           c=freadchar(verifyfile);
-        for(j=0;j<xsize;j++)
+        for (j=0;j<xsize;j++)
         {
           checkpicture->bits[i*xsize+j]=(c=='#')?X:O;
           freadchar(verifyfile);
@@ -984,6 +1073,7 @@ int main(int argc, char **argv)
 #endif
 
   fingercounter=0;
+
   nnFirstShake(mainpicture);
   nnShake(mainpicture);
 
