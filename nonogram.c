@@ -113,7 +113,7 @@ void pf(const char *str)
 // Synopsis:
 // | prints a string `str' to standard output
 {
-  fwrite(str, strlen(str), 1, stdout);
+  fputs(str, stdout);
 }
 
 void mpf(unsigned int count, ...)
@@ -636,7 +636,7 @@ bool nnIsConsistent(bit *picture)
           {
             if (*border!=rv) 
             {
-              debug && fprintf(stderr, "Inconsistency at column %d!\n", j+1);
+              debug && fprintf(stderr, "Inconsistency at column %u!\n", j+1);
               debug1++;
               return false;
             }
@@ -647,7 +647,7 @@ bool nnIsConsistent(bit *picture)
     }
     if (fr && *border!=rv)
     {
-      debug && fprintf(stderr, "Inconsistency at the end of column %d!\n", j+1);
+      debug && fprintf(stderr, "Inconsistency at the end of column %u!\n", j+1);
       return false;
     }
   }
@@ -670,7 +670,7 @@ bool nnIsConsistent(bit *picture)
           {
             if (*border!=rv) 
             {
-              debug && fprintf(stderr, "Inconsistency at end of row %d\n", j+1);
+              debug && fprintf(stderr, "Inconsistency at row %u\n", j+1);
               return false;
             }
             rv=0; r++, border++;
@@ -680,7 +680,7 @@ bool nnIsConsistent(bit *picture)
     }
     if (fr && *border!=rv) 
     {
-      debug && fprintf(stderr, "Inconsistency at the end of row %d\n", j+1);
+      debug && fprintf(stderr, "Inconsistency at the end of row %u\n", j+1);
       return false;
     }
   }
