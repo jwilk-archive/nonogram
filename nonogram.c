@@ -41,6 +41,8 @@ typedef signed char bit;
 #  define add64(a, b) a+=b
 #endif
 
+static int debug1 = 0;
+
 typedef struct
 {
   unsigned int counter; // how many Q-fields do we have
@@ -58,7 +60,7 @@ typedef struct
 typedef struct
 {
   unsigned int size;
-  bool *enqueued;
+  unsigned int *enqueued;
   tQueueElement *elements;
   char space[];
 } tQueue;
@@ -66,14 +68,14 @@ typedef struct
 tPicture *mainpicture;
 unsigned int *leftborder, *topborder;
 uint64_t *gtestfield;
-unsigned int xsize, ysize, xysize, vsize;
+unsigned int xsize, ysize, xysize, xpysize, vsize;
 unsigned int lmax, tmax;
 
 uint64_t fingercounter;
 
 bool optionColor = true; // can we use color tricks?
 bool optionLinux = false; // can we make extended use of linux console?
-bool optionHTML = false; // should we print HTML instead of plain text?
+bool optionHTML = false; // shall we print HTML instead of plain text?
 bool optionStats = false;
 
 inline void message(char *message, ...)
@@ -241,7 +243,7 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
       strColor=(j&1)?strLight:strLight2;
       t=topborder[j*ysize+i];
       if (t!=0)
-        pf(strColor), printf("%2u",t), pf(strDark);
+        pf(strColor), printf("%2u", t), pf(strDark);
       else
         mpf(3, strColor, "  ", strDark);
     }
@@ -292,6 +294,7 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
   }
   for (i=0; i<2*lmax; i++) pf(" ");
   pf(strBL); for (i=0; i<xsize; i++) pf(strH); mpf(2, strBR, "\n\n");
+  fflush(stdout);
 }
 
 #ifdef CHROME
@@ -450,10 +453,11 @@ inline tQueue* nnQueueAlloc(void)
   tQueue *tmp = 
     xcalloc(
       (int)((char*)(tmp->space) - (char*)tmp) +
-      (xsize+ysize)*(sizeof(bool) + sizeof(tQueueElement)) );
+      xpysize*(sizeof(unsigned int*) + sizeof(tQueueElement)) );
   tmp->size=0;
-  tmp->enqueued=(bool*)tmp->space;
-  tmp->elements=(tQueueElement*)(tmp->space+(xsize+ysize)*sizeof(bool));
+  tmp->enqueued=(unsigned int*)tmp->space;
+  memset(tmp->enqueued, -1, sizeof(unsigned int*)*xpysize);
+  tmp->elements=(tQueueElement*)(tmp->space+xpysize*sizeof(bool));
   return tmp;
 }
 
@@ -461,7 +465,7 @@ inline void nnQueueFree(void *queue)
 // Synopsis:
 // | frees `queue'
 { 
-  free(queue); 
+  free(queue);
 }
 
 inline bool nnQueueEmpty(tQueue *queue)
@@ -469,6 +473,12 @@ inline bool nnQueueEmpty(tQueue *queue)
 // | checks if a queue (which `queue' points to) is empty
 {
   return queue->size==0;
+}
+
+inline void nnQueueUpdateEnq(tQueue *queue, unsigned int i)
+{
+  assert(i < queue->size);
+  queue->enqueued[queue->elements[i].id]=i;
 }
 
 void nnQueueHeapify(tQueue *queue)
@@ -492,6 +502,8 @@ void nnQueueHeapify(tQueue *queue)
     {
       queue->elements[i]=queue->elements[max];
       queue->elements[max]=ivalue;
+      nnQueueUpdateEnq(queue, i);
+      nnQueueUpdateEnq(queue, max);
       i=max;
     }
     else 
@@ -502,24 +514,35 @@ void nnQueueHeapify(tQueue *queue)
 bool nnQueuePush(tQueue *queue, unsigned int id, int factor)
 // Synopsis:
 // | pushes a number (`i') to a queue (which `queue' points to)
-// | if the number has been already queued, nothing happens
+// | if the number has been already queued, the queue might be renumbered
 {
   unsigned int i, j;
+  
   factor=-factor;
-  if (queue->enqueued[id])
-    return false;
+
+  assert(id < xpysize);
+  i=queue->enqueued[id];
+  if (i == (unsigned int)-1)
+    i=queue->size++;
   else
   {
-    i=queue->size++;
-    while(i>0 && queue->elements[j=(i-1)/2].factor < factor)
-    {
-      queue->elements[i]=queue->elements[j];
-      i=j;
-    }
-    queue->elements[i].id=id;
-    queue->elements[i].factor=factor;
-    return true;
+    assert(i < queue->size);
+    if (factor <= queue->elements[i].factor)
+      return false;
   }
+  
+  while(i>0 && queue->elements[j=(i-1)/2].factor < factor)
+  {
+    queue->elements[i]=queue->elements[j];
+    nnQueueUpdateEnq(queue, i);
+    i=j;
+  }
+  
+  queue->elements[i].id=id;
+  queue->elements[i].factor=factor;
+  nnQueueUpdateEnq(queue, i);
+
+  return true;
 }
 
 int nnQueuePop(tQueue *queue)
@@ -531,8 +554,13 @@ int nnQueuePop(tQueue *queue)
   assert(queue->size > 0);
   resultid=queue->elements[0].id;
   last=--queue->size;
-  queue->elements[0]=queue->elements[last];
-  nnQueueHeapify(queue);
+  if (queue->size > 0)
+  {
+    queue->elements[0]=queue->elements[last];
+    nnQueueUpdateEnq(queue, 0);
+    nnQueueHeapify(queue);
+  }
+  queue->enqueued[resultid]=(unsigned int)-1;
   return resultid;
 }
 
@@ -553,9 +581,6 @@ void nnFingerLine(tPicture *mpicture, tQueue* queue)
     imul=xsize, mul=1, size=xsize, vert=false;
   else
     imul=1, mul=xsize, size=ysize, line-=ysize, vert=true;
-
-  debug &&
-    fprintf(stderr, "%d %s, factor = %d, waiting %d\n", line, vert?"vert":"horz", factor, queue->size);
 
   j=mpicture->linecounter[oline];  
   if (j==0 || j==size)
@@ -612,6 +637,7 @@ bool nnIsConsistent(bit *picture)
             if (*border!=rv) 
             {
               debug && fprintf(stderr, "Inconsistency at column %d!\n", j+1);
+              debug1++;
               return false;
             }
             rv=0; r++, border++;
@@ -685,8 +711,8 @@ void* nnNAlloc(void)
     xcalloc(
       (int)((char*)(tmp->bits) - (char*)tmp) +
       vsize*sizeof(bit) );
-  tmp->linecounter=xcalloc(sizeof(unsigned int)*(xsize+ysize));
-  tmp->evilcounter=xcalloc(sizeof(unsigned int)*(xsize+ysize));
+  tmp->linecounter=xcalloc(sizeof(unsigned int)*xpysize);
+  tmp->evilcounter=xcalloc(sizeof(unsigned int)*xpysize);
   for (i=0; i<ysize; i++)
     tmp->linecounter[i]=xsize;
   for (i=0; i<xsize; i++)
@@ -701,16 +727,16 @@ inline void nnNFree(tPicture *picture)
 { 
   free(picture->linecounter);
   free(picture->evilcounter);
-  free(picture); 
+  free(picture);
 }
 
 inline void nnNCopy(tPicture *src, tPicture *dst) 
 // Synopsis:
-// | copies picture `source' onto picture `destination'
+// | copies picture `src' onto picture `dst'
 { 
   dst->counter=src->counter;
-  memcpy(dst->linecounter, src->linecounter, sizeof(unsigned int)*(xsize+ysize));
-  memcpy(dst->evilcounter, src->evilcounter, sizeof(unsigned int)*(xsize+ysize));
+  memcpy(dst->linecounter, src->linecounter, sizeof(unsigned int)*xpysize);
+  memcpy(dst->evilcounter, src->evilcounter, sizeof(unsigned int)*xpysize);
   memcpy(dst->bits, src->bits, vsize*sizeof(bit)); 
 }
 
@@ -794,7 +820,7 @@ inline void nnShake(tPicture *mpicture)
   unsigned int i, j;
   int factor;
   tQueue* queue = nnQueueAlloc();
-
+  
   for (i=0; i<ysize; i++)
   {
     factor=c_maxfactor*mpicture->linecounter[i]/xsize + mpicture->evilcounter[i];
@@ -826,10 +852,9 @@ bool nnUnambiguous(tPicture *mpicture)
   n=0;
   for (i=0; i<ysize && !res; i++)
   for (j=0; j<xsize && !res; j++, n++, picture++)
+  if (*picture==Q)
   {
-    if (*picture!=Q)
-      continue;
-    nnNCopy(mpicture, mclone);
+    nnNCopy(mpicture, mclone); // mpicture --> mclone
     mclone->bits[n]=O;
     mclone->counter--;
     mclone->linecounter[i]--;
@@ -837,7 +862,7 @@ bool nnUnambiguous(tPicture *mpicture)
     nnShake(mclone);
     res=nnUnambiguous(mclone);
     if (res)
-      nnNCopy(mclone, mpicture);
+      nnNCopy(mclone, mpicture); // mclone --> mpicture
     else
     {
       *picture=X;
@@ -983,6 +1008,7 @@ int main(int argc, char **argv)
     nnErrorInput(1);
   
   vsize=xsize*ysize;
+  xpysize=xsize+ysize;
   xysize=max(xsize,ysize);
 
   leftborder=nnBAlloc();
@@ -1087,7 +1113,7 @@ int main(int argc, char **argv)
 
   nnFirstShake(mainpicture);
   nnShake(mainpicture);
-
+  
   if (!nnIsConsistent(mainpicture->bits))
   {
     fingercounter=0;
@@ -1095,9 +1121,9 @@ int main(int argc, char **argv)
     if (debug)
       nnDrawPicture(mainpicture->bits, checkbits);
   }
-  else if (mainpicture->counter==0)
+  else if ((mainpicture->counter==0) || debug)
     nnDrawPicture(mainpicture->bits, checkbits);
-  else
+  if (mainpicture->counter!=0)
   {
     message("Ambiguous! But trying to find a solution...\n");
     if (nnUnambiguous(mainpicture))
@@ -1106,7 +1132,7 @@ int main(int argc, char **argv)
     {
       fingercounter=0;
       message("Inconsistent! Bamf!\n");
-    } 
+    }
   }
   
   if (optionStats)
