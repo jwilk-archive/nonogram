@@ -10,6 +10,14 @@
 #include <getopt.h>
 #include <math.h>
 
+#if 1
+#include <stdbool.h>
+#else
+  typedef int bool;
+# define true 1
+# define false 0
+#endif
+
 #ifdef DEBUG
 #  define debug 1
 #else
@@ -20,13 +28,9 @@
 #  define VERSION "[devel]"
 #endif
 
-typedef int bool;
-#define false 0
-#define true 1
-
 typedef signed char bit;
 #define Q 0
-#define O -1
+#define O (-1)
 #define X 1
 
 #define max(p,q) ((p)>(q))?(p):(q)
@@ -240,7 +244,7 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
     {
       strColor=(j&1)?strLight:strLight2;
       t=topborder[j*ysize+i];
-      if (t!=0)
+      if (t!=0 || i==0)
         pf(strColor), printf("%2u", t), pf(strDark);
       else
         mpf(3, strColor, "  ", strDark);
@@ -256,7 +260,7 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
     {
       strColor=(j&1)?strLight:strLight2;
       t=leftborder[i*xsize+j];
-      if (t != 0)
+      if (t!=0 || j==0)
         pf(strColor), printf("%2u", t), pf(strDark);
       else
         mpf(3, strColor, "  ", strDark);
@@ -455,7 +459,7 @@ inline tQueue* nnQueueAlloc(void)
   tmp->size=0;
   tmp->enqueued=(unsigned int*)tmp->space;
   memset(tmp->enqueued, -1, sizeof(unsigned int*)*xpysize);
-  tmp->elements=(tQueueElement*)(tmp->space+xpysize*sizeof(bool));
+  tmp->elements=(tQueueElement*)(tmp->space+xpysize*sizeof(unsigned int));
   return tmp;
 }
 
@@ -753,7 +757,16 @@ void nnFirstShake(tPicture *mpicture)
     while (*band>0)
       ML += *(band++) + 1;
 
-    band=&leftborder[i*xsize]; j=0;
+    band=&leftborder[i*xsize];
+    if (*band == 0)
+    {
+      picture=&mpicture->bits[i*xsize];
+      for(j=0; j<xsize; j++, picture++)
+      {
+        *picture=O;
+        mpicture->counter--;
+      }
+    }
     while (*band > 0)
     {
       k=xsize-ML;
@@ -761,11 +774,10 @@ void nnFirstShake(tPicture *mpicture)
       {
         picture=&mpicture->bits[i*xsize+k];
         for (; k<R; k++, picture++)
-          if (*picture==Q)
-          {
-            *picture=X;
-            mpicture->counter--;
-          }
+        {
+          *picture=X;
+          mpicture->counter--;
+        }
       }
       ML -= (*band); ML--;
       R++; R += *(++band);
@@ -780,7 +792,17 @@ void nnFirstShake(tPicture *mpicture)
     while (*band > 0)
       ML += *(band++) + 1;
 
-    band=&topborder[i*ysize]; j=0;
+    band=&topborder[i*ysize];
+    if (*band == 0)
+    {
+      picture=&mpicture->bits[i];
+      for(j=0; j<ysize; j++, picture+=xsize)
+      if (*picture == Q)
+      {
+        *picture=O;
+        mpicture->counter--;
+      }
+    }
     while (*band > 0)
     {
       k=ysize-ML;
@@ -788,11 +810,11 @@ void nnFirstShake(tPicture *mpicture)
       {
         picture=&mpicture->bits[k*xsize+i];
         for (; k<R; k++, picture+=xsize)
-          if (*picture==Q)
-          {
-            *picture=X;
-            mpicture->counter--;
-          }
+        if (*picture==Q)
+        {
+          *picture=X;
+          mpicture->counter--;
+        }
       }
       ML -= (*band); ML--;
       R++; R += *(++band);
@@ -802,12 +824,10 @@ void nnFirstShake(tPicture *mpicture)
   picture=mpicture->bits;
   for (i=0; i<ysize; i++)
   for (j=0; j<xsize; j++, picture++)
+  if (*picture != Q)
   {
-    if (*picture != Q)
-    {
-      mpicture->linecounter[i]--;
-      mpicture->linecounter[ysize+j]--;
-    }
+    mpicture->linecounter[i]--;
+    mpicture->linecounter[ysize+j]--;
   }
 }
 
@@ -1020,9 +1040,9 @@ int main(int argc, char **argv)
   {
     k=0;
     while (c>='0' && c<='9') { k*=10; k+=c-'0'; c=readchar(); }
-    if (k == 0) nnErrorInput(2+i);
     sane+=k+1;
-    if (sane > xsize) nnErrorInput(2+i);
+    if ((sane>xsize) || (k==0 && j>0)) 
+      nnErrorInput(2+i);
     leftborder[i*xsize+j]=k;
     evs+=k;
     if (k>evm)
@@ -1051,9 +1071,9 @@ int main(int argc, char **argv)
   {
     k=0;
     while (c>='0' && c<='9') { k*=10; k+=c-'0'; c=readchar(); }
-    if (k==0) nnErrorInput(2+ysize+i);
     sane+=k+1;
-    if (sane>ysize) nnErrorInput(2+ysize+i);
+    if ((sane>ysize) || (k==0 && j>0)) 
+      nnErrorInput(2+ysize+i);
     topborder[i*ysize+j]=k;
     evs+=k;
     if (k>evm)
@@ -1123,7 +1143,7 @@ int main(int argc, char **argv)
       nnDrawPicture(mainpicture->bits, checkbits);
     if (mainpicture->counter!=0)
     {
-      message("Ambiguous! But trying to find a solution...\n");
+      message("Ambiguous (%u)! But trying to find a solution...\n", mainpicture->counter);
       if (nnUnambiguous(mainpicture))
         nnDrawPicture(mainpicture->bits, checkbits);
       else
