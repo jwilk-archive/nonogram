@@ -2,15 +2,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdint.h>
+#include <unistd.h>
 #include <errno.h>
 #include <signal.h>
 #include <string.h>
-#include <unistd.h>
-#include <stdint.h>
 #include <getopt.h>
+#include <math.h>
 
-#ifdef EVILCHECK
-#  include <math.h>
+#ifdef DEBUG
+#  define debug 1
+#else
+#  define debug 0
 #endif
 
 #ifndef VERSION
@@ -30,11 +33,19 @@ typedef signed char bit;
 
 #define c_maxsize 999
 #define c_maxfactor 10000
+#define c_maxevilness 15.0
+
+#ifdef __TINYC__
+#  define add64(a, b) a=a+b
+#else
+#  define add64(a, b) a+=b
+#endif
 
 typedef struct
 {
   unsigned int counter; // how many Q-fields do we have
   unsigned int *linecounter;
+  unsigned int *evilcounter;
   bit bits[];
 } tPicture;
 
@@ -115,7 +126,6 @@ void mpf(unsigned int count, ...)
   va_end(ap);
 }
 
-#ifdef EVILCHECK
 double binomln(int n, int k)
 // Synopsis:
 // | evaluates ln binom(`n', `k')
@@ -136,7 +146,6 @@ double binomln(int n, int k)
   tmp-=(dn-dk+0.5)*log(dn-dk);
   return tmp;
 }
-#endif
 
 void nnSignal(int sn)
 // Synopsis:
@@ -175,7 +184,7 @@ void* xcalloc(size_t size)
 // | allocates `size' bytes of memory
 // | if necessary, handles errors
 {
-  void *tmp = calloc(1,size);
+  void *tmp = calloc(1, size);
   if (!tmp)
     nnErrorOOM();
   return tmp;
@@ -191,10 +200,8 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
     *strDark, *strColor, *strError,
     *strH, *strV, *strTL, *strBL, *strTR, *strBR,
     *strHash;
-#ifdef DEBUG
-  if (cpicture==NULL)
+  if (debug && cpicture==NULL) 
     cpicture=picture;
-#endif
   
   strHash="##";
   strLight=strLight2=strDark=strError="";
@@ -264,28 +271,22 @@ void nnDrawPicturePlain(bit *picture, bit* cpicture)
           mpf(3, strColor, "<>", strDark);
           break;
         case O:
-#ifdef DEBUG
-          if (*cpicture == X)
+          if (debug && *cpicture == X)
             mpf(2, strError, "..");
           else
-#endif
             mpf(2, strColor, "  ");
           pf(strDark);
           break;
         case X:
-#ifdef DEBUG
-          if (*cpicture == O)
+          if (debug && *cpicture == O)
             mpf(2, strError, strHash);
           else
-#endif
             mpf(2, strColor, strHash);
           pf(strDark);
           break;
       }
       picture++;
-#ifdef DEBUG
-      cpicture++;
-#endif
+      debug && cpicture++;
     }
     mpf(2, strV, "\n");
   }
@@ -412,8 +413,8 @@ uint64_t nnTouchLine(bit *picture, unsigned int range, uint64_t* testfield, unsi
         for (j=i+k; j<range && ok; j++) if (picture[j*mul]==X) ok=false;
         if (ok)
         {
-          for (j=i; j<i+k; j++) testfield[j]++;
-          z++;
+          for (j=i; j<i+k; j++) add64(testfield[j], 1);
+          add64(z, 1);
         }
       }
     else
@@ -431,8 +432,8 @@ uint64_t nnTouchLine(bit *picture, unsigned int range, uint64_t* testfield, unsi
         if (ink != 0)
         {
           for (j=i; j<i+k; j++)
-            testfield[j]+=ink;
-          z+=ink;
+            add64(testfield[j], ink);
+          add64(z, ink);
         }
       }
     }
@@ -446,16 +447,14 @@ inline tQueue* nnQueueAlloc(void)
 // Synopsis:
 // | allocates a queue
 { 
-  tQueue *temp = 
+  tQueue *tmp = 
     xcalloc(
-      sizeof(unsigned int) + 
-      sizeof(bool*) + 
-      sizeof(tQueueElement*) +
+      (int)((char*)(tmp->space) - (char*)tmp) +
       (xsize+ysize)*(sizeof(bool) + sizeof(tQueueElement)) );
-  temp->size=0;
-  temp->enqueued=(bool*)temp->space;
-  temp->elements=(tQueueElement*)temp->space+(xsize+ysize)*sizeof(bool);
-  return temp;
+  tmp->size=0;
+  tmp->enqueued=(bool*)tmp->space;
+  tmp->elements=(tQueueElement*)(tmp->space+(xsize+ysize)*sizeof(bool));
+  return tmp;
 }
 
 inline void nnQueueFree(void *queue) 
@@ -482,7 +481,7 @@ void nnQueueHeapify(tQueue *queue)
   {
     ivalue=queue->elements[i];
     l=2*i+1;
-    r=2*i+2;
+    r=l+1;
     if (l<queue->size && queue->elements[l].factor>ivalue.factor)
       max=l;
     else
@@ -505,16 +504,20 @@ bool nnQueuePush(tQueue *queue, unsigned int id, int factor)
 // | pushes a number (`i') to a queue (which `queue' points to)
 // | if the number has been already queued, nothing happens
 {
-  int last;
+  unsigned int i, j;
+  factor=-factor;
   if (queue->enqueued[id])
     return false;
   else
   {
-    last = queue->size++;
-    queue->elements[last]=queue->elements[0];
-    queue->elements[0].id=id;
-    queue->elements[0].factor=-factor;
-    nnQueueHeapify(queue);
+    i=queue->size++;
+    while(i>0 && queue->elements[j=(i-1)/2].factor < factor)
+    {
+      queue->elements[i]=queue->elements[j];
+      i=j;
+    }
+    queue->elements[i].id=id;
+    queue->elements[i].factor=factor;
     return true;
   }
 }
@@ -542,14 +545,18 @@ void nnFingerLine(tPicture *mpicture, tQueue* queue)
   unsigned int i, j, imul, mul, size, oline, line;
   int factor;
   bool vert;
-  
+    
   fingercounter++;
+  factor=queue->elements[0].factor;
   line=oline=nnQueuePop(queue);
   if (line < ysize)
     imul=xsize, mul=1, size=xsize, vert=false;
   else
     imul=1, mul=xsize, size=ysize, line-=ysize, vert=true;
-  
+
+  debug &&
+    fprintf(stderr, "%d %s, factor = %d, waiting %d\n", line, vert?"vert":"horz", factor, queue->size);
+
   j=mpicture->linecounter[oline];  
   if (j==0 || j==size)
     return;
@@ -562,7 +569,7 @@ void nnFingerLine(tPicture *mpicture, tQueue* queue)
     q=nnTouchLine(picture, size, testfield, &topborder[line*size], true);
   else
     q=nnTouchLine(picture, size, testfield, &leftborder[line*size], false);
-  
+
   j=vert?0:ysize;
   for (i=j; i<j+size; i++)
   {
@@ -571,7 +578,7 @@ void nnFingerLine(tPicture *mpicture, tQueue* queue)
     {
       mpicture->counter--;
       mpicture->linecounter[oline]--;
-      factor=c_maxfactor*(--mpicture->linecounter[i])/size;
+      factor=c_maxfactor*(--mpicture->linecounter[i])/size + mpicture->evilcounter[i];
       nnQueuePush(queue, i, factor);
       *picture=u?X:O;
     }
@@ -602,13 +609,21 @@ bool nnIsConsistent(bit *picture)
         case O:
           if (rv>0)
           {
-            if (*border!=rv) return false;
+            if (*border!=rv) 
+            {
+              debug && fprintf(stderr, "Inconsistency at column %d!\n", j+1);
+              return false;
+            }
             rv=0; r++, border++;
           }
       }
       if (!fr) break;
     }
-    if (fr && *border!=rv) return false;
+    if (fr && *border!=rv)
+    {
+      debug && fprintf(stderr, "Inconsistency at the end of column %d!\n", j+1);
+      return false;
+    }
   }
 
   for (i=0;i<xsize;i++)
@@ -627,18 +642,25 @@ bool nnIsConsistent(bit *picture)
         case O:
           if (rv>0)
           {
-            if (*border!=rv) return false;
+            if (*border!=rv) 
+            {
+              debug && fprintf(stderr, "Inconsistency at end of row %d\n", j+1);
+              return false;
+            }
             rv=0; r++, border++;
           }
       }
       if (!fr) break;
     }
-    if (fr && *border!=rv) return false;
+    if (fr && *border!=rv) 
+    {
+      debug && fprintf(stderr, "Inconsistency at the end of row %d\n", j+1);
+      return false;
+    }
   }
   
   return true;
 }
-
 
 inline void* nnBAlloc(void) 
 // Synopsis:
@@ -658,9 +680,13 @@ void* nnNAlloc(void)
 // Synopsis:
 // | allocates a picture
 { 
-  int i;
-  tPicture *tmp = xcalloc(sizeof(unsigned int) +sizeof(unsigned int*) + vsize*sizeof(bit));
+  unsigned int i;
+  tPicture *tmp = 
+    xcalloc(
+      (int)((char*)(tmp->bits) - (char*)tmp) +
+      vsize*sizeof(bit) );
   tmp->linecounter=xcalloc(sizeof(unsigned int)*(xsize+ysize));
+  tmp->evilcounter=xcalloc(sizeof(unsigned int)*(xsize+ysize));
   for (i=0; i<ysize; i++)
     tmp->linecounter[i]=xsize;
   for (i=0; i<xsize; i++)
@@ -674,6 +700,7 @@ inline void nnNFree(tPicture *picture)
 // | frees `picture'
 { 
   free(picture->linecounter);
+  free(picture->evilcounter);
   free(picture); 
 }
 
@@ -683,6 +710,7 @@ inline void nnNCopy(tPicture *src, tPicture *dst)
 { 
   dst->counter=src->counter;
   memcpy(dst->linecounter, src->linecounter, sizeof(unsigned int)*(xsize+ysize));
+  memcpy(dst->evilcounter, src->evilcounter, sizeof(unsigned int)*(xsize+ysize));
   memcpy(dst->bits, src->bits, vsize*sizeof(bit)); 
 }
 
@@ -769,13 +797,13 @@ inline void nnShake(tPicture *mpicture)
 
   for (i=0; i<ysize; i++)
   {
-    factor=c_maxfactor*mpicture->linecounter[i]/xsize;
+    factor=c_maxfactor*mpicture->linecounter[i]/xsize + mpicture->evilcounter[i];
     nnQueuePush(queue, i, factor);
   }
 
   for (i=0, j=ysize; i<xsize; i++, j++)
   {
-    factor=c_maxfactor*mpicture->linecounter[j]/ysize;
+    factor=c_maxfactor*mpicture->linecounter[j]/ysize + mpicture->evilcounter[i];
     nnQueuePush(queue, j, factor);
   }
 
@@ -823,6 +851,14 @@ bool nnUnambiguous(tPicture *mpicture)
   return nnIsConsistent(mpicture->bits);
 }
 
+unsigned int nnMeasureEvilness(int r, int k)
+{
+  double tmp = binomln(r, k);
+  if (tmp>c_maxevilness)
+    tmp=c_maxevilness;
+  return floor((tmp*c_maxevilness)*c_maxfactor);
+}
+
 void nnUsage(void)
 // Synopsis:
 // | prints out usage information and exits
@@ -864,17 +900,17 @@ void nnParseArgs(int argc, char **argv, char** vfn)
 {
   static struct option options[]=
   {
-    {"version",0,0,'v'},
-    {"help",0,0,'h'},
-    {"mono",0,0,'m'},
-    {"html",0,0,'H'},
-    {"file",0,0,'f'},
-    {"statistics",0,0,'s'}, // undocumented
-    {0,0,0,0}
+    {"version", 0, 0,'v'},
+    {"help", 0, 0, 'h'},
+    {"mono", 0, 0, 'm'},
+    {"html", 0, 0, 'H'},
+    {"file", 0, 0, 'f'},
+    {"statistics", 0, 0,'s'}, // undocumented
+    {0, 0, 0, 0}
   };
 
   int optindex, c;
-
+  
   while (true)
   {
     optindex = 0;
@@ -895,12 +931,10 @@ void nnParseArgs(int argc, char **argv, char** vfn)
       case 'H':
         optionHTML=true;
         break;
-#ifdef DEBUG
       case 'f':
-        if (optarg)
+        if (debug && optarg)
           *vfn=optarg;
         break;
-#endif
       case 's':
         optionStats=true;
         break;
@@ -912,28 +946,19 @@ int main(int argc, char **argv)
 {
   char c;
   unsigned int i, j, k, sane;
+  unsigned int evs, evm;
   bit* checkbits = NULL;
 
 #ifdef DEBUG
   FILE* verifyfile;
   tPicture* checkpicture;
-  char* verifyfname = NULL;
 #endif
-
-#ifdef EVILCHECK
-  double evn1 = 0;
-  double evn2 = 0;
-  unsigned int evs, evm;
-#endif
+  static char* verifyfname = NULL;
 
   signal(SIGINT, nnSignal);
   signal(SIGABRT, nnSignal);
 
-#ifdef DEBUG
   nnParseArgs(argc, argv, &verifyfname);
-#else
-  nnParseArgs(argc, argv, NULL);
-#endif
 
 #ifdef LINUX
   if (!isatty(STDOUT_FILENO))  
@@ -966,10 +991,8 @@ int main(int argc, char **argv)
 
   mainpicture=nnNAlloc();
 
-#ifdef EVILCHECK
   evs=evm=0;
-#endif
-  sane=-1;
+  sane=(unsigned int)-1;
   lmax=0;
   for (i=j=0; i<ysize; )
   {
@@ -979,31 +1002,28 @@ int main(int argc, char **argv)
     sane+=k+1;
     if (sane > xsize) nnErrorInput(2+i);
     leftborder[i*xsize+j]=k;
-#ifdef EVILCHECK
     evs+=k;
     if (k>evm)
       evm=k;
-#endif
     while (c==' ' || c=='\t') c=readchar();
     if (c=='\r' || c=='\n' || c=='\0')
     {
-      i++;
       if (j>lmax)
         lmax=j;
-#ifdef EVILCHECK
-      evn1+=binomln(xsize-evs+1, j+1);
-      evn2+=(double)(evs+evm+j)-(double)(1+xsize);
+      mainpicture->evilcounter[i]=nnMeasureEvilness(xsize-evs+1, j+1);
       evs=evm=0;
-#endif        
+      i++;
       j=0;
       sane=-1;
-      c=readchar();
+      do
+        c=readchar();
+      while (c=='\r' || c=='\n');
     }
     else
       j++;
   }
 
-  assert(sane == -1);
+  assert(sane == (unsigned int)-1);
   tmax=0;
   for (i=j=0; i<xsize; )
   {
@@ -1013,25 +1033,22 @@ int main(int argc, char **argv)
     sane+=k+1;
     if (sane>ysize) nnErrorInput(2+ysize+i);
     topborder[i*ysize+j]=k;
-#ifdef EVILCHECK
     evs+=k;
     if (k>evm)
       evm=k;    
-#endif
     while (c==' ' || c=='\t') c=readchar();
     if (c=='\r' || c=='\n' || c=='\0')
     {
-      i++;
       if (j>tmax)
         tmax=j;
-#ifdef EVILCHECK
-      evn1+=binomln(ysize-evs+1,j+1);
-      evn2+=(double)(evs+evm+j)-(double)(1+ysize);
+      mainpicture->evilcounter[ysize+i]=nnMeasureEvilness(ysize-evs+1, j+1);
       evs=evm=0;
-#endif        
+      i++;
       j=0;
       sane=-1;
-      c=readchar();
+      do
+        c=readchar();
+      while (c=='\r' || c=='\n');
     }
     else
       j++;
@@ -1040,16 +1057,10 @@ int main(int argc, char **argv)
   lmax++;
   tmax++;
 
-#ifdef EVILCHECK
-  evn1/=(double)(xsize+ysize);
-  evn2=exp(-evn2/(double)vsize);
-  message("Evilness measure: %.2fe\n",pow(evn2,evn1));
-#endif
-
 #ifdef DEBUG
   if (verifyfname!=NULL)
   {
-    verifyfile=fopen(verifyfname,"r");
+    verifyfile=fopen(verifyfname, "r");
     if (verifyfile!=NULL)
     {
       checkpicture=nnNAlloc();
@@ -1081,9 +1092,8 @@ int main(int argc, char **argv)
   {
     fingercounter=0;
     message("Inconsistent! Bamf!\n");
-#ifdef DEBUG
-    nnDrawPicture(mainpicture->bits, checkbits);
-#endif
+    if (debug)
+      nnDrawPicture(mainpicture->bits, checkbits);
   }
   else if (mainpicture->counter==0)
     nnDrawPicture(mainpicture->bits, checkbits);
@@ -1095,8 +1105,8 @@ int main(int argc, char **argv)
     else
     {
       fingercounter=0;
-      message("Not only ambiguous but also inconsistent! Bamf!\n");
-    }
+      message("Inconsistent! Bamf!\n");
+    } 
   }
   
   if (optionStats)
