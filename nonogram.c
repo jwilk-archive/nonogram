@@ -41,8 +41,6 @@ typedef signed char bit;
 #  define add64(a, b) a+=b
 #endif
 
-static int debug1 = 0;
-
 typedef struct
 {
   unsigned int counter; // how many Q-fields do we have
@@ -617,7 +615,7 @@ bool nnIsConsistent(bit *picture)
   unsigned int i, j;
   unsigned int r, rv;
   unsigned int *border;
-  bit* tpicture = picture;
+  bit* tpicture;
   
   for(i=0; i<ysize; i++)
   {
@@ -625,6 +623,7 @@ bool nnIsConsistent(bit *picture)
     r=0;
     rv=0;
     border=leftborder+(i*xsize);
+    tpicture=picture+xsize*i;
     for (j=0; j<xsize && fr; j++,tpicture++)
     {
       switch (*tpicture)
@@ -636,17 +635,16 @@ bool nnIsConsistent(bit *picture)
           {
             if (*border!=rv) 
             {
-              debug && fprintf(stderr, "Inconsistency at row #%u! (%u =/= %u)!\n", i, *border, rv);
-              debug1++;
+              debug && fprintf(stderr, "Inconsistency at row #%u[%u]! (%u, expected %u)!\n", i, j, rv, *border);
               return false;
             }
-            rv=0; r++, border++;
+            rv=0; r++; border++;
           }
       }
     }
     if (fr && *border!=rv)
     {
-      debug && fprintf(stderr, "Inconsistency at the end of row #%u! (%u =/= %u)\n", i, *border, rv);
+      debug && fprintf(stderr, "Inconsistency at the end of row #%u! (%u, expected %u)\n", i, rv, *border);
       return false;
     }
   }
@@ -669,16 +667,16 @@ bool nnIsConsistent(bit *picture)
           {
             if (*border!=rv) 
             {
-              debug && fprintf(stderr, "Inconsistency at column #%u! (%u =/= %u)\n", i, *border, rv);
+              debug && fprintf(stderr, "Inconsistency at column #%u[%u]! (%u, expected %u)\n", i, j, rv, *border);
               return false;
             }
-            rv=0; r++, border++;
+            rv=0; r++; border++;
           }
       }
     }
     if (fr && *border!=rv) 
     {
-      debug && fprintf(stderr, "Inconsistency at the end of column #%u! (%u =/= %u)\n", i, *border, rv);
+      debug && fprintf(stderr, "Inconsistency at the end of column #%u! (%u, expected %u)\n", i, rv, *border);
       return false;
     }
   }
@@ -1114,22 +1112,25 @@ int main(int argc, char **argv)
   
   if (!nnIsConsistent(mainpicture->bits))
   {
-    fingercounter=0;
+    fingercounter=0;      
     message("Inconsistent! Bamf!\n");
     if (debug)
       nnDrawPicture(mainpicture->bits, checkbits);
   }
-  else if ((mainpicture->counter==0) || debug)
-    nnDrawPicture(mainpicture->bits, checkbits);
-  if (mainpicture->counter!=0)
+  else
   {
-    message("Ambiguous! But trying to find a solution...\n");
-    if (nnUnambiguous(mainpicture))
+    if ((mainpicture->counter==0) || debug)
       nnDrawPicture(mainpicture->bits, checkbits);
-    else
+    if (mainpicture->counter!=0)
     {
-      fingercounter=0;
-      message("Inconsistent! Bamf!\n");
+      message("Ambiguous! But trying to find a solution...\n");
+      if (nnUnambiguous(mainpicture))
+        nnDrawPicture(mainpicture->bits, checkbits);
+      else
+      {
+        fingercounter=0;
+        message("Inconsistent! Bamf!\n");
+      }
     }
   }
   
@@ -1138,3 +1139,5 @@ int main(int argc, char **argv)
 
   return EXIT_SUCCESS;
 }
+
+/* vim:set ts=2 sw=2 et: */
