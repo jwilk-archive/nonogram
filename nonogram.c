@@ -95,6 +95,8 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
 
   setup_termstrings(!use_ncurses);
 
+  pf(term_strings.init);
+
   for (i = 0; i < tmax; i++)
   {
     for (j = 0; j <= 2 * lmax; j++) pf(" ");
@@ -664,7 +666,6 @@ int main(int argc, char **argv)
 #endif
   static char *verifyfname = NULL;
 
-  setup_termstrings(true);
   setup_sigint();
 
   parse_arguments(argc, argv, &verifyfname);

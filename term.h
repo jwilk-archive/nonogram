@@ -14,6 +14,7 @@ typedef struct
   char *light[2], *dark, *color, *error;
   char *h, *v, *tl, *bl, *tr, *br;
   char *hash;
+  char *init;
 } TermStrings;
 
 extern TermStrings term_strings;

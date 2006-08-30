@@ -21,7 +21,7 @@ static void show_usage(void)
 // | there is no magic here -- sorry
 {
   fprintf(stderr,
-    "Usage: nonogram [config]\n\n"
+    "Usage: nonogram [OPTIONS]\n\n"
     "Options:\n"
     "  -m, --mono        don't use colors\n"
     "  -H, --html        HTML output\n"

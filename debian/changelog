@@ -1,3 +1,11 @@
+nonogram (0.8.1) unstable; urgency=low
+
+  * Fix output on terminals which do not enable alternate character set by
+    default (e.g. rxvt).
+  * Provide a manual page.
+
+ -- Jakub Wilk <ubanus@users.sf.net>  Wed, 30 Aug 2006 18:05:04 +0200
+
 nonogram (0.8-2) unstable; urgency=low
 
   * Repackage.

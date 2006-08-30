@@ -29,7 +29,7 @@ static char get_acs(char ch)
   if ((len & 1) != 0)
     return '\0';
   len /= 2;
-  for (i = 0; i < 2*len; i+=2)
+  for (i = 0; i < 2*len; i += 2)
   if (acsc[i] == ch)
     return acsc[i + 1];
   return '\0';
@@ -63,6 +63,7 @@ static void tput(char *str, int parm, char **cbuffer, unsigned int *n)
 
 void setup_termstrings(bool use_defaults)
 {
+  term_strings.init = "";
   term_strings.hash = "##",
   term_strings.light[0] = "";
   term_strings.light[1] = "";
@@ -106,6 +107,8 @@ void setup_termstrings(bool use_defaults)
   if (setupterm(NULL, STDOUT_FILENO, &err) == ERR)
     return;
 
+  TBEGIN(); TPUT("enacs", -1);
+  TEND(term_strings.init);
   if (config.color)
   {
     TBEGIN(); TPUT("sgr0", -1);

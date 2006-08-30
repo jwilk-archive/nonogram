@@ -7,9 +7,9 @@ configure:
 build: build-arch build-indep
 
 build-arch:
-	$(MAKE) 
+	$(MAKE) all doc/nonogram.1
 
-build-indep:
+build-indep: ;
 
 clean:
 	dh_testdir
@@ -22,23 +22,20 @@ install-indep:
 	dh_testdir
 	dh_testroot
 	dh_clean -k -i 
-	dh_installdirs -i
 	dh_install -i data/* usr/share/nonogram/
-	dh_install -i
 
 install-arch:
 	dh_testdir
 	dh_testroot
 	dh_clean -k -s 
-	dh_installdirs -s
 	dh_install -s nonogram usr/bin/
+	dh_installman doc/nonogram.1
 
 binary-common:
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs 
 	dh_installdocs
-	dh_installexamples
 	dh_link
 	dh_strip
 	dh_compress 

@@ -4,7 +4,7 @@
 #  . M_DEBUG: yes | no
 #  . M_NCURSES : yes | no
 
-M_VERSION  = 0.8
+M_VERSION  = 0.8.1
 M_CHROME   = no
 M_DEBUG    = no
 M_NCURSES  = yes
@@ -71,17 +71,17 @@ all: nonogram tags
 
 tags: $(CFILES)
 ifneq ($(CTAGS),)
-	ctags ${^}
+	ctags $(^)
 endif
 
 include Makefile.dep
 
 $(OFILES): %.o: %.c
-	$(CC) $(CFLAGS) -c ${<} -o ${@}
+	$(CC) $(CFLAGS) -c $(<) -o $(@)
 
 nonogram: $(OFILES)
-	$(CC) $(LDFLAGS) $(CFLAGS) $(OFILES) -o ${@}
-	$(STRIP) ${@}
+	$(CC) $(LDFLAGS) $(CFLAGS) $(OFILES) -o $(@)
+	$(STRIP) $(@)
 
 mtest: nonogram
 	./nonogram -m < test-input
@@ -94,8 +94,18 @@ stats:
 	@echo $(shell cat *.c | wc -c) bytes.
 
 clean:
-	$(RM) *.o nonogram nonogram-*.tar* tags
+	$(RM) *.o nonogram nonogram-*.tar* tags doc/*.1
+
+DB2MAN=/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/manpages/docbook.xsl
+XMLLINT=/usr/bin/xmllint --valid
+XSLTPROC=/usr/bin/xsltproc --nonet
+
+doc/nonogram.1: doc/nonogram.xml
+	$(XMLLINT) $(<) > /dev/null
+	cd doc && $(XSLTPROC) $(DB2MAN) ../$(<)
 
 .PHONY: all mtest test stats clean dist
 
 # vim:ts=4 sw=4
+
+# vim:ts=4
