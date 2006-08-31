@@ -1,8 +1,8 @@
-common.o: common.c config.h stdbool.h
-config.o: config.c stdbool.h common.h config.h
+common.o: common.c config.h
+config.o: config.c common.h config.h
 io.o: io.c io.h
-memory.o: memory.c common.h config.h stdbool.h
-nonogram.o: nonogram.c stdbool.h io.h common.h config.h memory.h \
-  nonogram.h queue.h term.h
-queue.o: queue.c common.h config.h stdbool.h memory.h nonogram.h queue.h
-term.o: term.c stdbool.h config.h term.h
+memory.o: memory.c common.h
+nonogram.o: nonogram.c io.h common.h config.h memory.h nonogram.h queue.h \
+  term.h
+queue.o: queue.c common.h memory.h nonogram.h queue.h
+term.o: term.c config.h term.h

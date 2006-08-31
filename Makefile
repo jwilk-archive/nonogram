@@ -1,21 +1,19 @@
 # Available directives:
-#  . M_VERSION
-#  . M_CHROME: yes | no
-#  . M_DEBUG: yes | no
-#  . M_NCURSES : yes | no
+#  . M_FANCY:   yes | no
+#  . M_DEBUG:   yes | no
+#  . M_NCURSES: yes | no
 
-M_VERSION  = 0.8.1
-M_CHROME   = no
+VERSION  = $(shell sed -n -e '1 s/.*(\([0-9.]*\)).*/\1/p' < debian/changelog)
+M_FANCY    = yes
 M_DEBUG    = no
 M_NCURSES  = yes
 M_COMPILER = gcc
 
-HFILES  = $(wildcard *.h)
+HFILES = $(wildcard *.h)
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
 
 STRIP := strip -s
-FAKEROOT := $(shell command -v fakeroot 2>/dev/null)
 CTAGS := $(shell command -v ctags 2>/dev/null)
 GCC := gcc
 CC := $(GCC)
@@ -26,7 +24,7 @@ CFLAGS = $(CFLAGS_std) $(CFLAGS_wrn) $(CFLAGS_opt) $(CFLAGS_def)
 CFLAGS_std := -std=gnu99
 CFLAGS_wrn := -Wall -Wno-unused
 CFLAGS_opt := -Os
-CFLAGS_def := -DVERSION="\"$(M_VERSION)\""
+CFLAGS_def := -DVERSION="\"$(VERSION)\""
 
 ifeq ($(M_COMPILER),icc)
   CFLAGS_opt := -O3
@@ -40,8 +38,8 @@ else
   CFLAGS_def += -DNDEBUG
 endif
 
-ifeq ($(M_CHROME),yes)
-  CFLAGS_def += -DCHROME
+ifeq ($(M_FANCY),yes)
+  CFLAGS_def += -DFANCY
 endif
 ifeq ($(M_NCURSES),yes)
   CFLAGS_def += -DHAVE_NCURSES
@@ -71,7 +69,7 @@ all: nonogram tags
 
 tags: $(CFILES)
 ifneq ($(CTAGS),)
-	ctags $(^)
+	$(CTAGS) $(^)
 endif
 
 include Makefile.dep
@@ -101,6 +99,7 @@ XMLLINT=/usr/bin/xmllint --valid
 XSLTPROC=/usr/bin/xsltproc --nonet
 
 doc/nonogram.1: doc/nonogram.xml
+	sed -i -e "s/\(.*<!ENTITY version '\).*\('.*\)/\1$(VERSION)\2/" $(<)
 	$(XMLLINT) $(<) > /dev/null
 	cd doc && $(XSLTPROC) $(DB2MAN) ../$(<)
 

@@ -1,3 +1,15 @@
+nonogram (0.8.2) unstable; urgency=low
+
+  * If ACS_BLOCK is not available, substitute it with ACS_CKBOARD.
+  * Support for UTF-8 output.
+  * Support for XHTML output.
+  * Fix (X)HTML output to conform standards.
+  * Fancy (X)HTML output available by default.
+  * Remove all TinyCC hacks. (They're not necessary, at least since 
+    tcc 0.9.23)
+
+ -- Jakub Wilk <ubanus@users.sf.net>  Thu, 31 Aug 2006 16:39:31 +0200
+
 nonogram (0.8.1) unstable; urgency=low
 
   * Fix output on terminals which do not enable alternate character set by

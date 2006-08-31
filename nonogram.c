@@ -1,4 +1,4 @@
-/* Copyright (c) 2003, 2004, 2005 Jakub Wilk <ubanus@users.sf.net>
+/* Copyright (c) 2003, 2004, 2005, 2006 Jakub Wilk <ubanus@users.sf.net>
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
  * by the Free Software Foundation.
@@ -8,9 +8,11 @@
 #include <errno.h>
 #include <math.h>
 #include <signal.h>
-#include "stdbool.h"
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "io.h"
@@ -93,13 +95,13 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
 
   unsigned int i, j, t;
 
-  setup_termstrings(!use_ncurses);
+  setup_termstrings(use_ncurses, config.utf8, config.color);
 
   pf(term_strings.init);
 
   for (i = 0; i < tmax; i++)
   {
-    for (j = 0; j <= 2 * lmax; j++) pf(" ");
+    for (j = 0; j <= lmax; j++) pf("  ");
     for (j = 0; j < xsize; j++)
     {
       str_color = term_strings.light[j & 1];
@@ -112,7 +114,7 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
     pf("\n");
   }
 
-  for (i = 0; i < 2 * lmax; i++) pf(" ");
+  for (i = 0; i < lmax; i++) pf("  ");
   pf(term_strings.tl);
   for (i = 0; i < xsize; i++) pf(term_strings.h);
   mpf(2, term_strings.tr, "\n");
@@ -156,45 +158,73 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
     }
     mpf(2, term_strings.v, "\n");
   }
-  for (i = 0; i < 2 * lmax; i++) pf(" ");
+  for (i = 0; i < lmax; i++) pf("  ");
   pf(term_strings.bl);
   for (i = 0; i < xsize; i++) pf(term_strings.h);
   mpf(2, term_strings.br, "\n\n");
   fflush(stdout);
 }
 
-#ifdef CHROME
-static void print_picture_html(bit *picture)
+static void print_html_dtd(bool use_xhtml, bool need_charset)
+{
+  if (use_xhtml && need_charset)
+    pf("<?xml version='1.0' encoding='ISO-8859-1'?>\n");
+  pf(use_xhtml ?
+    "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n" :
+    "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n");
+}
+
+#ifdef FANCY
+static void print_picture_html(bit *picture, bool use_xhtml)
 // Synopsis
 // | HTML version of generic picture printer
 // | `picture': our result
 {
-  unsigned int i, j, t;
+  unsigned int i, j;
+  print_html_dtd(use_xhtml, true);
+  mpf(3,
+    "<html>\n"
+    "<head>\n"
+    "<title>Nonogram solution</title>\n"
+    "<meta http-equiv='Content-type' content='text/html; charset=ISO-8859-1'", (use_xhtml ? " /" : ""), ">\n"
+    "<style type='text/css'>\n"
+    "  table "  "{ border-collapse: collapse; } \n"
+    "  td, th " "{ font: 8pt Arial, sans-serif; width: 11pt; height: 11pt; }\n"
+    "  th "     "{ background-color: #fff; color: #000;"
+                 " border: dotted 1px #888; }\n"
+    "  th.empty  { border: none; }\n"
+    "  td.x "   "{ background-color: #000; color: #000; }\n"
+    "  td.v "   "{ background-color: #888; color: #f00; }\n"
+    "  td "     "{ background-color: #eee; color: #000;"
+                 " border: solid 1px #888; text-align: center; }\n"
+    "</style>\n"
+    "</head>\n"
+    "<body>\n"
+    "<table border='0' cellpadding='0' cellspacing='0'>");
 
-  pf("<html>\n"
-     "<head>\n"
-     "<style type=\"text/css\">\n"
-     "  td, th   { font: 8pt Arial, sans-serif; width: 11pt; height: 11pt; }\n"
-     "  td.full  { background-color: #000000; color: white;"
-                 " border-left: solid 1px #808080; border-top: solid 1px #808080; }\n"
-     "  td.empty { background-color: #F0F0F0; color: red;"
-                 " border-left: solid 1px #808080; border-top: solid 1px #808080; }\n"
-     "</style>\n"
-     "</head>\n"
-     "<body>\n"
-     "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
+  unsigned int *top_desc_size = alloc(xsize * sizeof (unsigned int));
+  for (i = 0; i < xsize; i++)
+  {
+    top_desc_size[i] = 0;
+    for (j = 0; j < tmax; j++)
+      if (topborder[i * ysize + j] == 0)
+        break;
+      else
+        top_desc_size[i]++;
+  }
+  free(top_desc_size);
 
   for (i = 0; i < tmax; i++)
   {
     pf("<tr>");
-    for (j = 0; j < lmax; j++) pf("<th></th>");
+    if (i == 0)
+      printf("<th class='empty' colspan='%u' rowspan='%u'>\xa0</th>", lmax, tmax);
     for (j = 0; j < xsize; j++)
     {
-      t = topborder[j * ysize + i];
-      if (t != 0)
-        printf("<th>%u</th>", t);
+      if (i < tmax - top_desc_size[j])
+        pf("<th>\xa0</th>");
       else
-        pf("<th>&nbsp;</th>");
+        printf("<th>%u</th>", topborder[j * ysize + i - tmax + top_desc_size[j]]);
     }
     pf("</tr>\n");
   }
@@ -203,39 +233,43 @@ static void print_picture_html(bit *picture)
   {
     pf("<tr>");
     for (j = 0; j < lmax; j++)
+      if (leftborder[i * xsize + j] == 0)
+        break;
+    for (; j < lmax; j++)
+      printf("<th>\xa0</th>");
+    for (j = 0; j < lmax; j++)
     {
-      t = leftborder[i * xsize + j];
+      unsigned int t = leftborder[i * xsize + j];
       if (t != 0)
         printf("<th>%u</th>", t);
-      else
-        pf("<th>&nbsp;</th>");
     }
     for (j = 0; j < xsize; j++, picture++)
     switch (*picture)
     {
     case Q:
-      pf("<td class=\"empty\">?</td>");
+      pf("<td class='v'>?</td>");
       break;
     case O:
-      pf("<td class=\"empty\">&nbsp;</td>");
+      pf("<td>\xa0</td>");
       break;
     case X:
-      pf("<td class=\"full\">&nbsp;</td>");
+      pf("<td class='x'>#</td>");
       break;
     }
     pf("</tr>\n");
   }
   pf("</table>\n</body>\n</html>\n");
 }
-#else
-static void print_picture_html(bit *picture)
+#else /* undefined FANCY: */
+static void print_picture_html(bit *picture, bool use_xhtml)
 {
   config.color = false;
-  pf("<html>\n<body>\n<pre>\n");
+  print_html_dtd(use_xhtml, false);
+  pf("<html>\n<head>\n<title>Nonogram solution</title>\n</head>\n<body>\n<pre>\n");
   print_picture_plain(picture, NULL, false);
   pf("</pre>\n</body>\n</html>\n");
 }
-#endif
+#endif /* FANCY */
 
 static inline void print_picture(bit *picture, bit *cpicture)
 // Synopsis:
@@ -246,9 +280,9 @@ static inline void print_picture(bit *picture, bit *cpicture)
 // | `cpicture': picture to compare with our result
 {
   if (config.stats)
-    return; // undocumented!
+    return; // XXX undocumented!
   if (config.html)
-    print_picture_html(picture);
+    print_picture_html(picture, config.xhtml);
   else
     print_picture_plain(picture, cpicture, true);
 }
@@ -286,8 +320,8 @@ static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield
     for (j = i + k; j < range && ok; j++) if (picture[j * mul] == X) ok = false;
     if (ok)
     {
-      for (j = i; j < i + k; j++) add64(testfield[j], 1);
-      add64(z, 1);
+      for (j = i; j < i + k; j++) testfield[j] += 1;
+      z++;
     }
   }
   else
@@ -307,8 +341,8 @@ static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield
     if (ink != 0)
     {
       for (j = i; j < i + k; j++)
-        add64(testfield[j], ink);
-      add64(z, ink);
+        testfield[j] += ink;
+      z += ink;
     }
   }
   return z;
@@ -451,7 +485,7 @@ static inline void *alloc_border(void)
 }
 
 static inline void *alloc_testfield(void)
-// Synopsis
+// Synopsis:
 // | allocates a testfield
 {
   return alloc(xysize * sizeof(uint64_t));
@@ -746,7 +780,7 @@ int main(int argc, char **argv)
       j = 0;
       sane =- 1;
       do
-        c=readchar();
+        c = readchar();
       while (c=='\r' || c=='\n');
     }
     else
@@ -771,7 +805,7 @@ int main(int argc, char **argv)
           c = freadchar(verifyfile);
         for (j = 0; j < xsize; j++)
         {
-          checkpicture->bits[i * xsize + j] = (c=='#') ? X : O;
+          checkpicture->bits[i * xsize + j] = (c == '#') ? X : O;
           freadchar(verifyfile);
           c = freadchar(verifyfile);
         }
@@ -780,7 +814,7 @@ int main(int argc, char **argv)
       checkbits = checkpicture->bits;
     }
   }
-#endif
+#endif /* DEBUG */
 
   fingercounter = 0;
 

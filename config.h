@@ -1,4 +1,4 @@
-/* Copyright (c) 2003, 2004, 2005 Jakub Wilk <ubanus@users.sf.net>
+/* Copyright (c) 2003, 2004, 2005, 2006 Jakub Wilk <ubanus@users.sf.net>
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
  * by the Free Software Foundation.
@@ -11,8 +11,10 @@
 
 typedef struct
 {
-  bool color; // shall we use colors;
-  bool html; // shall we print HTML instead of plain text?
+  bool color;  // use colors
+  bool utf8;   // display UTF-8 drawing characters
+  bool html;   // print HTML instead of plain text
+  bool xhtml;  // print XHTML instead of plain text
   bool stats;
 } Config;
 

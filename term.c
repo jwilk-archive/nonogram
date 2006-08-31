@@ -1,4 +1,4 @@
-/* Copyright (c) 2003, 2004, 2005 Jakub Wilk <ubanus@users.sf.net>
+/* Copyright (c) 2003, 2004, 2005, 2006 Jakub Wilk <ubanus@users.sf.net>
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
  * by the Free Software Foundation.
@@ -12,7 +12,6 @@
 #include <unistd.h>
 #endif
 
-#include "config.h"
 #include "term.h"
 
 TermStrings term_strings;
@@ -61,20 +60,20 @@ static void tput(char *str, int parm, char **cbuffer, unsigned int *n)
 
 #endif /* HAVE_NCURSES */
 
-void setup_termstrings(bool use_defaults)
+void setup_termstrings(bool have_term, bool use_utf8, bool use_color)
 {
   term_strings.init = "";
-  term_strings.hash = "##",
+  term_strings.hash = use_utf8 ? "\xe2\x96\x88\xe2\x96\x88" : "##";
   term_strings.light[0] = "";
   term_strings.light[1] = "";
   term_strings.dark = "";
   term_strings.error = "";
-  term_strings.v = "|";
-  term_strings.h = "--";
-  term_strings.tl = "+";
-  term_strings.tr = "+";
-  term_strings.bl = "+";
-  term_strings.br = "+";
+  term_strings.v = use_utf8 ? "\xe2\x94\x82" : "|";
+  term_strings.h = use_utf8 ? "\xe2\x94\x80\xe2\x94\x80" : "--";
+  term_strings.tl = use_utf8 ? "\xe2\x94\x8c" : ".";
+  term_strings.tr = use_utf8 ? "\xe2\x94\x90" : ".";
+  term_strings.bl = use_utf8 ? "\xe2\x94\x94" : "`";
+  term_strings.br = use_utf8 ? "\xe2\x94\x98" : "'";
 
 #ifdef HAVE_NCURSES
 #define BUFFER_SIZE 4096
@@ -100,7 +99,7 @@ void setup_termstrings(bool use_defaults)
   unsigned int freebuf = BUFFER_SIZE;
   int err;
 
-  if (use_defaults)
+  if (!have_term)
     return;
   if (!isatty(STDOUT_FILENO))
     return;
@@ -109,24 +108,6 @@ void setup_termstrings(bool use_defaults)
 
   TBEGIN(); TPUT("enacs", -1);
   TEND(term_strings.init);
-  if (config.color)
-  {
-    TBEGIN(); TPUT("sgr0", -1);
-    TEND(term_strings.dark);
-    TBEGIN(); TPUT("bold", -1); TPUT("setaf", 7); TPUT("setab", COLOR_CYAN);
-    TEND(term_strings.light[0]);
-    TBEGIN(); TPUT("bold", -1); TPUT("setaf", 7); TPUT("setab", COLOR_MAGENTA);
-    TEND(term_strings.light[1]);
-    TBEGIN(); TPUT("bold", -1); TPUT("setaf", 7); TPUT("setab", COLOR_RED);
-    TEND(term_strings.error);
-    TBEGIN(); TPUT("smacs", -1); TPUT_ACS('a', 2); TPUT("rmacs", -1);
-    TEND(term_strings.hash);
-  }
-  else
-  {
-    TBEGIN(); TPUT("smacs", -1); TPUT_ACS('0', 2); TPUT("rmacs", -1);
-    TEND(term_strings.hash);
-  }
   TBEGIN(); TPUT("smacs", -1); TPUT_ACS('q', 2); TPUT("rmacs", -1);
   TEND(term_strings.h);
   TBEGIN(); TPUT("smacs", -1); TPUT_ACS('x', 1); TPUT("rmacs", -1);
@@ -139,6 +120,24 @@ void setup_termstrings(bool use_defaults)
   TEND(term_strings.bl);
   TBEGIN(); TPUT("smacs", -1); TPUT_ACS('j', 1); TPUT("rmacs", -1);
   TEND(term_strings.br);
+  TBEGIN(); TPUT("smacs", -1); TPUT_ACS('a', 2); TPUT("rmacs", -1);
+  TEND(term_strings.hash);
+  if (use_color)
+  {
+    TBEGIN(); TPUT("sgr0", -1);
+    TEND(term_strings.dark);
+    TBEGIN(); TPUT("bold", -1); TPUT("setaf", 7); TPUT("setab", COLOR_CYAN);
+    TEND(term_strings.light[0]);
+    TBEGIN(); TPUT("bold", -1); TPUT("setaf", 7); TPUT("setab", COLOR_MAGENTA);
+    TEND(term_strings.light[1]);
+    TBEGIN(); TPUT("bold", -1); TPUT("setaf", 7); TPUT("setab", COLOR_RED);
+    TEND(term_strings.error);
+  }
+  else
+  {
+    TBEGIN(); TPUT("smacs", -1); TPUT_ACS('0', 2); TPUT("rmacs", -1);
+    TEND(term_strings.hash);
+  }
 #undef BUFFER_SIZE
 #endif /* HAVE_NCURSES */
 }
