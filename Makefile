@@ -95,13 +95,13 @@ clean:
 	$(RM) *.o nonogram nonogram-*.tar* tags doc/*.1
 
 DB2MAN=/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/manpages/docbook.xsl
-XMLLINT=/usr/bin/xmllint --valid
+XMLLINT=/usr/bin/xmllint --valid --nonet
 XSLTPROC=/usr/bin/xsltproc --nonet
 
 doc/nonogram.1: doc/nonogram.xml
 	sed -i -e "s/\(.*<!ENTITY version '\).*\('.*\)/\1$(VERSION)\2/" $(<)
 	$(XMLLINT) $(<) > /dev/null
-	cd doc && $(XSLTPROC) $(DB2MAN) ../$(<)
+	$(XSLTPROC) --output $(@) $(DB2MAN) - < $(<)
 
 .PHONY: all mtest test stats clean dist
 

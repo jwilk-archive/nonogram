@@ -101,7 +101,8 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
 
   for (i = 0; i < tmax; i++)
   {
-    for (j = 0; j <= lmax; j++) pf("  ");
+    pf(" ");
+    for (j = 0; j < lmax; j++) pf("  ");
     for (j = 0; j < xsize; j++)
     {
       str_color = term_strings.light[j & 1];
@@ -212,7 +213,6 @@ static void print_picture_html(bit *picture, bool use_xhtml)
       else
         top_desc_size[i]++;
   }
-  free(top_desc_size);
 
   for (i = 0; i < tmax; i++)
   {
@@ -228,6 +228,8 @@ static void print_picture_html(bit *picture, bool use_xhtml)
     }
     pf("</tr>\n");
   }
+  
+  free(top_desc_size);
 
   for (i = 0; i < ysize; i++)
   {
