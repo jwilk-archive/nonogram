@@ -1,20 +1,27 @@
 This is nonogram, written and maintained by Jakub Wilk <ubanus@users.sf.net>.
 
 The original source can always be found at:
-	<http://jw209508.hopto.org/nonogram/>
+<http://jw209508.hopto.org/nonogram/>
 
-Copyright Holder: Jakub Wilk <ubanus@users.sf.net>
+Upstream author: Jakub Wilk <ubanus@users.sf.net>
+
+Copyright © 2003, 2004, 2005, 2006, 2008 Jakub Wilk <ubanus@users.sf.net>
 
 License:
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as
-  published by the Free Software Foundation, version 2.
+  published by the Free Software Foundation.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+  This package is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  General Public License for more details.
 
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'.
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+  02110-1301 USA.
+
+On Debian systems, the complete text of the GNU General Public License
+can be found in `/usr/share/common-licenses/GPL-2'.
