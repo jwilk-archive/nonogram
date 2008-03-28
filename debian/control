@@ -2,24 +2,22 @@ Source: nonogram
 Section: games
 Priority: extra
 Maintainer: Jakub Wilk <ubanus@users.sf.net>
-Build-Depends: debhelper (>= 5), libncurses5-dev, libxml2-utils, xsltproc, docbook-xsl
-Standards-Version: 3.7.2
 Bugs: mailto:ubanus@users.sf.net
+Build-Depends: debhelper (>= 5), libncurses5-dev, libxml2-utils, xsltproc, docbook-xsl
+Standards-Version: 3.7.3
 
 Package: nonogram
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: nonogram-data
-Description: Nonogram solver.
+Homepage: http://jw209508.hopto.org/nonogram/
+Description: Nonogram solver
  Nonogram solves puzzles called nonogram.
- .
- Homepage: http://jw209508.hopto.org/nonogram/
 
 Package: nonogram-data
 Architecture: all
+Homepage: http://jw209508.hopto.org/nonogram/
 Description: Data files for nonogram
  Nonogram solves puzzles called nonogram.
  .
  This package contains the data files.
- .
- Homepage: http://jw209508.hopto.org/nonogram/

@@ -1,3 +1,9 @@
+nonogram (0.8.3.3) unstable; urgency=low
+
+  * Repackage. 
+
+ -- Jakub Wilk <ubanus@users.sf.net>  Fri, 28 Mar 2008 12:59:22 +0100
+
 nonogram (0.8.3.2) unstable; urgency=low
 
   * Repackage. 

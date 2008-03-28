@@ -14,7 +14,7 @@ build-indep: ;
 clean:
 	dh_testdir
 	dh_testroot
-	-$(MAKE) clean
+	$(MAKE) clean
 	dh_clean 
 
 install: install-indep install-arch
@@ -28,8 +28,10 @@ install-arch:
 	dh_testdir
 	dh_testroot
 	dh_clean -k -s 
-	dh_install -s nonogram usr/bin/
+	dh_install -s nonogram usr/games/
+	dh_installdirs usr/share/lintian/overrides/
 	dh_installman doc/nonogram.1
+	echo "nonogram binary: description-starts-with-package-name" > debian/nonogram/usr/share/lintian/overrides/nonogram
 
 binary-common:
 	dh_testdir
@@ -55,3 +57,5 @@ binary-arch: build-arch install-arch
 
 binary: binary-arch binary-indep
 .PHONY: build clean binary-indep binary-arch binary install install-indep install-arch configure
+
+# vim:ts=4 sw=4 noet
