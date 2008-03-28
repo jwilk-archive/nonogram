@@ -1,0 +1,58 @@
+body
+  { margin: 4pt; }
+
+a
+  { font-weight: normal; color: #000060; text-decoration: none; }
+
+a.download
+  { font-weight: bold; color: #000080; }
+
+a:hover 
+  { text-decoration: underline; }
+
+td, th, body 
+  { font: 8pt Tahoma, sans-serif; }
+
+body 
+  { background-color: white; }
+
+img
+  { display: block; float: right; }
+
+div.main
+  { margin-right: 185px; padding-right: 4pt; }
+
+div.main div + div
+  { margin-top: 1em; }
+
+h1 
+  { font: 9.5pt 'Trebuchet MS', sans-serif; 
+    background: #C0F8E0;
+    margin: 0px;
+    padding: 0.1em 0.3em; 
+    border-bottom: solid 1px #C0C8C8; border-right: solid 1px #B0B8B8; }
+
+h1 em 
+  { font-weight: bold; font-style: normal; }
+
+div.main div.body
+  { padding: 5px; }
+
+address
+  { display: block;
+    font: 7.5pt Arial, sans-serif; text-align: right;
+    position: fixed; left: 0; top: auto; right: 0; bottom: 0;
+    margin: 3px 5px; border-top: double 3px #C0C0C0;
+    color: #808080; }
+
+address a 
+  { font-weight: normal; color: #505080; }
+
+ul
+  { list-style: none; 
+    margin: 0; padding: 1ex 1em; }
+
+ul li:before 
+  { content: "\2022\A0"; }
+
+/* vim: set ts=2 sw=2 et: */
