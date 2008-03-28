@@ -2,7 +2,7 @@
 <!DOCTYPE refentry PUBLIC '-//OASIS//DTD DocBook XML V4.4//EN' 'http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd' 
 [
 	<!ENTITY p 'nonogram'>
-	<!ENTITY version '0.8.3'>
+	<!ENTITY version '0.8.3.2'>
 ]>
 
 <refentry lang='en'>

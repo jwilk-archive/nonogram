@@ -1,6 +1,6 @@
 Source: nonogram
 Section: games
-Priority: optional
+Priority: extra
 Maintainer: Jakub Wilk <ubanus@users.sf.net>
 Build-Depends: debhelper (>= 5), libncurses5-dev, libxml2-utils, xsltproc, docbook-xsl
 Standards-Version: 3.7.2
@@ -12,6 +12,8 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: nonogram-data
 Description: Nonogram solver.
  Nonogram solves puzzles called nonogram.
+ .
+ Homepage: http://jw209508.hopto.org/nonogram/
 
 Package: nonogram-data
 Architecture: all
@@ -19,3 +21,5 @@ Description: Data files for nonogram
  Nonogram solves puzzles called nonogram.
  .
  This package contains the data files.
+ .
+ Homepage: http://jw209508.hopto.org/nonogram/

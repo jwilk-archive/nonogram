@@ -1,3 +1,9 @@
+nonogram (0.8.3.2) unstable; urgency=low
+
+  * Repackage. 
+
+ -- Jakub Wilk <ubanus@users.sf.net>  Mon,  4 Dec 2006 11:43:36 +0100
+
 nonogram (0.8.3.1) unstable; urgency=low
 
   * Just 5 new data files. 
