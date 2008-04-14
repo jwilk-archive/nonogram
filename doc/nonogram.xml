@@ -82,7 +82,7 @@
 		</group>
 	</cmdsynopsis>
 </refsynopsisdiv>
-<refsect1>
+<refsection>
 	<title>Description</title>
 	<para>
 		&p; is a solver of nonogram puzzles (also known as “griddler puzzles”
@@ -100,9 +100,9 @@
 <replaceable>…</replaceable><!--
 		--></userinput></screen>
 	</para>
-</refsect1>
+</refsection>
 
-<refsect1>
+<refsection>
 	<title>Example</title>
 	<screen><!--
 --><prompt>$</prompt> <command>&p;</command> &lt;&lt;EOF
@@ -125,9 +125,9 @@ EOF</userinput>
  2 3  |####  ######|
       +------------+<!--
 	--></screen>
-</refsect1>
+</refsection>
 
-<refsect1>
+<refsection>
 	<title>Options</title>
 	<para>
 		&p; accepts the following options:
@@ -177,14 +177,14 @@ EOF</userinput>
 			</listitem>
 		</varlistentry>
 	</variablelist>
-</refsect1>
+</refsection>
 
-<refsect1>
+<refsection>
 	<title>Files</title>
 	<para>
 		<filename>/usr/share/&p;/<replaceable>*</replaceable>.nin</filename>
 	</para>
-</refsect1>
+</refsection>
 
 </refentry>
 
