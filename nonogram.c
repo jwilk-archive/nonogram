@@ -7,13 +7,16 @@
 #include <assert.h>
 #include <errno.h>
 #include <math.h>
+#ifndef __WIN32__
 #include <signal.h>
+#endif
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include "io.h"
 #include "common.h"
@@ -74,12 +77,14 @@ static void handle_sigint()
 
 static void setup_sigint()
 {
+#ifndef __WIN32__
   struct sigaction act;
   act.sa_handler = handle_sigint;
   act.sa_flags = 0;
   sigemptyset(&act.sa_mask);
   sigaddset(&act.sa_mask, SIGINT);
   sigaction(SIGINT, &act, NULL);
+#endif
 }
 
 static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
