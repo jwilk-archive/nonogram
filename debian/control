@@ -5,18 +5,17 @@ Maintainer: Jakub Wilk <ubanus@users.sf.net>
 Bugs: mailto:ubanus@users.sf.net
 Build-Depends: debhelper (>= 5), libncurses5-dev, libxml2-utils, xsltproc, docbook-xsl, docbook-xml (>= 4.5)
 Standards-Version: 3.8.0
+Homepage: http://jwilk.nfshost.com/nonogram/
 
 Package: nonogram
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: nonogram-data
-Homepage: http://jw209508.hopto.org/nonogram/
 Description: Nonogram solver
  Nonogram solves puzzles called nonogram.
 
 Package: nonogram-data
 Architecture: all
-Homepage: http://jw209508.hopto.org/nonogram/
 Description: Data files for nonogram
  Nonogram solves puzzles called nonogram.
  .
