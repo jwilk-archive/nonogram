@@ -1,3 +1,9 @@
+nonogram (0.8.4.4) unstable; urgency=low
+
+  * Repackage using debhelper 7.
+
+ -- Jakub Wilk <ubanus@users.sf.net>  Sat, 29 Nov 2008 22:12:31 +0100
+
 nonogram (0.8.4) unstable; urgency=low
 
   * Support for MinGW compilation. 
