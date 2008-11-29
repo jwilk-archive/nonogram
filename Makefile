@@ -99,7 +99,7 @@ stats:
 clean:
 	$(RM) *.o nonogram nonogram-*.tar* tags doc/*.1
 
-DB2MAN=/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/manpages/docbook.xsl
+DB2MAN=/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
 XMLLINT=/usr/bin/xmllint --valid --nonet
 XSLTPROC=/usr/bin/xsltproc --nonet
 
@@ -111,5 +111,3 @@ doc/nonogram.1: doc/nonogram.xml
 .PHONY: all mtest test stats clean dist
 
 # vim:ts=4 sw=4
-
-# vim:ts=4
