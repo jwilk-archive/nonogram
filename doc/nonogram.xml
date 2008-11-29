@@ -2,7 +2,7 @@
 <!DOCTYPE refentry PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN' 'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd' 
 [
 	<!ENTITY p 'nonogram'>
-	<!ENTITY version '0.8.4'>
+	<!ENTITY version '0.8.4.4'>
 ]>
 
 <refentry lang='en'>
@@ -26,7 +26,7 @@
 		<year>2008</year>
 		<holder>Jakub Wilk</holder>
 	</copyright>
-	<date>2008-04-14</date>
+	<date>2008-11-29</date>
 </refentryinfo>
 
 <refmeta>
