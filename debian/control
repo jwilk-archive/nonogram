@@ -16,6 +16,7 @@ Description: Nonogram solver
 
 Package: nonogram-data
 Architecture: all
+Depends: ${misc:Depends}
 Description: Data files for nonogram
  Nonogram solves puzzles called nonogram.
  .
