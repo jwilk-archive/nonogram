@@ -99,14 +99,14 @@ stats:
 clean:
 	$(RM) *.o nonogram nonogram-*.tar* tags doc/*.1
 
-DB2MAN=/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
-XMLLINT=/usr/bin/xmllint --valid --nonet
-XSLTPROC=/usr/bin/xsltproc --nonet
+XSL = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+XMLLINT = /usr/bin/xmllint --valid --nonet
+XSLTPROC = /usr/bin/xsltproc --nonet
 
 doc/nonogram.1: doc/nonogram.xml
 	sed -i -e "s/\(.*<!ENTITY version '\).*\('.*\)/\1$(VERSION)\2/" $(<)
 	$(XMLLINT) $(<) > /dev/null
-	$(XSLTPROC) --output $(@) $(DB2MAN) - < $(<)
+	$(XSLTPROC) --output $(@) $(XSL) - < $(<)
 
 .PHONY: all mtest test stats clean dist
 
