@@ -4,7 +4,7 @@
  * by the Free Software Foundation.
  */
 
-#include "stdbool.h"
+#include <stdbool.h>
 #include <string.h>
 #ifdef HAVE_NCURSES
 #include <ncurses.h>

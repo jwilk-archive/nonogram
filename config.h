@@ -4,10 +4,10 @@
  * by the Free Software Foundation.
  */
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef NONOGRAM_CONFIG_H
+#define NONOGRAM_CONFIG_H
 
-#include "stdbool.h"
+#include <stdbool.h>
 
 typedef struct
 {

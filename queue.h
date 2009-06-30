@@ -4,10 +4,10 @@
  * by the Free Software Foundation.
  */
 
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef NONOGRAM_QUEUE_H
+#define NONOGRAM_QUEUE_H
 
-#include "stdbool.h"
+#include <stdbool.h>
 
 typedef struct
 {

@@ -4,8 +4,8 @@
  * by the Free Software Foundation.
  */
 
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef NONOGRAM_COMMON_H
+#define NONOGRAM_COMMON_H
 
 #ifdef DEBUG
 #  define debug 1

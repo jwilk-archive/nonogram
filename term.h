@@ -4,10 +4,10 @@
  * by the Free Software Foundation.
  */
 
-#ifndef TERM_H
-#define TERM_H
+#ifndef NONOGRAM_TERM_H
+#define NONOGRAM_TERM_H
 
-#include "stdbool.h"
+#include <stdbool.h>
 
 typedef struct
 {

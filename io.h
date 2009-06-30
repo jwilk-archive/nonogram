@@ -4,8 +4,8 @@
  * by the Free Software Foundation.
  */
 
-#ifndef IO_H
-#define IO_H
+#ifndef NONOGRAM_IO_H
+#define NONOGRAM_IO_H
 
 char freadchar(FILE *file);
 char readchar(void);

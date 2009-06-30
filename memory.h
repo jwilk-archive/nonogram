@@ -4,8 +4,8 @@
  * by the Free Software Foundation.
  */
 
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef NONOGRAM_MEMORY_H
+#define NONOGRAM_MEMORY_H
 
 #include "common.h"
 
