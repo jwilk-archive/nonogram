@@ -3,7 +3,7 @@
 [
 	<!ENTITY jwilk '<firstname>Jakub</firstname> <surname>Wilk</surname>'>
 	<!ENTITY p 'nonogram'>
-	<!ENTITY version '0.8.4.4'>
+	<!ENTITY version '0.8.5'>
 ]>
 
 <refentry lang='en'>

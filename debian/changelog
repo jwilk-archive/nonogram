@@ -1,3 +1,9 @@
+nonogram (0.8.5) UNRELEASED; urgency=low
+
+  * Prepare to release 0.8.5.
+
+ -- Jakub Wilk <ubanus@users.sf.net>  Tue, 30 Jun 2009 18:14:29 +0200
+
 nonogram (0.8.4.4) unstable; urgency=low
 
   * Repackage using debhelper 7.
