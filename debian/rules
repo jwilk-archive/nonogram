@@ -6,16 +6,16 @@ build:
 	$(MAKE) all doc/nonogram.1
 
 clean:
-	dh clean
+	+ dh clean
 
 install: build
-	dh install
+	+ dh install
 
 binary-indep: install
-	dh binary-indep
+	+ dh binary-indep
 
 binary-arch: install
-	dh binary-arch
+	+ dh binary-arch
 
 binary: binary-arch binary-indep
 
