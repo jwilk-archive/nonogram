@@ -1,4 +1,4 @@
-/* Copyright © 2003, 2004, 2005, 2006, 2008 Jakub Wilk <ubanus@users.sf.net>
+/* Copyright © 2003, 2004, 2005, 2006, 2008, 2009 Jakub Wilk
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License, version 2, as published
  * by the Free Software Foundation.
