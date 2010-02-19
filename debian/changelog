@@ -1,44 +1,44 @@
 nonogram (0.8.5) UNRELEASED; urgency=low
 
-  * Prepare to release 0.8.5.
+  * 
 
- -- Jakub Wilk <ubanus@users.sf.net>  Tue, 30 Jun 2009 18:14:29 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 30 Jun 2009 18:14:29 +0200
 
 nonogram (0.8.4.4) unstable; urgency=low
 
   * Repackage using debhelper 7.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Sat, 29 Nov 2008 22:12:31 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 29 Nov 2008 22:12:31 +0100
 
 nonogram (0.8.4) unstable; urgency=low
 
   * Support for MinGW compilation. 
 
- -- Jakub Wilk <ubanus@users.sf.net>  Thu, 25 Sep 2008 16:52:18 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 25 Sep 2008 16:52:18 +0200
 
 nonogram (0.8.3.3) unstable; urgency=low
 
   * Repackage. 
 
- -- Jakub Wilk <ubanus@users.sf.net>  Fri, 28 Mar 2008 14:55:48 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 28 Mar 2008 14:55:48 +0100
 
 nonogram (0.8.3.2) unstable; urgency=low
 
   * Repackage. 
 
- -- Jakub Wilk <ubanus@users.sf.net>  Mon,  4 Dec 2006 11:43:36 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon,  4 Dec 2006 11:43:36 +0100
 
 nonogram (0.8.3.1) unstable; urgency=low
 
   * Just 5 new data files. 
 
- -- Jakub Wilk <ubanus@users.sf.net>  Thu,  2 Nov 2006 22:21:34 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu,  2 Nov 2006 22:21:34 +0100
 
 nonogram (0.8.3) unstable; urgency=low
 
   * Fix an memory allaction error which caused bad HTML ouput.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Thu,  7 Sep 2006 19:13:57 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu,  7 Sep 2006 19:13:57 +0200
 
 nonogram (0.8.2) unstable; urgency=low
 
@@ -50,7 +50,7 @@ nonogram (0.8.2) unstable; urgency=low
   * Remove all TinyCC hacks. (They're not necessary, at least since 
     tcc 0.9.23)
 
- -- Jakub Wilk <ubanus@users.sf.net>  Thu, 31 Aug 2006 16:39:31 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 31 Aug 2006 16:39:31 +0200
 
 nonogram (0.8.1) unstable; urgency=low
 
@@ -58,13 +58,13 @@ nonogram (0.8.1) unstable; urgency=low
     default (e.g. rxvt).
   * Provide a manual page.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Wed, 30 Aug 2006 18:05:04 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 30 Aug 2006 18:05:04 +0200
 
 nonogram (0.8-2) unstable; urgency=low
 
   * Repackage.
  
- -- Jakub Wilk <ubanus@users.sf.net>  Tue, 11 Jul 2006 12:30:42 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 11 Jul 2006 12:30:42 +0200
 
 nonogram (0.8-1) unstable; urgency=low
  
@@ -72,38 +72,38 @@ nonogram (0.8-1) unstable; urgency=low
   * Use NCurses library.
   * Use POSIX signal handling functions.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Sat, 11 Feb 2006 23:15:19 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Feb 2006 23:15:19 +0100
 
 nonogram (0.7c-1) unstable; urgency=low
   
   * Allow empty rows and columns.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Wed, 26 Jan 2005 12:20:44 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 26 Jan 2005 12:20:44 +0100
 
 nonogram (0.7b-1) unstable; urgency=low
   
   * Fix the consistency checking routine.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Fri, 31 Dec 2004 19:43:10 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 31 Dec 2004 19:43:10 +0100
 
 nonogram (0.7a-1) unstable; urgency=low
   
   * Fix printing the debug information.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Sat, 11 Dec 2004 11:08:17 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Dec 2004 11:08:17 +0100
 
 nonogram (0.7-1) unstable; urgency=low
   
   * Adapt ‘Makefile’ to act with the Intel C Compiler.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Sun, 10 Oct 2004 12:36:51 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 10 Oct 2004 12:36:51 +0200
 
 nonogram (0.6n-1) unstable; urgency=low
   
   * Fix the heap code once again.
   * Flush the stdout after printing the picture.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Sun,  3 Oct 2004 17:35:41 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun,  3 Oct 2004 17:35:41 +0200
 
 nonogram (0.6m-1) unstable; urgency=low
  
@@ -111,10 +111,10 @@ nonogram (0.6m-1) unstable; urgency=low
   * Fix the heap code (it was *really* broken).
   * Support for the ‘\r\n’ new lines.
  
- -- Jakub Wilk <ubanus@users.sf.net>  Sun,  5 Sep 2004 17:48:18 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun,  5 Sep 2004 17:48:18 +0200
 
 nonogram (0.6i-1) unstable; urgency=low
 
   * Initial release.
 
- -- Jakub Wilk <ubanus@users.sf.net>  Tue,  3 Aug 2004 16:56:47 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue,  3 Aug 2004 16:56:47 +0200

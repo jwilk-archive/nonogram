@@ -1,8 +1,8 @@
 Source: nonogram
 Section: games
 Priority: extra
-Maintainer: Jakub Wilk <ubanus@users.sf.net>
-Bugs: mailto:ubanus@users.sf.net
+Maintainer: Jakub Wilk <jwilk@jwilk.net>
+Bugs: mailto:jwilk@jwilk.net
 Build-Depends: debhelper (>= 7), libncurses5-dev, libxml2-utils, xsltproc, docbook-xsl, docbook-xml (>= 4.5)
 Standards-Version: 3.8.0
 Homepage: http://jwilk.nfshost.com/nonogram/
