@@ -4,33 +4,15 @@ nonogram (0.8.5) UNRELEASED; urgency=low
 
  -- Jakub Wilk <jwilk@jwilk.net>  Fri, 08 Oct 2010 16:18:07 +0200
 
-nonogram (0.8.4.4) unstable; urgency=low
-
-  * Repackage using debhelper 7.
-
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 29 Nov 2008 22:12:31 +0100
-
 nonogram (0.8.4) unstable; urgency=low
 
   * Support for MinGW compilation. 
 
  -- Jakub Wilk <jwilk@jwilk.net>  Thu, 25 Sep 2008 16:52:18 +0200
 
-nonogram (0.8.3.3) unstable; urgency=low
-
-  * Repackage. 
-
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 28 Mar 2008 14:55:48 +0100
-
-nonogram (0.8.3.2) unstable; urgency=low
-
-  * Repackage. 
-
- -- Jakub Wilk <jwilk@jwilk.net>  Mon,  4 Dec 2006 11:43:36 +0100
-
 nonogram (0.8.3.1) unstable; urgency=low
 
-  * Just 5 new data files. 
+  * Add 5 new data files. 
 
  -- Jakub Wilk <jwilk@jwilk.net>  Thu,  2 Nov 2006 22:21:34 +0100
 
@@ -43,8 +25,8 @@ nonogram (0.8.3) unstable; urgency=low
 nonogram (0.8.2) unstable; urgency=low
 
   * If ACS_BLOCK is not available, substitute it with ACS_CKBOARD.
-  * Support for UTF-8 output.
-  * Support for XHTML output.
+  * Add support for UTF-8 output.
+  * Add support for XHTML output.
   * Fix (X)HTML output to conform standards.
   * Fancy (X)HTML output available by default.
   * Remove all TinyCC hacks. (They're not necessary, at least since 
@@ -60,13 +42,7 @@ nonogram (0.8.1) unstable; urgency=low
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 30 Aug 2006 18:05:04 +0200
 
-nonogram (0.8-2) unstable; urgency=low
-
-  * Repackage.
- 
- -- Jakub Wilk <jwilk@jwilk.net>  Tue, 11 Jul 2006 12:30:42 +0200
-
-nonogram (0.8-1) unstable; urgency=low
+nonogram (0.8) unstable; urgency=low
  
   * Split source into several files.
   * Use NCurses library.
@@ -74,38 +50,38 @@ nonogram (0.8-1) unstable; urgency=low
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Feb 2006 23:15:19 +0100
 
-nonogram (0.7c-1) unstable; urgency=low
+nonogram (0.7c) unstable; urgency=low
   
   * Allow empty rows and columns.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 26 Jan 2005 12:20:44 +0100
 
-nonogram (0.7b-1) unstable; urgency=low
+nonogram (0.7b) unstable; urgency=low
   
   * Fix the consistency checking routine.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Fri, 31 Dec 2004 19:43:10 +0100
 
-nonogram (0.7a-1) unstable; urgency=low
+nonogram (0.7a) unstable; urgency=low
   
   * Fix printing the debug information.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Dec 2004 11:08:17 +0100
 
-nonogram (0.7-1) unstable; urgency=low
+nonogram (0.7) unstable; urgency=low
   
   * Adapt ‘Makefile’ to act with the Intel C Compiler.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sun, 10 Oct 2004 12:36:51 +0200
 
-nonogram (0.6n-1) unstable; urgency=low
+nonogram (0.6n) unstable; urgency=low
   
   * Fix the heap code once again.
   * Flush the stdout after printing the picture.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sun,  3 Oct 2004 17:35:41 +0200
 
-nonogram (0.6m-1) unstable; urgency=low
+nonogram (0.6m) unstable; urgency=low
  
   * Add some debug code.
   * Fix the heap code (it was *really* broken).
@@ -113,7 +89,7 @@ nonogram (0.6m-1) unstable; urgency=low
  
  -- Jakub Wilk <jwilk@jwilk.net>  Sun,  5 Sep 2004 17:48:18 +0200
 
-nonogram (0.6i-1) unstable; urgency=low
+nonogram (0.6i) unstable; urgency=low
 
   * Initial release.
 
