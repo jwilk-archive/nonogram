@@ -1,8 +1,8 @@
-nonogram (0.8.5) UNRELEASED; urgency=low
+nonogram (0.8.5) unstable; urgency=low
 
   * Relicense to the Expat license.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 08 Oct 2010 16:18:07 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 11 Nov 2010 23:32:42 +0100
 
 nonogram (0.8.4) unstable; urgency=low
 
