@@ -645,6 +645,8 @@ static inline void shake(Picture *mpicture)
   int factor;
   Queue *queue = alloc_queue();
 
+  assert(ysize > 0);
+
   for (i = 0; i < ysize; i++)
   {
     factor = MAX_FACTOR * mpicture->linecounter[i] / xsize + mpicture->evilcounter[i];
