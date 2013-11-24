@@ -424,7 +424,7 @@ static bool check_consistency(bit *picture)
   unsigned int *border;
   bit *tpicture;
 
-  for(i = 0; i < ysize; i++)
+  for (i = 0; i < ysize; i++)
   {
     fr = true;
     r = 0;
@@ -569,7 +569,7 @@ static void preliminary_shake(Picture *mpicture)
     if (*band == 0)
     {
       picture = &mpicture->bits[i * xsize];
-      for(j = 0; j < xsize; j++, picture++)
+      for (j = 0; j < xsize; j++, picture++)
       {
         *picture = O;
         mpicture->counter--;
