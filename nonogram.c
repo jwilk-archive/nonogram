@@ -371,7 +371,7 @@ static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield
 }
 
 static void finger_line(Picture *mpicture, Queue *queue)
-// shouldn't it be splitted into two functions?
+// shouldn't it be split into two functions?
 {
   bit *picture;
   uint64_t *testfield;
