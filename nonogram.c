@@ -1,4 +1,4 @@
-/* Copyright © 2003, 2004, 2005, 2006, 2008, 2009, 2010 Jakub Wilk <jwilk@jwilk.net>
+/* Copyright © 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2013 Jakub Wilk <jwilk@jwilk.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the “Software”), to deal
@@ -381,7 +381,6 @@ static void finger_line(Picture *mpicture, Queue *queue)
   bool vert;
 
   fingercounter++;
-  factor = queue->elements[0].factor;
   line = oline = get_from_queue(queue);
   if (line < ysize)
     imul = xsize, mul = 1, size = xsize, vert = false;
