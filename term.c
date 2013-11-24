@@ -1,4 +1,4 @@
-/* Copyright © 2003, 2004, 2005, 2006, 2008, 2009, 2010 Jakub Wilk <jwilk@jwilk.net>
+/* Copyright © 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2013 Jakub Wilk <jwilk@jwilk.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the “Software”), to deal
@@ -55,7 +55,12 @@ static void tput(char *str, int parm, char **cbuffer, unsigned int *n)
   char *result = tigetstr(str);
   if (*cbuffer == NULL)
     return;
-  if ((result == NULL || result == (char*)-1) && *n > 0)
+  if (*n == 0)
+  {
+    *cbuffer = NULL;
+    return;
+  }
+  if (result == NULL || result == (char*)-1)
   {
     **cbuffer = '\0';
     *n--;
