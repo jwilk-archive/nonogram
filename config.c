@@ -1,4 +1,4 @@
-/* Copyright © 2003-2010 Jakub Wilk <jwilk@jwilk.net>
+/* Copyright © 2003-2014 Jakub Wilk <jwilk@jwilk.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the “Software”), to deal
@@ -29,7 +29,7 @@
 #include "config.h"
 
 Config config = {
-  .color = true,
+  .color = false,
   .utf8 = false,
   .html = false,
   .xhtml = false,
@@ -41,7 +41,7 @@ static void show_usage(void)
   fprintf(stderr,
     "Usage: nonogram [OPTIONS]\n\n"
     "Options:\n"
-    "  -m, --mono        don't use colors\n"
+    "  -c, --colors      use colors\n"
     "  -u, --utf-8       use UTF-8 drawing characters\n"
     "  -H, --html        HTML output\n"
     "  -X, --xhtml       XHTML output\n"
@@ -67,6 +67,7 @@ void parse_arguments(int argc, char **argv, char **vfn)
   {
     { "version",    0, 0, 'v' },
     { "help",       0, 0, 'h' },
+    { "colors",     0, 0, 'c' },
     { "mono",       0, 0, 'm' },
     { "utf-8",      0, 0, 'u' },
     { "html",       0, 0, 'H' },
@@ -81,7 +82,7 @@ void parse_arguments(int argc, char **argv, char **vfn)
   while (true)
   {
     optindex = 0;
-    c = getopt_long(argc, argv, "vhmuHXsf:", options, &optindex);
+    c = getopt_long(argc, argv, "vhcmuHXsf:", options, &optindex);
     if (c < 0)
       break;
     if (c == 0)
@@ -96,6 +97,9 @@ void parse_arguments(int argc, char **argv, char **vfn)
       break;
     case 'm':
       config.color = false;
+      break;
+    case 'c':
+      config.color = true;
       break;
     case 'u':
       config.utf8 = true;

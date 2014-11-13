@@ -57,8 +57,8 @@ SOFTWARE.
     <cmdsynopsis>
         <command>&p;</command>
         <group choice='opt'>
-            <arg choice='plain'><option>--mono</option></arg>
-            <arg choice='plain'><option>-m</option></arg>
+            <arg choice='plain'><option>--colors</option></arg>
+            <arg choice='plain'><option>-c</option></arg>
         </group>
     </cmdsynopsis>
     <cmdsynopsis>
@@ -149,10 +149,10 @@ EOF</userinput>
 
     <variablelist>
         <varlistentry>
-            <term><option>-m</option> or <option>--mono</option></term>
+            <term><option>-c</option> or <option>--colors</option></term>
             <listitem>
                 <para>
-                    Don't use colors, even if <filename>stdout</filename> is a color terminal.
+                    If <filename>stdout</filename> is a color terminal, use colors.
                 </para>
             </listitem>
         </varlistentry>
