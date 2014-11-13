@@ -1,6 +1,6 @@
 #!/bin/sh
 name=nonogram
-url=http://bitbucket.org/jwilk/nonogram
+url=https://bitbucket.org/jwilk/nonogram
 if [ $# -ne 1 ]
 then
   printf "%s <version>\n" "$0" >&2
