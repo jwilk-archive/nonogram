@@ -73,7 +73,6 @@ xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 
 doc/nonogram.1: doc/nonogram.xml
 	sed -i -e "s/\(.*<!ENTITY version '\).*\('.*\)/\1$(VERSION)\2/" $(<)
-	xmllint --valid --nonet $(<) > /dev/null
 	xsltproc --nonet --output $(@) $(xsl) - < $(<)
 
 # vim:ts=4 sw=4
