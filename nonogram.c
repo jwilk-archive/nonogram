@@ -63,7 +63,7 @@ static double binomln(int n, int k)
   double dn = (double)n;
   double dk = (double)k;
 
-  tmp = -0.5 * log(8 * atan(1)); // atan 1 = pi / 4
+  tmp = -0.5 * log(8 * atan(1)); // atan(1) = π/4
   tmp += (dn + 0.5) * log(dn);
   tmp -= (dk + 0.5) * log(dk);
   tmp -= (dn - dk + 0.5) * log(dn - dk);
