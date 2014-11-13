@@ -31,10 +31,6 @@
 Config config = { .color = true, .utf8 = false, .html = false, .xhtml = false, .stats = false };
 
 static void show_usage(void)
-// Synopsis:
-// | prints out usage information and exits
-// Note:
-// | there is no magic here -- sorry
 {
   fprintf(stderr,
     "Usage: nonogram [OPTIONS]\n\n"
@@ -52,10 +48,6 @@ static void show_usage(void)
 }
 
 static void show_version(void)
-// Synopsis:
-// | prints out version information and exits
-// Note:
-// | there is no magic here -- sorry
 {
   fprintf(stderr,
     "Nonogram v. " VERSION " -- a nonogram solver.\n"
