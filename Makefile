@@ -24,7 +24,6 @@
 #  . M_NCURSES: yes | no
 
 VERSION  = $(shell sed -n -e '1 s/.*(\([0-9.]*\)).*/\1/p' < doc/changelog)
-M_FANCY    = yes
 M_DEBUG    = no
 M_NCURSES  = yes
 M_COMPILER = gcc
@@ -58,9 +57,6 @@ else
   CFLAGS_def += -DNDEBUG
 endif
 
-ifeq ($(M_FANCY),yes)
-  CFLAGS_def += -DFANCY
-endif
 ifeq ($(M_NCURSES),yes)
   CFLAGS_def += -DHAVE_NCURSES
   LDFLAGS += -lncurses

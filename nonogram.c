@@ -195,7 +195,6 @@ static void print_html_dtd(bool use_xhtml, bool need_charset)
     "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n");
 }
 
-#ifdef FANCY
 static void print_picture_html(bit *picture, bool use_xhtml)
 // Synopsis
 // | HTML version of generic picture printer
@@ -282,16 +281,6 @@ static void print_picture_html(bit *picture, bool use_xhtml)
   }
   pf("</table>\n</body>\n</html>\n");
 }
-#else /* undefined FANCY: */
-static void print_picture_html(bit *picture, bool use_xhtml)
-{
-  config.color = false;
-  print_html_dtd(use_xhtml, false);
-  pf("<html>\n<head>\n<title>Nonogram solution</title>\n</head>\n<body>\n<pre>\n");
-  print_picture_plain(picture, NULL, false);
-  pf("</pre>\n</body>\n</html>\n");
-}
-#endif /* FANCY */
 
 static inline void print_picture(bit *picture, bit *cpicture)
 // Synopsis:
