@@ -24,87 +24,87 @@ SOFTWARE.
 
 <!DOCTYPE refentry PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN' 'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd'
 [
-	<!ENTITY jwilk ''>
-	<!ENTITY p 'nonogram'>
-	<!ENTITY version '0.8.6'>
+    <!ENTITY jwilk ''>
+    <!ENTITY p 'nonogram'>
+    <!ENTITY version '0.8.6'>
 ]>
 
 <refentry lang='en'>
 
 <refentryinfo>
-	<title>&p; manual</title>
-	<productname>&p;</productname>
-	<author>
-		<firstname>Jakub</firstname> <surname>Wilk</surname>
-		<address>
-			<email>jwilk@jwilk.net</email>
-		</address>
-	</author>
+    <title>&p; manual</title>
+    <productname>&p;</productname>
+    <author>
+        <firstname>Jakub</firstname> <surname>Wilk</surname>
+        <address>
+            <email>jwilk@jwilk.net</email>
+        </address>
+    </author>
 </refentryinfo>
 
 <refmeta>
-	<refentrytitle>&p;</refentrytitle>
-	<manvolnum>1</manvolnum>
-	<refmiscinfo class='version'>&version;</refmiscinfo>
+    <refentrytitle>&p;</refentrytitle>
+    <manvolnum>1</manvolnum>
+    <refmiscinfo class='version'>&version;</refmiscinfo>
 </refmeta>
 
 <refnamediv>
-	<refname>&p;</refname>
-	<refpurpose>a nonogram solver</refpurpose>
+    <refname>&p;</refname>
+    <refpurpose>a nonogram solver</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
-	<cmdsynopsis>
-		<command>&p;</command>
-		<group choice='opt'>
-			<arg choice='plain'><option>--mono</option></arg>
-			<arg choice='plain'><option>-m</option></arg>
-		</group>
-	</cmdsynopsis>
-	<cmdsynopsis>
-		<command>&p;</command>
-		<group choice='opt'>
-			<arg choice='plain'><option>--utf-8</option></arg>
-			<arg choice='plain'><option>-u</option></arg>
-		</group>
-	</cmdsynopsis>
-	<cmdsynopsis>
-		<command>&p;</command>
-		<group choice='plain'>
-			<group choice='opt'>
-				<arg choice='plain'><option>--html</option></arg>
-				<arg choice='plain'><option>-H</option></arg>
-			</group>
-			<group choice='opt'>
-				<arg choice='plain'><option>--xhtml</option></arg>
-				<arg choice='plain'><option>-X</option></arg>
-			</group>
-		</group>
-	</cmdsynopsis>
-	<cmdsynopsis>
-		<command>&p;</command>
-		<group choice='req'>
-			<arg choice='plain'><option>--version</option></arg>
-			<arg choice='plain'><option>-v</option></arg>
-		</group>
-	</cmdsynopsis>
-	<cmdsynopsis>
-		<command>&p;</command>
-		<group choice='req'>
-			<arg choice='plain'><option>--help</option></arg>
-			<arg choice='plain'><option>-h</option></arg>
-		</group>
-	</cmdsynopsis>
+    <cmdsynopsis>
+        <command>&p;</command>
+        <group choice='opt'>
+            <arg choice='plain'><option>--mono</option></arg>
+            <arg choice='plain'><option>-m</option></arg>
+        </group>
+    </cmdsynopsis>
+    <cmdsynopsis>
+        <command>&p;</command>
+        <group choice='opt'>
+            <arg choice='plain'><option>--utf-8</option></arg>
+            <arg choice='plain'><option>-u</option></arg>
+        </group>
+    </cmdsynopsis>
+    <cmdsynopsis>
+        <command>&p;</command>
+        <group choice='plain'>
+            <group choice='opt'>
+                <arg choice='plain'><option>--html</option></arg>
+                <arg choice='plain'><option>-H</option></arg>
+            </group>
+            <group choice='opt'>
+                <arg choice='plain'><option>--xhtml</option></arg>
+                <arg choice='plain'><option>-X</option></arg>
+            </group>
+        </group>
+    </cmdsynopsis>
+    <cmdsynopsis>
+        <command>&p;</command>
+        <group choice='req'>
+            <arg choice='plain'><option>--version</option></arg>
+            <arg choice='plain'><option>-v</option></arg>
+        </group>
+    </cmdsynopsis>
+    <cmdsynopsis>
+        <command>&p;</command>
+        <group choice='req'>
+            <arg choice='plain'><option>--help</option></arg>
+            <arg choice='plain'><option>-h</option></arg>
+        </group>
+    </cmdsynopsis>
 </refsynopsisdiv>
 <refsection>
-	<title>Description</title>
-	<para>
-		&p; is a solver of nonogram puzzles (also known as “griddler puzzles”
-		or “paint by numbers”).
-	</para>
-	<para>
-		&p; reads data from the standard input. The data should be in the following format:
-		<screen><userinput><!--
+    <title>Description</title>
+    <para>
+        &p; is a solver of nonogram puzzles (also known as “griddler puzzles”
+        or “paint by numbers”).
+    </para>
+    <para>
+        &p; reads data from the standard input. The data should be in the following format:
+        <screen><userinput><!--
 --><replaceable>Width</replaceable> <replaceable>Height</replaceable>
 <replaceable>Line1Description</replaceable>
 <replaceable>Line2Description</replaceable>
@@ -112,13 +112,13 @@ SOFTWARE.
 <replaceable>Column1Description</replaceable>
 <replaceable>Column2Description</replaceable>
 <replaceable>…</replaceable><!--
-		--></userinput></screen>
-	</para>
+        --></userinput></screen>
+    </para>
 </refsection>
 
 <refsection>
-	<title>Example</title>
-	<screen><!--
+    <title>Example</title>
+    <screen><!--
 --><prompt>$</prompt> <command>&p;</command> &lt;&lt;EOF
 <userinput>6 3
 3 2
@@ -138,61 +138,61 @@ EOF</userinput>
  1 2 1|##  ####  ##|
  2 3  |####  ######|
       +------------+<!--
-	--></screen>
+    --></screen>
 </refsection>
 
 <refsection>
-	<title>Options</title>
-	<para>
-		&p; accepts the following options:
-	</para>
+    <title>Options</title>
+    <para>
+        &p; accepts the following options:
+    </para>
 
-	<variablelist>
-		<varlistentry>
-			<term><option>-m</option> or <option>--mono</option></term>
-			<listitem>
-				<para>
-					Don't use colors, even if <filename>stdout</filename> is a color terminal.
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term><option>-u</option> or <option>--utf-8</option></term>
-			<listitem>
-				<para>
-					If <filename>stdout</filename> is not a terminal, use UTF-8
-					drawing characters insted of plain <abbrev>ASCII</abbrev>
-					characters.
-				</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term><option>-H</option> or <option>--html</option></term>
-			<listitem>
-				<para>Output HTML document. It it supposed to be a valid HTML 4.01 Strict.</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term><option>-X</option> or <option>--xhtml</option></term>
-			<listitem>
-				<para>Output XHTML document. It is supposed to be a valid XHTML 1.0 Strict.</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term><option>-h</option> or <option>--help</option></term>
-			<listitem>
-				<para>Display help and exit.</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term><option>-v</option> or <option>--version</option></term>
-			<listitem>
-          		<para>Output version information and exit.</para>
-			</listitem>
-		</varlistentry>
-	</variablelist>
+    <variablelist>
+        <varlistentry>
+            <term><option>-m</option> or <option>--mono</option></term>
+            <listitem>
+                <para>
+                    Don't use colors, even if <filename>stdout</filename> is a color terminal.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><option>-u</option> or <option>--utf-8</option></term>
+            <listitem>
+                <para>
+                    If <filename>stdout</filename> is not a terminal, use UTF-8
+                    drawing characters insted of plain <abbrev>ASCII</abbrev>
+                    characters.
+                </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><option>-H</option> or <option>--html</option></term>
+            <listitem>
+                <para>Output HTML document. It it supposed to be a valid HTML 4.01 Strict.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><option>-X</option> or <option>--xhtml</option></term>
+            <listitem>
+                <para>Output XHTML document. It is supposed to be a valid XHTML 1.0 Strict.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><option>-h</option> or <option>--help</option></term>
+            <listitem>
+                <para>Display help and exit.</para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term><option>-v</option> or <option>--version</option></term>
+            <listitem>
+                <para>Output version information and exit.</para>
+            </listitem>
+        </varlistentry>
+    </variablelist>
 </refsection>
 
 </refentry>
 
-<!-- vim:set ts=4 sts=4 sw=4: -->
+<!-- vim:set ts=4 sts=4 sw=4 et: -->
