@@ -71,7 +71,6 @@ clean:
 xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 
 doc/nonogram.1: doc/nonogram.xml
-	sed -i -e "s/\(.*<!ENTITY version '\).*\('.*\)/\1$(VERSION)\2/" $(<)
 	xsltproc --nonet --output $(@) $(xsl) - < $(<)
 
 # vim:ts=4 sts=4 sw=4 noet
