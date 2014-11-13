@@ -39,7 +39,7 @@ static void heapify_queue(Queue *queue)
 {
   unsigned int i, l, r, max;
   QueueItem ivalue;
-  
+
   i = 0;
   while (true)
   {
@@ -57,7 +57,7 @@ static void heapify_queue(Queue *queue)
       update_queue_enq(queue, max);
       i = max;
     }
-    else 
+    else
       return;
   }
 }

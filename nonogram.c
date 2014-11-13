@@ -248,7 +248,7 @@ static void print_picture_html(bit *picture, bool use_xhtml)
     }
     pf("</tr>\n");
   }
-  
+
   free(top_desc_size);
 
   for (i = 0; i < ysize; i++)

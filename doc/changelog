@@ -12,13 +12,13 @@ nonogram (0.8.5) unstable; urgency=low
 
 nonogram (0.8.4) unstable; urgency=low
 
-  * Support for MinGW compilation. 
+  * Support for MinGW compilation.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Thu, 25 Sep 2008 16:52:18 +0200
 
 nonogram (0.8.3.1) unstable; urgency=low
 
-  * Add 5 new data files. 
+  * Add 5 new data files.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Thu,  2 Nov 2006 22:21:34 +0100
 
@@ -35,7 +35,7 @@ nonogram (0.8.2) unstable; urgency=low
   * Add support for XHTML output.
   * Fix (X)HTML output to conform standards.
   * Fancy (X)HTML output available by default.
-  * Remove all TinyCC hacks. (They're not necessary, at least since 
+  * Remove all TinyCC hacks. (They're not necessary, at least since
     tcc 0.9.23)
 
  -- Jakub Wilk <jwilk@jwilk.net>  Thu, 31 Aug 2006 16:39:31 +0200
@@ -49,7 +49,7 @@ nonogram (0.8.1) unstable; urgency=low
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 30 Aug 2006 18:05:04 +0200
 
 nonogram (0.8) unstable; urgency=low
- 
+
   * Split source into several files.
   * Use NCurses library.
   * Use POSIX signal handling functions.
@@ -57,42 +57,42 @@ nonogram (0.8) unstable; urgency=low
  -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Feb 2006 23:15:19 +0100
 
 nonogram (0.7c) unstable; urgency=low
-  
+
   * Allow empty rows and columns.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 26 Jan 2005 12:20:44 +0100
 
 nonogram (0.7b) unstable; urgency=low
-  
+
   * Fix the consistency checking routine.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Fri, 31 Dec 2004 19:43:10 +0100
 
 nonogram (0.7a) unstable; urgency=low
-  
+
   * Fix printing the debug information.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sat, 11 Dec 2004 11:08:17 +0100
 
 nonogram (0.7) unstable; urgency=low
-  
+
   * Adapt ‘Makefile’ to act with the Intel C Compiler.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sun, 10 Oct 2004 12:36:51 +0200
 
 nonogram (0.6n) unstable; urgency=low
-  
+
   * Fix the heap code once again.
   * Flush the stdout after printing the picture.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sun,  3 Oct 2004 17:35:41 +0200
 
 nonogram (0.6m) unstable; urgency=low
- 
+
   * Add some debug code.
   * Fix the heap code (it was *really* broken).
   * Support for the ‘\r\n’ new lines.
- 
+
  -- Jakub Wilk <jwilk@jwilk.net>  Sun,  5 Sep 2004 17:48:18 +0200
 
 nonogram (0.6i) unstable; urgency=low
