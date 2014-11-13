@@ -72,7 +72,7 @@ static double binomln(int n, int k)
 static void raise_input_error(unsigned int n)
 {
   message("Invalid input at line %u!\n", n);
-  abort();
+  exit(EXIT_FAILURE);
 }
 
 static void handle_sigint()
