@@ -50,10 +50,9 @@ unsigned int lmax, tmax;
 uint64_t fingercounter;
 
 static double binomln(int n, int k)
-// Synopsis:
-// | evaluates ln binom(`n', `k')
-// | if possible, returns the result
-// | otherwise, returns +0.0
+// Return
+//   ln binom(n, k)
+// or +0.0
 {
   double tmp;
 
@@ -71,19 +70,12 @@ static double binomln(int n, int k)
 }
 
 static void raise_input_error(unsigned int n)
-// Synopsis:
-// | tells about invalid input at line `n'
-// | afterwards, aborts
 {
   message("Invalid input at line %u!\n", n);
   abort();
 }
 
 static void handle_sigint()
-// Synopsis:
-// | the SIGINT handler
-// | says ``Ouch!''
-// | if necessary, turns all colors off
 {
   const char *reset_colors = term_strings.dark;
   if (reset_colors == NULL)
@@ -199,9 +191,6 @@ static void print_html_dtd(bool use_xhtml, bool need_charset)
 }
 
 static void print_picture_html(bit *picture, bool use_xhtml)
-// Synopsis
-// | HTML version of generic picture printer
-// | `picture': our result
 {
   unsigned int i, j;
   print_html_dtd(use_xhtml, true);
@@ -286,12 +275,6 @@ static void print_picture_html(bit *picture, bool use_xhtml)
 }
 
 static inline void print_picture(bit *picture, bit *cpicture)
-// Synopsis:
-// | picture printer
-// | automatically chooses an appropriate version
-// |   of generic printer
-// | `picture': our result
-// | `cpicture': picture to compare with our result
 {
   if (config.stats)
     return; // XXX undocumented!
@@ -302,7 +285,6 @@ static inline void print_picture(bit *picture, bit *cpicture)
 }
 
 static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield, unsigned int *borderitem, bool vert)
-// it's rather ``touch of the mind'' :=)
 {
   unsigned int i, j, k, count, sum, mul;
   uint64_t z, ink;
@@ -363,7 +345,6 @@ static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield
 }
 
 static void finger_line(Picture *mpicture, Queue *queue)
-// shouldn't it be split into two functions?
 {
   bit *picture;
   uint64_t *testfield;
@@ -491,22 +472,16 @@ static bool check_consistency(bit *picture)
 }
 
 static inline void *alloc_border(void)
-// Synopsis:
-// | allocates a border
 {
   return alloc(vsize * sizeof(unsigned int));
 }
 
 static inline void *alloc_testfield(void)
-// Synopsis:
-// | allocates a testfield
 {
   return alloc(xysize * sizeof(uint64_t));
 }
 
 static void *alloc_picture(void)
-// Synopsis:
-// | allocates a picture
 {
   unsigned int i;
   Picture *tmp =
@@ -524,8 +499,6 @@ static void *alloc_picture(void)
 }
 
 static inline void free_picture(Picture *picture)
-// Synopsis:
-// | frees `picture'
 {
   free(picture->linecounter);
   free(picture->evilcounter);
@@ -533,8 +506,6 @@ static inline void free_picture(Picture *picture)
 }
 
 static inline void duplicate_picture(Picture *src, Picture *dst)
-// Synopsis:
-// | copies picture `src' onto picture `dst'
 {
   dst->counter = src->counter;
   memcpy(dst->linecounter, src->linecounter, sizeof(unsigned int) * xpysize);
