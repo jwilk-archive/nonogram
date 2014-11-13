@@ -162,4 +162,4 @@ void setup_termstrings(bool have_term, bool use_utf8, bool use_color)
 #endif /* HAVE_NCURSES */
 }
 
-/* vim:set ts=2 sw=2 et: */
+/* vim:set ts=2 sts=2 sw=2 et: */

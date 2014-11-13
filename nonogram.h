@@ -44,4 +44,4 @@ extern unsigned int lmax, tmax;
 
 #endif
 
-/* vim:set ts=2 sw=2 et: */
+/* vim:set ts=2 sts=2 sw=2 et: */

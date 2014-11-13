@@ -43,4 +43,4 @@ void *alloc(size_t size)
   return tmp;
 }
 
-/* vim:set ts=2 sw=2 et: */
+/* vim:set ts=2 sts=2 sw=2 et: */
