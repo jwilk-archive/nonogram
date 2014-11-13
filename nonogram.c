@@ -702,6 +702,7 @@ static unsigned int measure_evil(int r, int k)
 int main(int argc, char **argv)
 {
   char c;
+  int rc;
   unsigned int i, j, k, sane;
   unsigned int evs, evm;
   bit *checkbits = NULL;
@@ -828,6 +829,8 @@ int main(int argc, char **argv)
   }
 #endif /* DEBUG */
 
+  rc = EXIT_SUCCESS;
+
   fingercounter = 0;
 
   preliminary_shake(mainpicture);
@@ -836,7 +839,8 @@ int main(int argc, char **argv)
   if (!check_consistency(mainpicture->bits))
   {
     fingercounter = 0;
-    message("Inconsistent! Bamf!\n");
+    rc = EXIT_FAILURE;
+    message("Inconsistent puzzle!\n");
     if (debug)
       print_picture(mainpicture->bits, checkbits);
   }
@@ -855,8 +859,9 @@ int main(int argc, char **argv)
         print_picture(mainpicture->bits, checkbits);
       else
       {
+        rc = EXIT_FAILURE;
         fingercounter = 0;
-        message("Inconsistent! Bamf!\n");
+        message("Inconsistent puzzle!\n");
       }
     }
   }
@@ -864,7 +869,7 @@ int main(int argc, char **argv)
   if (config.stats)
     fprintf(stderr, "%ju\n", fingercounter);
 
-  return EXIT_SUCCESS;
+  return rc;
 }
 
 /* vim:set ts=2 sts=2 sw=2 et: */
