@@ -98,10 +98,6 @@ static void setup_sigint()
 }
 
 static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
-// Synopsis:
-// | vanilla version of generic picture printer
-// | `picture' is a picture with our result
-// | `cpicture' is a picture with which we want to compare our result
 {
   char *str_color;
 
