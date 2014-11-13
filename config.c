@@ -51,7 +51,7 @@ static void show_version(void)
 {
   fprintf(stderr,
     "Nonogram v. " VERSION " -- a nonogram solver.\n"
-    "Copyright (c) 2003, 2004, 2005, 2006, 2008, 2009 Jakub Wilk\n\n");
+    "Copyright (c) 2003-2014 Jakub Wilk\n\n");
   exit(EXIT_FAILURE);
 }
 
