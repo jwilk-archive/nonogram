@@ -118,7 +118,7 @@ void parse_arguments(int argc, char **argv, char **vfn)
       ;
     }
   }
-  if (argc > 1)
+  if (optind < argc)
   {
     fprintf(stderr, "%s: too many arguments\n", argv[0]);
     exit(EXIT_FAILURE);
