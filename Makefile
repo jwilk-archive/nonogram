@@ -19,22 +19,16 @@
 # SOFTWARE.
 
 # Available directives:
-#  . M_FANCY:   yes | no
 #  . M_DEBUG:   yes | no
 #  . M_NCURSES: yes | no
 
 VERSION  = $(shell sed -n -e '1 s/.*(\([0-9.]*\)).*/\1/p' < doc/changelog)
 M_DEBUG    = no
 M_NCURSES  = yes
-M_COMPILER = gcc
 
 HFILES = $(wildcard *.h)
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
-
-STRIP := strip -s
-GCC := gcc
-CC := $(GCC)
 
 LDFLAGS := -lm
 CFLAGS = $(CFLAGS_std) $(CFLAGS_wrn) $(CFLAGS_opt) $(CFLAGS_def)
@@ -44,14 +38,9 @@ CFLAGS_wrn := -Wall -Wno-unused
 CFLAGS_opt := -Os
 CFLAGS_def := -DVERSION="\"$(VERSION)\""
 
-ifeq ($(M_COMPILER),icc)
-  CFLAGS_opt := -O3
-endif
-
 ifeq ($(M_DEBUG),yes)
   CFLAGS_def += -DDEBUG
   CFLAGS_opt := -g -O0
-  STRIP := true
 else
   CFLAGS_def += -DNDEBUG
 endif
@@ -61,25 +50,7 @@ ifeq ($(M_NCURSES),yes)
   LDFLAGS += -lncurses
 endif
 
-ifeq ($(M_COMPILER),ncc)
-  STRIP := true
-  CC := ncc -nc$(GCC) -ncoo -ncfabs
-endif
-
-ifeq ($(M_COMPILER),icc)
-  CC := icc
-  CFLAGS_std := -c99
-  CFLAGS_wrn := -w
-  CFLAGS_def += -D__ICC__
-  LDFLAGS += -static-libcxa
-endif
-
-ifeq ($(M_COMPILER),tcc)
-  CC := tcc
-  CFLAGS_std :=
-  CFLAGS_wrn := -Wall
-endif
-
+.PHONY: all
 all: nonogram
 
 include Makefile.dep
@@ -88,31 +59,25 @@ $(OFILES): %.o: %.c
 	$(CC) $(CFLAGS) -c $(<) -o $(@)
 
 nonogram: $(OFILES)
-	$(CC) $(LDFLAGS) $(CFLAGS) $(OFILES) -o $(@)
-	$(STRIP) $(@)
+	$(LINK.c) $(^) $(LOADLIBES) $(LDLIBS) -o $(@)
 
+.PHONY: mtest
 mtest: nonogram
 	./nonogram -m < test-input
 
+.PHONY: test
 test: nonogram
 	./nonogram < test-input
 
-stats:
-	@echo $(shell cat *.c | wc -l) lines.
-	@echo $(shell cat *.c | wc -c) bytes.
-
+.PHONY: clean
 clean:
-	$(RM) *.o nonogram nonogram-*.tar* doc/*.1
+	rm -f *.o nonogram doc/*.1
 
-XSL = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-XMLLINT = /usr/bin/xmllint --valid --nonet
-XSLTPROC = /usr/bin/xsltproc --nonet
+xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 
 doc/nonogram.1: doc/nonogram.xml
 	sed -i -e "s/\(.*<!ENTITY version '\).*\('.*\)/\1$(VERSION)\2/" $(<)
-	$(XMLLINT) $(<) > /dev/null
-	$(XSLTPROC) --output $(@) $(XSL) - < $(<)
-
-.PHONY: all mtest test stats clean dist
+	xmllint --valid --nonet $(<) > /dev/null
+	xsltproc --nonet --output $(@) $(xsl) - < $(<)
 
 # vim:ts=4 sw=4
