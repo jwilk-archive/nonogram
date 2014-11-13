@@ -33,7 +33,6 @@ CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
 
 STRIP := strip -s
-CTAGS := $(shell command -v ctags 2>/dev/null)
 GCC := gcc
 CC := $(GCC)
 
@@ -81,12 +80,7 @@ ifeq ($(M_COMPILER),tcc)
   CFLAGS_wrn := -Wall
 endif
 
-all: nonogram tags
-
-tags: $(CFILES)
-ifneq ($(CTAGS),)
-	$(CTAGS) $(^)
-endif
+all: nonogram
 
 include Makefile.dep
 
@@ -108,7 +102,7 @@ stats:
 	@echo $(shell cat *.c | wc -c) bytes.
 
 clean:
-	$(RM) *.o nonogram nonogram-*.tar* tags doc/*.1
+	$(RM) *.o nonogram nonogram-*.tar* doc/*.1
 
 XSL = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 XMLLINT = /usr/bin/xmllint --valid --nonet
