@@ -181,13 +181,6 @@ EOF</userinput>
 	</variablelist>
 </refsection>
 
-<refsection>
-	<title>Files</title>
-	<para>
-		<filename>/usr/share/&p;/<replaceable>*</replaceable>.nin</filename>
-	</para>
-</refsection>
-
 </refentry>
 
 <!-- vim:set ts=4 sw=4: -->
