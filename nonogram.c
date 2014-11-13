@@ -655,7 +655,7 @@ static inline void shake(Picture *mpicture)
   return;
 }
 
-static bool make_unambiguous(Picture *mpicture)
+static bool backtrack(Picture *mpicture)
 {
   Picture *mclone;
   bit *picture;
@@ -675,7 +675,7 @@ static bool make_unambiguous(Picture *mpicture)
     mclone->linecounter[i]--;
     mclone->linecounter[ysize + j]--;
     shake(mclone);
-    res = make_unambiguous(mclone);
+    res = backtrack(mclone);
     if (res)
       duplicate_picture(mclone, mpicture); // mclone --> mpicture
     else
@@ -846,8 +846,12 @@ int main(int argc, char **argv)
       print_picture(mainpicture->bits, checkbits);
     if (mainpicture->counter != 0)
     {
-      message("Ambiguous (%u)! But trying to find a solution...\n", mainpicture->counter);
-      if (make_unambiguous(mainpicture))
+      message(
+        "Line solving failed (n=%u).\n"
+        "Trying backtracking, but this may take a while...\n",
+        mainpicture->counter
+      );
+      if (backtrack(mainpicture))
         print_picture(mainpicture->bits, checkbits);
       else
       {
