@@ -34,14 +34,11 @@ CFLAGS = $(CFLAGS_std) $(CFLAGS_wrn) $(CFLAGS_opt) $(CFLAGS_def)
 
 CFLAGS_std := -std=gnu99
 CFLAGS_wrn := -Wall -Wno-unused
-CFLAGS_opt := -Os
+CFLAGS_opt := -O2
 CFLAGS_def := -DVERSION="\"$(VERSION)\""
 
 ifeq ($(M_DEBUG),yes)
   CFLAGS_def += -DDEBUG
-  CFLAGS_opt := -g -O0
-else
-  CFLAGS_def += -DNDEBUG
 endif
 
 ifeq ($(M_NCURSES),yes)
