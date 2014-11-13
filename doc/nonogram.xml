@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE refentry PUBLIC '-//OASIS//DTD DocBook XML V4.5//EN' 'http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd'
 [
-	<!ENTITY jwilk '<firstname>Jakub</firstname> <surname>Wilk</surname>'>
+	<!ENTITY jwilk ''>
 	<!ENTITY p 'nonogram'>
 	<!ENTITY version '0.8.6'>
 ]>
@@ -12,22 +12,11 @@
 	<title>&p; manual</title>
 	<productname>&p;</productname>
 	<author>
-		&jwilk;
+		<firstname>Jakub</firstname> <surname>Wilk</surname>
 		<address>
 			<email>jwilk@jwilk.net</email>
 		</address>
 	</author>
-	<copyright>
-		<year>2003</year>
-		<year>2004</year>
-		<year>2005</year>
-		<year>2006</year>
-		<year>2008</year>
-		<year>2009</year>
-		<year>2010</year>
-		<year>2013</year>
-		<holder>&jwilk;</holder>
-	</copyright>
 </refentryinfo>
 
 <refmeta>
