@@ -52,7 +52,6 @@ all: nonogram
 include Makefile.dep
 
 $(OFILES): %.o: %.c
-	$(CC) $(CFLAGS) -c $(<) -o $(@)
 
 nonogram: $(OFILES)
 	$(LINK.c) $(^) $(LOADLIBES) $(LDLIBS) -o $(@)
