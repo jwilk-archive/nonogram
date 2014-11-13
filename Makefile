@@ -26,7 +26,6 @@ VERSION  = $(shell sed -n -e '1 s/.*(\([0-9.]*\)).*/\1/p' < doc/changelog)
 M_DEBUG    = no
 M_NCURSES  = yes
 
-HFILES = $(wildcard *.h)
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
 
