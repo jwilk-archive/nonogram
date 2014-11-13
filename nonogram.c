@@ -85,8 +85,11 @@ static void handle_sigint()
 // | says ``Ouch!''
 // | if necessary, turns all colors off
 {
+  const char *reset_colors = term_strings.dark;
+  if (reset_colors == NULL)
+    reset_colors = "";
   fflush(stdout);
-  message("%s\nOuch!\n\n", term_strings.dark);
+  message("%s\nOuch!\n\n", reset_colors);
   exit(EXIT_FAILURE);
 }
 
