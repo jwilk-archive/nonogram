@@ -29,7 +29,7 @@ M_NCURSES  = yes
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
 
-LDFLAGS := -lm
+LDLIBS = -lm
 CFLAGS = $(CFLAGS_std) $(CFLAGS_wrn) $(CFLAGS_opt) $(CFLAGS_def)
 
 CFLAGS_std := -std=gnu99
@@ -46,7 +46,7 @@ endif
 
 ifeq ($(M_NCURSES),yes)
   CFLAGS_def += -DHAVE_NCURSES
-  LDFLAGS += -lncurses
+  LDLIBS += -lncurses
 endif
 
 .PHONY: all
