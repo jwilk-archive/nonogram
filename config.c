@@ -114,8 +114,14 @@ void parse_arguments(int argc, char **argv, char **vfn)
       config.stats = true;
       break;
     default:
+      exit(EXIT_FAILURE);
       ;
     }
+  }
+  if (argc > 1)
+  {
+    fprintf(stderr, "%s: too many arguments\n", argv[0]);
+    exit(EXIT_FAILURE);
   }
 }
 
