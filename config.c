@@ -56,11 +56,6 @@ static void show_version(void)
 }
 
 void parse_arguments(int argc, char **argv, char **vfn)
-// Synopsis:
-// | parses the program arguments
-// | `vfn' variable is used only if DEBUG directive is defined
-// | otherwise, it's ignored
-// | we are using getopt (!)
 {
   static struct option options [] =
   {
