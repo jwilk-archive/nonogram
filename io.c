@@ -27,7 +27,7 @@
 char freadchar(FILE *file)
 // Synopsis:
 // | reads one char from a file represented by `file' variable
-// | if there's nothing to read or an error ocurred, returns '\0'
+// | if there's nothing to read or an error occurred, returns '\0'
 // | otherwise, returns the char
 {
   char buf = '\0';
@@ -38,7 +38,7 @@ char freadchar(FILE *file)
 char readchar(void)
 // Synopsis:
 // | reads one char from standard input
-// | if there's nothing to read or an error ocurred, returns '\0'
+// | if there's nothing to read or an error occurred, returns '\0'
 // | otherwise, returns the char
 {
   return freadchar(stdin);
