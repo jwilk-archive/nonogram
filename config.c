@@ -28,7 +28,13 @@
 #include "common.h"
 #include "config.h"
 
-Config config = { .color = true, .utf8 = false, .html = false, .xhtml = false, .stats = false };
+Config config = {
+  .color = true,
+  .utf8 = false,
+  .html = false,
+  .xhtml = false,
+  .stats = false
+};
 
 static void show_usage(void)
 {
@@ -82,14 +88,31 @@ void parse_arguments(int argc, char **argv, char **vfn)
       c = options[optindex].val;
     switch (c)
     {
-    case 'v': show_version(); break;
-    case 'h': show_usage(); break;
-    case 'm': config.color = false; break;
-    case 'u': config.utf8 = true; break;
-    case 'H': config.html = true; break;
-    case 'X': config.html = config.xhtml = true; break;
-    case 'f': if (debug && optarg != NULL) *vfn = optarg; break;
-    case 's': config.stats = true; break;
+    case 'v':
+      show_version();
+      break;
+    case 'h':
+      show_usage();
+      break;
+    case 'm':
+      config.color = false;
+      break;
+    case 'u':
+      config.utf8 = true;
+      break;
+    case 'H':
+      config.html = true;
+      break;
+    case 'X':
+      config.html = config.xhtml = true;
+      break;
+    case 'f':
+      if (debug && optarg != NULL)
+        *vfn = optarg;
+      break;
+    case 's':
+      config.stats = true;
+      break;
     default:
       ;
     }
