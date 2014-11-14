@@ -166,7 +166,8 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
           break;
       }
       picture++;
-      debug && cpicture++;
+      if (debug)
+        cpicture++;
     }
     mpf(2, term_strings.v, "\n");
   }
@@ -414,7 +415,8 @@ static bool check_consistency(bit *picture)
         break;
       if (*border != rv)
       {
-        debug && fprintf(stderr, "Inconsistency at row #%u[%u]! (%u, expected %u)!\n", i, j, rv, *border);
+        if (debug)
+          fprintf(stderr, "Inconsistency at row #%u[%u]! (%u, expected %u)!\n", i, j, rv, *border);
         return false;
       }
       rv = 0; r++; border++;
@@ -424,7 +426,8 @@ static bool check_consistency(bit *picture)
     }
     if (fr && *border != rv)
     {
-      debug && fprintf(stderr, "Inconsistency at the end of row #%u! (%u, expected %u)\n", i, rv, *border);
+      if (debug)
+        fprintf(stderr, "Inconsistency at the end of row #%u! (%u, expected %u)\n", i, rv, *border);
       return false;
     }
   }
@@ -450,7 +453,8 @@ static bool check_consistency(bit *picture)
         break;
       if (*border != rv)
       {
-        debug && fprintf(stderr, "Inconsistency at column #%u[%u]! (%u, expected %u)\n", i, j, rv, *border);
+        if (debug)
+          fprintf(stderr, "Inconsistency at column #%u[%u]! (%u, expected %u)\n", i, j, rv, *border);
         return false;
       }
       rv = 0; r++; border++;
@@ -460,7 +464,8 @@ static bool check_consistency(bit *picture)
     }
     if (fr && *border != rv)
     {
-      debug && fprintf(stderr, "Inconsistency at the end of column #%u! (%u, expected %u)\n", i, rv, *border);
+      if (debug)
+        fprintf(stderr, "Inconsistency at the end of column #%u! (%u, expected %u)\n", i, rv, *border);
       return false;
     }
   }
