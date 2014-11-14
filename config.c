@@ -26,7 +26,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include "common.h"
 #include "config.h"
 
 Config config = {

@@ -1,16 +1,11 @@
-common.o: common.c
-common.o: config.h
 config.o: autoconfig.h
-config.o: common.h
 config.o: config.c
 config.o: config.h
 io.o: io.c
 io.o: io.h
 memory.o: autoconfig.h
-memory.o: common.h
 memory.o: memory.c
 nonogram.o: autoconfig.h
-nonogram.o: common.h
 nonogram.o: config.h
 nonogram.o: io.h
 nonogram.o: memory.h
@@ -19,7 +14,6 @@ nonogram.o: nonogram.h
 nonogram.o: queue.h
 nonogram.o: term.h
 queue.o: autoconfig.h
-queue.o: common.h
 queue.o: memory.h
 queue.o: nonogram.h
 queue.o: queue.c

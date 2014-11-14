@@ -22,8 +22,6 @@
 #ifndef NONOGRAM_MEMORY_H
 #define NONOGRAM_MEMORY_H
 
-#include "common.h"
-
 void *alloc(size_t);
 
 #endif

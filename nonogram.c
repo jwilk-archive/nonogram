@@ -34,7 +34,6 @@
 #include <string.h>
 
 #include "io.h"
-#include "common.h"
 #include "config.h"
 #include "memory.h"
 #include "nonogram.h"
@@ -71,7 +70,7 @@ static double binomln(int n, int k)
 
 static void raise_input_error(unsigned int n)
 {
-  message("Invalid input at line %u!\n", n);
+  fprintf(stderr, "Invalid input at line %u!\n", n);
   exit(EXIT_FAILURE);
 }
 
@@ -81,7 +80,7 @@ static void handle_sigint()
   if (reset_colors == NULL)
     reset_colors = "";
   fflush(stdout);
-  message("%s\nOuch!\n\n", reset_colors);
+  fprintf(stderr, "%s\nOuch!\n\n", reset_colors);
   exit(EXIT_FAILURE);
 }
 
@@ -815,7 +814,7 @@ int main(int argc, char **argv)
   {
     fingercounter = 0;
     rc = EXIT_FAILURE;
-    message("Inconsistent puzzle!\n");
+    fprintf(stderr, "Inconsistent puzzle!\n");
     if (ENABLE_DEBUG)
       print_picture(mainpicture->bits, checkbits);
   }
@@ -825,7 +824,7 @@ int main(int argc, char **argv)
       print_picture(mainpicture->bits, checkbits);
     if (mainpicture->counter != 0)
     {
-      message(
+      fprintf(stderr,
         "Line solving failed (n=%u).\n"
         "Trying backtracking, but this may take a while...\n",
         mainpicture->counter
@@ -836,7 +835,7 @@ int main(int argc, char **argv)
       {
         rc = EXIT_FAILURE;
         fingercounter = 0;
-        message("Inconsistent puzzle!\n");
+        fprintf(stderr, "Inconsistent puzzle!\n");
       }
     }
   }

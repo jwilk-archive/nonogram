@@ -19,9 +19,8 @@
  * SOFTWARE.
  */
 
-#include "common.h"
-
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 static inline void raise_oom_error(void)
@@ -29,7 +28,7 @@ static inline void raise_oom_error(void)
 // | tells about OOM error
 // | afterwards, aborts
 {
-  message("Out of memory!\n");
+  fprintf(stderr, "Out of memory!\n");
   abort();
 }
 
