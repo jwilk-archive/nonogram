@@ -45,6 +45,11 @@ test: nonogram
 clean:
 	rm -f *.o nonogram doc/*.1
 
+.PHONY: distclean
+distclean: clean
+	rm -f config.log config.status
+	find . -name '*.in' | sed -e 's/[.]in$$//' | xargs -t rm -f
+
 xsl = http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
 
 doc/nonogram.1: doc/nonogram.xml
