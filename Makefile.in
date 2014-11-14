@@ -37,10 +37,6 @@ $(OFILES): %.o: %.c
 nonogram: $(OFILES)
 	$(LINK.c) $(^) $(LOADLIBES) $(LDLIBS) -o $(@)
 
-.PHONY: mtest
-mtest: nonogram
-	./nonogram -m < test-input
-
 .PHONY: test
 test: nonogram
 	./nonogram < test-input
