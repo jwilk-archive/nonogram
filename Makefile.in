@@ -18,33 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Available directives:
-#  . M_DEBUG:   yes | no
-#  . M_NCURSES: yes | no
-
-VERSION  = $(shell sed -n -e '1 s/.*(\([0-9.]*\)).*/\1/p' < doc/changelog)
-M_DEBUG    = no
-M_NCURSES  = yes
+CC = @CC@
+CFLAGS = @CFLAGS@ @NCURSES_CFLAGS@ -Wall -Wno-unused
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LDLIBS = @LIBS@ @NCURSES_LIBS@ -lm
 
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
-
-LDLIBS = -lm
-CFLAGS = $(CFLAGS_std) $(CFLAGS_wrn) $(CFLAGS_opt) $(CFLAGS_def)
-
-CFLAGS_std := -std=gnu99
-CFLAGS_wrn := -Wall -Wno-unused
-CFLAGS_opt := -O2
-CFLAGS_def := -DVERSION="\"$(VERSION)\""
-
-ifeq ($(M_DEBUG),yes)
-  CFLAGS_def += -DDEBUG
-endif
-
-ifeq ($(M_NCURSES),yes)
-  CFLAGS_def += -DHAVE_NCURSES
-  LDLIBS += -lncurses
-endif
 
 .PHONY: all
 all: nonogram

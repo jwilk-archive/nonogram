@@ -19,8 +19,11 @@
  * SOFTWARE.
  */
 
+#include "autoconfig.h"
+
 #include <stdbool.h>
 #include <string.h>
+
 #ifdef HAVE_NCURSES
 #include <ncurses.h>
 #include <term.h>

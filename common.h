@@ -22,14 +22,12 @@
 #ifndef NONOGRAM_COMMON_H
 #define NONOGRAM_COMMON_H
 
-#ifdef DEBUG
+#include "autoconfig.h"
+
+#ifdef ENABLE_DEBUG
 #  define debug 1
 #else
 #  define debug 0
-#endif
-
-#ifndef VERSION
-#  define VERSION "[devel]"
 #endif
 
 #define max(p,q) ((p)>(q))?(p):(q)

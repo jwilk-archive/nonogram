@@ -19,6 +19,8 @@
  * SOFTWARE.
  */
 
+#include "autoconfig.h"
+
 #include <assert.h>
 #include <errno.h>
 #include <math.h>
@@ -677,7 +679,7 @@ int main(int argc, char **argv)
   unsigned int evs, evm;
   bit *checkbits = NULL;
 
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
   FILE *verifyfile;
   Picture *checkpicture;
 #endif
@@ -773,7 +775,7 @@ int main(int argc, char **argv)
   lmax++;
   tmax++;
 
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
   if (verifyfname != NULL)
   {
     verifyfile = fopen(verifyfname, "r");
@@ -797,7 +799,7 @@ int main(int argc, char **argv)
       checkbits = checkpicture->bits;
     }
   }
-#endif /* DEBUG */
+#endif /* ENABLE_DEBUG */
 
   rc = EXIT_SUCCESS;
 

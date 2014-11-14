@@ -19,6 +19,8 @@
  * SOFTWARE.
  */
 
+#include "autoconfig.h"
+
 #include <getopt.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -45,7 +47,7 @@ static void show_usage(void)
     "  -u, --utf-8       use UTF-8 drawing characters\n"
     "  -H, --html        HTML output\n"
     "  -X, --xhtml       XHTML output\n"
-#ifdef DEBUG
+#ifdef ENABLE_DEBUG
     "  -f, --file=FILE   validate the result using FILE\n"
 #endif
     "  -h, --help        display this help and exit\n"
@@ -56,8 +58,8 @@ static void show_usage(void)
 static void show_version(void)
 {
   fprintf(stderr,
-    "Nonogram v. " VERSION " -- a nonogram solver.\n"
-    "Copyright (c) 2003-2014 Jakub Wilk\n\n");
+    PACKAGE_STRING " -- a nonogram solver\n"
+    "Copyright (c) 2003-2014 Jakub Wilk\n");
   exit(EXIT_FAILURE);
 }
 
