@@ -22,8 +22,6 @@
 #ifndef NONOGRAM_COMMON_H
 #define NONOGRAM_COMMON_H
 
-#define max(p,q) ((p)>(q))?(p):(q)
-
 void message(char *message, ...);
 
 #endif

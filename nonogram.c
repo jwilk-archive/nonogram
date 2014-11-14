@@ -704,7 +704,7 @@ int main(int argc, char **argv)
 
   vsize = xsize * ysize;
   xpysize = xsize + ysize;
-  xysize = max(xsize, ysize);
+  xysize = xsize > ysize ? xsize : ysize; // max(xsize, ysize)
 
   leftborder = alloc_border();
   topborder = alloc_border();
