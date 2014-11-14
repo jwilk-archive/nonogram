@@ -101,7 +101,7 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
 {
   char *str_color;
 
-  if (debug && cpicture == NULL)
+  if (ENABLE_DEBUG && cpicture == NULL)
     cpicture = picture;
 
   unsigned int i, j, t;
@@ -151,14 +151,14 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
           mpf(3, str_color, "<>", term_strings.dark);
           break;
         case O:
-          if (debug && *cpicture == X)
+          if (ENABLE_DEBUG && *cpicture == X)
             mpf(2, term_strings.error, "..");
           else
             mpf(2, str_color, "  ");
           pf(term_strings.dark);
           break;
         case X:
-          if (debug && *cpicture == O)
+          if (ENABLE_DEBUG && *cpicture == O)
             mpf(2, term_strings.error, term_strings.hash);
           else
             mpf(2, str_color, term_strings.hash);
@@ -166,7 +166,7 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
           break;
       }
       picture++;
-      if (debug)
+      if (ENABLE_DEBUG)
         cpicture++;
     }
     mpf(2, term_strings.v, "\n");
@@ -415,7 +415,7 @@ static bool check_consistency(bit *picture)
         break;
       if (*border != rv)
       {
-        if (debug)
+        if (ENABLE_DEBUG)
           fprintf(stderr, "Inconsistency at row #%u[%u]! (%u, expected %u)!\n", i, j, rv, *border);
         return false;
       }
@@ -426,7 +426,7 @@ static bool check_consistency(bit *picture)
     }
     if (fr && *border != rv)
     {
-      if (debug)
+      if (ENABLE_DEBUG)
         fprintf(stderr, "Inconsistency at the end of row #%u! (%u, expected %u)\n", i, rv, *border);
       return false;
     }
@@ -453,7 +453,7 @@ static bool check_consistency(bit *picture)
         break;
       if (*border != rv)
       {
-        if (debug)
+        if (ENABLE_DEBUG)
           fprintf(stderr, "Inconsistency at column #%u[%u]! (%u, expected %u)\n", i, j, rv, *border);
         return false;
       }
@@ -464,7 +464,7 @@ static bool check_consistency(bit *picture)
     }
     if (fr && *border != rv)
     {
-      if (debug)
+      if (ENABLE_DEBUG)
         fprintf(stderr, "Inconsistency at the end of column #%u! (%u, expected %u)\n", i, rv, *border);
       return false;
     }
@@ -682,7 +682,7 @@ int main(int argc, char **argv)
   unsigned int evs, evm;
   bit *checkbits = NULL;
 
-#ifdef ENABLE_DEBUG
+#if ENABLE_DEBUG
   FILE *verifyfile;
   Picture *checkpicture;
 #endif
@@ -778,7 +778,7 @@ int main(int argc, char **argv)
   lmax++;
   tmax++;
 
-#ifdef ENABLE_DEBUG
+#if ENABLE_DEBUG
   if (verifyfname != NULL)
   {
     verifyfile = fopen(verifyfname, "r");
@@ -816,12 +816,12 @@ int main(int argc, char **argv)
     fingercounter = 0;
     rc = EXIT_FAILURE;
     message("Inconsistent puzzle!\n");
-    if (debug)
+    if (ENABLE_DEBUG)
       print_picture(mainpicture->bits, checkbits);
   }
   else
   {
-    if ((mainpicture->counter == 0) || debug)
+    if ((mainpicture->counter == 0) || ENABLE_DEBUG)
       print_picture(mainpicture->bits, checkbits);
     if (mainpicture->counter != 0)
     {

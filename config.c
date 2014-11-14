@@ -46,7 +46,7 @@ static void show_usage(void)
     "  -u, --utf-8       use UTF-8 drawing characters\n"
     "  -H, --html        HTML output\n"
     "  -X, --xhtml       XHTML output\n"
-#ifdef ENABLE_DEBUG
+#if ENABLE_DEBUG
     "  -f, --file=FILE   validate the result using FILE\n"
 #endif
     "  -h, --help        display this help and exit\n"
@@ -112,7 +112,7 @@ void parse_arguments(int argc, char **argv, char **vfn)
       config.html = config.xhtml = true;
       break;
     case 'f':
-      if (debug && optarg != NULL)
+      if (ENABLE_DEBUG && optarg != NULL)
         *vfn = optarg;
       break;
     case 's':

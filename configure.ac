@@ -49,10 +49,8 @@ AC_ARG_ENABLE(
     )],
 )
 
-AS_IF(
-    [test "$enable_debug" = yes],
-    [AC_DEFINE([ENABLE_DEBUG], [1], [Define to enable debugging features])]
-)
+enable_debug=$(test "$enable_debug" = yes && echo 1 || echo 0)
+AC_DEFINE_UNQUOTED([ENABLE_DEBUG], [$enable_debug], [Define to enable debugging features])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

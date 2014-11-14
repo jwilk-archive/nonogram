@@ -22,14 +22,6 @@
 #ifndef NONOGRAM_COMMON_H
 #define NONOGRAM_COMMON_H
 
-#include "autoconfig.h"
-
-#ifdef ENABLE_DEBUG
-#  define debug 1
-#else
-#  define debug 0
-#endif
-
 #define max(p,q) ((p)>(q))?(p):(q)
 
 void message(char *message, ...);
