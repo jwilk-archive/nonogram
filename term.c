@@ -66,7 +66,7 @@ static void tput(char *str, int parm, char **cbuffer, unsigned int *n)
   if (result == NULL || result == (char*)-1)
   {
     **cbuffer = '\0';
-    *n--;
+    --*n;
     return;
   }
   if (parm != -1)
