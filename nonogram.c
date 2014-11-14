@@ -842,7 +842,7 @@ int main(int argc, char **argv)
   }
 
   if (config.stats)
-    fprintf(stderr, "%ju\n", fingercounter);
+    printf("%ju\n", fingercounter);
 
   return rc;
 }
