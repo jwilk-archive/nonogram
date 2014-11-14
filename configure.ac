@@ -29,7 +29,7 @@ PKG_CHECK_MODULES(
     [NCURSES],
     [ncurses],
     [AC_DEFINE([HAVE_NCURSES], [1], [Define if ncurses is available])],
-    [NCURSES_CFLAGS=; NCURSES_LIBS=-lncurses]
+    [NCURSES_CFLAGS=; NCURSES_LIBS=]
 )
 
 AC_ARG_ENABLE(
