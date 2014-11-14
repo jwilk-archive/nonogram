@@ -708,7 +708,7 @@ int main(int argc, char **argv)
   mainpicture = alloc_picture();
 
   evs = evm = 0;
-  sane = (unsigned int)-1;
+  sane = (unsigned int) -1;
   lmax = 0;
   for (i = j = 0; i < ysize; )
   {
@@ -730,7 +730,7 @@ int main(int argc, char **argv)
       evs = evm = 0;
       i++;
       j = 0;
-      sane = -1;
+      sane = (unsigned int) -1;
       do
         c = readchar();
       while (c == '\r' || c == '\n');
@@ -761,7 +761,7 @@ int main(int argc, char **argv)
       evs = evm = 0;
       i++;
       j = 0;
-      sane =- 1;
+      sane = (unsigned int) -1;
       do
         c = readchar();
       while (c=='\r' || c=='\n');
