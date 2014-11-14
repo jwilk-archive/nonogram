@@ -25,6 +25,11 @@ AC_CONFIG_HEADER([autoconfig.h])
 
 AC_PROG_CC_C99
 
+AC_CHECK_FUNC(
+    [sigaction],
+    [AC_DEFINE([HAVE_SIGACTION], [1], [Define if sigaction(2) is available])],
+)
+
 PKG_CHECK_MODULES(
     [NCURSES],
     [ncurses],

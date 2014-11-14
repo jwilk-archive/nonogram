@@ -24,7 +24,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <math.h>
-#ifndef __WIN32__
+#ifdef HAVE_SIGACTION
 #include <signal.h>
 #endif
 #include <stdbool.h>
@@ -89,7 +89,7 @@ static void handle_sigint()
 
 static void setup_sigint()
 {
-#ifndef __WIN32__
+#ifdef HAVE_SIGACTION
   struct sigaction act;
   act.sa_handler = handle_sigint;
   act.sa_flags = 0;
