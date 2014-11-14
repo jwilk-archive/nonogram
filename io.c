@@ -24,10 +24,9 @@
 #include "io.h"
 
 char freadchar(FILE *file)
-// Synopsis:
-// | reads one char from a file represented by `file' variable
-// | if there's nothing to read or an error occurred, returns '\0'
-// | otherwise, returns the char
+// Try reading one char from the file.
+// If there's nothing to read or an error occurred, return '\0'.
+// Otherwise, return the char.
 {
   char buf = '\0';
   fread((void*)&buf, sizeof(char), 1, file);
@@ -35,10 +34,9 @@ char freadchar(FILE *file)
 }
 
 char readchar(void)
-// Synopsis:
-// | reads one char from standard input
-// | if there's nothing to read or an error occurred, returns '\0'
-// | otherwise, returns the char
+// Try reading one char from stdin.
+// If there's nothing to read or an error occurred, return '\0'.
+// Otherwise, return the char.
 {
   return freadchar(stdin);
 }
