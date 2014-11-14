@@ -3,7 +3,6 @@ config.o: config.c
 config.o: config.h
 io.o: io.c
 io.o: io.h
-memory.o: autoconfig.h
 memory.o: memory.c
 nonogram.o: autoconfig.h
 nonogram.o: config.h
@@ -13,7 +12,6 @@ nonogram.o: nonogram.c
 nonogram.o: nonogram.h
 nonogram.o: queue.h
 nonogram.o: term.h
-queue.o: autoconfig.h
 queue.o: memory.h
 queue.o: nonogram.h
 queue.o: queue.c
