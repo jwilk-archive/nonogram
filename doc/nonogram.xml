@@ -26,7 +26,7 @@ SOFTWARE.
 [
     <!ENTITY jwilk ''>
     <!ENTITY p 'nonogram'>
-    <!ENTITY version '0.8.6'>
+    <!ENTITY version '0.9'>
 ]>
 
 <refentry lang='en'>
