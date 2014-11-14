@@ -24,10 +24,18 @@ AC_INIT([nonogram], [0.9], [jwilk@jwilk.net])
 AC_CONFIG_HEADER([autoconfig.h])
 
 AC_PROG_CC_C99
+AC_PROG_CPP
+AC_PROG_EGREP
 
 AC_CHECK_FUNC(
     [sigaction],
     [AC_DEFINE([HAVE_SIGACTION], [1], [Define if sigaction(2) is available])],
+)
+
+AC_MSG_CHECKING(for MinGW ANSI stdio)
+AC_EGREP_HEADER(__mingw_fprintf, stdio.h,
+    [AC_MSG_RESULT(yes) AC_DEFINE_UNQUOTED([__USE_MINGW_ANSI_STDIO], [1], [Define to use MinGW ANSI stdio])],
+    [AC_MSG_RESULT(no)]
 )
 
 PKG_CHECK_MODULES(
