@@ -62,8 +62,6 @@ static void heapify_queue(Queue *queue)
 }
 
 Queue *alloc_queue(void)
-// Synopsis:
-// | allocates a queue
 {
   Queue *tmp =
     alloc(
@@ -77,23 +75,16 @@ Queue *alloc_queue(void)
 }
 
 void free_queue(Queue *queue)
-// Synopsis:
-// | frees `queue'
 {
   free(queue);
 }
 
 bool is_queue_empty(Queue *queue)
-// Synopsis:
-// | checks if a queue (which `queue' points to) is empty
 {
   return queue->size == 0;
 }
 
 bool put_into_queue(Queue *queue, unsigned int id, int factor)
-// Synopsis:
-// | pushes a number (`i') to a queue (which `queue' points to)
-// | if the number has been already queued, the queue might be renumbered
 {
   unsigned int i, j;
 
@@ -125,9 +116,6 @@ bool put_into_queue(Queue *queue, unsigned int id, int factor)
 }
 
 unsigned int get_from_queue(Queue *queue)
-// Synopsis:
-// | pops a number from a queue (which `queue' points to)
-// | if the queue is empty, the result might be strange
 {
   unsigned int resultid, last;
   assert(queue->size > 0);
