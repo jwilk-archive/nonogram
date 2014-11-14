@@ -19,18 +19,11 @@
  * SOFTWARE.
  */
 
+#include "autoconfig.h"
+
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-static inline void raise_oom_error(void)
-// Synopis:
-// | tells about OOM error
-// | afterwards, aborts
-{
-  fprintf(stderr, "Out of memory!\n");
-  abort();
-}
 
 void *alloc(size_t size)
 // Synopsis:
@@ -39,7 +32,10 @@ void *alloc(size_t size)
 {
   void *tmp = calloc(1, size);
   if (tmp == NULL)
-    raise_oom_error();
+  {
+    perror(PACKAGE_NAME);
+    abort();
+  }
   return tmp;
 }
 
