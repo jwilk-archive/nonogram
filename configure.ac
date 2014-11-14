@@ -24,6 +24,8 @@ AC_INIT([nonogram], [0.9], [jwilk@jwilk.net])
 AC_CONFIG_HEADER([autoconfig.h])
 
 AC_PROG_CC_C99
+AX_CFLAGS_WARN_ALL
+
 AC_PROG_CPP
 AC_PROG_EGREP
 
