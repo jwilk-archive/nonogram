@@ -29,7 +29,7 @@ char freadchar(FILE *file)
 // Otherwise, return the char.
 {
   char buf = '\0';
-  fread((void*)&buf, sizeof(char), 1, file);
+  fread((void*)&buf, 1, 1, file);
   return buf;
 }
 
