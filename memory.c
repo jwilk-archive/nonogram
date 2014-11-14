@@ -19,9 +19,10 @@
  * SOFTWARE.
  */
 
-#include <stdlib.h>
-
 #include "common.h"
+
+#include <stddef.h>
+#include <stdlib.h>
 
 static inline void raise_oom_error(void)
 // Synopis:

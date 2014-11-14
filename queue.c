@@ -24,7 +24,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "common.h"
 #include "memory.h"
 #include "nonogram.h"
 #include "queue.h"

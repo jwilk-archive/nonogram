@@ -22,6 +22,8 @@
 #ifndef NONOGRAM_IO_H
 #define NONOGRAM_IO_H
 
+#include <stdio.h>
+
 char freadchar(FILE *file);
 char readchar(void);
 void pf(const char *str);
