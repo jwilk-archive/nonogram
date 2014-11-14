@@ -26,9 +26,6 @@
 #include <stdlib.h>
 
 void *alloc(size_t size)
-// Synopsis:
-// | allocates `size' bytes of memory
-// | if necessary, handles errors
 {
   void *tmp = calloc(1, size);
   if (tmp == NULL)
