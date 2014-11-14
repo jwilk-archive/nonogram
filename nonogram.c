@@ -139,7 +139,7 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
   {
     for (j = 0; j < lmax; j++)
     {
-      str_color =term_strings.light[j & 1];
+      str_color = term_strings.light[j & 1];
       t = leftborder[i * xsize + j];
       printf("%s", str_color);
       if (t != 0 || j == 0)
