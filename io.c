@@ -44,23 +44,4 @@ char readchar(void)
   return freadchar(stdin);
 }
 
-void pf(const char *str)
-// Synopsis:
-// | prints a string `str' to standard output
-{
-  fputs(str, stdout);
-}
-
-void mpf(unsigned int count, ...)
-// Synopsis:
-// | prints `count' strings to standard output
-{
-  unsigned int i;
-  va_list ap;
-  va_start(ap, count);
-  for (i = 0; i < count; i++)
-    pf(va_arg(ap, char*));
-  va_end(ap);
-}
-
 /* vim:set ts=2 sts=2 sw=2 et: */

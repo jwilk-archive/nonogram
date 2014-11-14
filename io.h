@@ -26,8 +26,6 @@
 
 char freadchar(FILE *file);
 char readchar(void);
-void pf(const char *str);
-void mpf(unsigned int count, ...);
 
 #endif
 

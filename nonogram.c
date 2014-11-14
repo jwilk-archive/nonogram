@@ -107,81 +107,92 @@ static void print_picture_plain(bit *picture, bit *cpicture, bool use_ncurses)
 
   setup_termstrings(use_ncurses, config.utf8, config.color);
 
-  pf(term_strings.init);
+  printf("%s", term_strings.init);
 
   for (i = 0; i < tmax; i++)
   {
-    pf(" ");
-    for (j = 0; j < lmax; j++) pf("  ");
+    printf(" ");
+    for (j = 0; j < lmax; j++)
+      printf("  ");
     for (j = 0; j < xsize; j++)
     {
       str_color = term_strings.light[j & 1];
       t = topborder[j * ysize + i];
+      printf("%s", str_color);
       if (t != 0 || i == 0)
-        pf(str_color), printf("%2u", t), pf(term_strings.dark);
+        printf("%2u", t);
       else
-        mpf(3, str_color, "  ", term_strings.dark);
+        printf("  ");
+      printf("%s", term_strings.dark);
     }
-    pf("\n");
+    printf("\n");
   }
 
-  for (i = 0; i < lmax; i++) pf("  ");
-  pf(term_strings.tl);
-  for (i = 0; i < xsize; i++) pf(term_strings.h);
-  mpf(2, term_strings.tr, "\n");
+  for (i = 0; i < lmax; i++)
+    printf("%s", "  ");
+  printf("%s", term_strings.tl);
+  for (i = 0; i < xsize; i++)
+    printf("%s", term_strings.h);
+  printf("%s", term_strings.tr);
+  printf("%s", "\n");
   for (i = 0; i < ysize; i++)
   {
     for (j = 0; j < lmax; j++)
     {
       str_color =term_strings.light[j & 1];
       t = leftborder[i * xsize + j];
+      printf("%s", str_color);
       if (t != 0 || j == 0)
-        pf(str_color), printf("%2u", t), pf(term_strings.dark);
+        printf("%2u", t);
       else
-        mpf(3, str_color, "  ", term_strings.dark);
+        printf("%s", "  ");
+      printf("%s", term_strings.dark);
     }
-    pf(term_strings.v);
+    printf("%s", term_strings.v);
     for (j = 0; j < xsize; j++)
     {
       str_color = term_strings.light[j & 1];
       switch (*picture)
       {
         case Q:
-          mpf(3, str_color, "<>", term_strings.dark);
+          printf("%s<>%s", str_color, term_strings.dark
+          );
           break;
         case O:
           if (ENABLE_DEBUG && *cpicture == X)
-            mpf(2, term_strings.error, "..");
+            printf("%s..", term_strings.error);
           else
-            mpf(2, str_color, "  ");
-          pf(term_strings.dark);
+            printf("%s  ", str_color);
+          printf("%s", term_strings.dark);
           break;
         case X:
           if (ENABLE_DEBUG && *cpicture == O)
-            mpf(2, term_strings.error, term_strings.hash);
+            printf("%s", term_strings.error);
           else
-            mpf(2, str_color, term_strings.hash);
-          pf(term_strings.dark);
+            printf("%s", str_color);
+          printf("%s%s", term_strings.hash, term_strings.dark);
           break;
       }
       picture++;
       if (ENABLE_DEBUG)
         cpicture++;
     }
-    mpf(2, term_strings.v, "\n");
+    printf("%s\n", term_strings.v);
   }
-  for (i = 0; i < lmax; i++) pf("  ");
-  pf(term_strings.bl);
-  for (i = 0; i < xsize; i++) pf(term_strings.h);
-  mpf(2, term_strings.br, "\n\n");
+  for (i = 0; i < lmax; i++)
+    printf("%s", "  ");
+  printf("%s", term_strings.bl);
+  for (i = 0; i < xsize; i++)
+    printf("%s", term_strings.h);
+  printf("%s\n\n", term_strings.br);
   fflush(stdout);
 }
 
 static void print_html_dtd(bool use_xhtml, bool need_charset)
 {
   if (use_xhtml && need_charset)
-    pf("<?xml version='1.0' encoding='ISO-8859-1'?>\n");
-  pf(use_xhtml ?
+    printf("<?xml version='1.0' encoding='ISO-8859-1'?>\n");
+  printf(use_xhtml ?
     "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n" :
     "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n");
 }
@@ -190,7 +201,7 @@ static void print_picture_html(bit *picture, bool use_xhtml)
 {
   unsigned int i, j;
   print_html_dtd(use_xhtml, true);
-  mpf(3,
+  printf("%s%s%s",
     "<html>\n"
     "<head>\n"
     "<title>Nonogram solution</title>\n"
@@ -223,24 +234,24 @@ static void print_picture_html(bit *picture, bool use_xhtml)
 
   for (i = 0; i < tmax; i++)
   {
-    pf("<tr>");
+    printf("<tr>");
     if (i == 0)
       printf("<th class='empty' colspan='%u' rowspan='%u'>\xa0</th>", lmax, tmax);
     for (j = 0; j < xsize; j++)
     {
       if (i < tmax - top_desc_size[j])
-        pf("<th>\xa0</th>");
+        printf("<th>\xa0</th>");
       else
         printf("<th>%u</th>", topborder[j * ysize + i - tmax + top_desc_size[j]]);
     }
-    pf("</tr>\n");
+    printf("</tr>\n");
   }
 
   free(top_desc_size);
 
   for (i = 0; i < ysize; i++)
   {
-    pf("<tr>");
+    printf("<tr>");
     for (j = 0; j < lmax; j++)
       if (leftborder[i * xsize + j] == 0)
         break;
@@ -256,18 +267,18 @@ static void print_picture_html(bit *picture, bool use_xhtml)
     switch (*picture)
     {
     case Q:
-      pf("<td class='v'>?</td>");
+      printf("<td class='v'>?</td>");
       break;
     case O:
-      pf("<td>\xa0</td>");
+      printf("<td>\xa0</td>");
       break;
     case X:
-      pf("<td class='x'>#</td>");
+      printf("<td class='x'>#</td>");
       break;
     }
-    pf("</tr>\n");
+    printf("</tr>\n");
   }
-  pf("</table>\n</body>\n</html>\n");
+  printf("</table>\n</body>\n</html>\n");
 }
 
 static inline void print_picture(bit *picture, bit *cpicture)
