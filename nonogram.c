@@ -317,13 +317,24 @@ static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield
   for (i = 0; i + k <= range; i++)
   {
     ok = true;
-    for (j = 0; j < i; j++)               if (picture[j * mul] == X) { ok = false; break; };
-    if (!ok) break;
-    for (j = i; j < i + k && ok; j++)     if (picture[j * mul] == O) ok = false;
-    for (j = i + k; j < range && ok; j++) if (picture[j * mul] == X) ok = false;
+    for (j = 0; j < i; j++)
+      if (picture[j * mul] == X)
+      {
+        ok = false;
+        break;
+      };
+    if (!ok)
+      break;
+    for (j = i; j < i + k && ok; j++)
+      if (picture[j * mul] == O)
+        ok = false;
+    for (j = i + k; j < range && ok; j++)
+      if (picture[j * mul] == X)
+        ok = false;
     if (ok)
     {
-      for (j = i; j < i + k; j++) testfield[j] += 1;
+      for (j = i; j < i + k; j++)
+        testfield[j] += 1;
       z++;
     }
   }
@@ -331,11 +342,21 @@ static uint64_t touch_line(bit *picture, unsigned int range, uint64_t *testfield
   for (i = 0; i <= range - sum - count + 1; i++)
   {
     ok = true;
-    for (j = 0; j < i; j++)           if (picture[j * mul] == X) { ok = false; break; };
-    if (!ok) break;
-    for (j = i; j < i + k && ok; j++) if (picture[j * mul] == O) ok = false;
-    if (!ok) continue;
-    if (i + k < range && picture[(i + k) * mul] == X) continue;
+    for (j = 0; j < i; j++)
+      if (picture[j * mul] == X)
+      {
+        ok = false;
+        break;
+      };
+    if (!ok)
+      break;
+    for (j = i; j < i + k && ok; j++)
+      if (picture[j * mul] == O)
+        ok = false;
+    if (!ok)
+      continue;
+    if (i + k < range && picture[(i + k) * mul] == X)
+      continue;
     j = i + k + 1;
     ink =
       (count == 1) ?
@@ -704,10 +725,22 @@ int main(int argc, char **argv)
 
   xsize = ysize = 0;
   c = readchar();
-  while (c >= '0' && c <= '9') { xsize *= 10; xsize += c-'0'; c = readchar(); }
-  while (c == ' ' || c == '\t') c = readchar();
-  while (c >= '0' && c <= '9') { ysize *= 10; ysize += c-'0'; c = readchar(); }
-  while (c <= ' ') c = readchar();
+  while (c >= '0' && c <= '9')
+  {
+    xsize *= 10;
+    xsize += c - '0';
+    c = readchar();
+  }
+  while (c == ' ' || c == '\t')
+    c = readchar();
+  while (c >= '0' && c <= '9')
+  {
+    ysize *= 10;
+    ysize += c - '0';
+    c = readchar();
+  }
+  while (c <= ' ')
+    c = readchar();
 
   if (xsize < 1 || ysize < 1 || xsize > MAX_SIZE || ysize > MAX_SIZE)
     raise_input_error(1);
@@ -728,7 +761,12 @@ int main(int argc, char **argv)
   for (i = j = 0; i < ysize; )
   {
     k = 0;
-    while (c >= '0' && c <= '9') { k *= 10; k += c-'0'; c=readchar(); }
+    while (c >= '0' && c <= '9')
+    {
+      k *= 10;
+      k += c-'0';
+      c = readchar();
+    }
     sane += k + 1;
     if ((sane>xsize) || (k == 0 && j > 0))
       raise_input_error(2 + i);
@@ -736,7 +774,8 @@ int main(int argc, char **argv)
     evs += k;
     if (k > evm)
       evm = k;
-    while (c == ' ' || c == '\t') c = readchar();
+    while (c == ' ' || c == '\t')
+      c = readchar();
     if (c == '\r' || c == '\n' || c == '\0')
     {
       if (j > lmax)
@@ -759,7 +798,12 @@ int main(int argc, char **argv)
   for (i = j = 0; i < xsize; )
   {
     k = 0;
-    while (c >= '0' && c <= '9') { k *= 10; k += c-'0'; c = readchar(); }
+    while (c >= '0' && c <= '9')
+    {
+      k *= 10;
+      k += c-'0';
+      c = readchar();
+    }
     sane += k + 1;
     if ((sane > ysize) || (k == 0 && j > 0))
       raise_input_error(2 + ysize + i);
@@ -767,7 +811,8 @@ int main(int argc, char **argv)
     evs += k;
     if (k > evm)
       evm = k;
-    while (c == ' ' || c == '\t') c = readchar();
+    while (c == ' ' || c == '\t')
+      c = readchar();
     if (c == '\r' || c == '\n' || c == '\0')
     {
       if (j > tmax)
