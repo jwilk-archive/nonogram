@@ -882,7 +882,7 @@ int main(int argc, char **argv)
     {
       fprintf(stderr,
         "Line solving failed (n=%u).\n"
-        "Trying backtracking, but this may take a while...\n",
+        "Resorting to backtracking, but this may take a while...\n",
         mainpicture->counter
       );
       if (backtrack(mainpicture))
