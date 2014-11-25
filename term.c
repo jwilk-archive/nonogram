@@ -73,6 +73,12 @@ static void tput(char *str, int parm, char **cbuffer, unsigned int *n)
     result = tparm(result, parm);
   if ((len = strlen(result)) < *n)
   {
+    if (strstr(result, "$<")) {
+      // Only obscure terminals use delays.
+      // We can safely ignore them.
+      *cbuffer = NULL;
+      return;
+    }
     strcpy(*cbuffer, result);
     *n -= len + 1;
     *cbuffer += len;
