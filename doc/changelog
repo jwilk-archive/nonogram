@@ -1,8 +1,14 @@
 nonogram (0.9) UNRELEASED; urgency=low
 
-  * 
+  * Clean up the the code.
+  * Rewrite the build system, now using autoconf.
+  * Make -m/--mono the default. Add the -c/--color option for enabling colors.
+  * Reject invalid options and arguments.
+  * Don't abort on invalid input, but exit normally with non-zero exit code.
+  * Fix some frivolous or misleading diagnostic messages.
+  * Fix handling terminal capabilities with delays.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 14 Nov 2014 19:40:56 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 02 Dec 2014 18:24:10 +0100
 
 nonogram (0.8.5) unstable; urgency=low
 
