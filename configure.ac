@@ -24,6 +24,7 @@ AC_INIT([nonogram], [0.9], [jwilk@jwilk.net])
 AC_CONFIG_HEADER([autoconfig.h])
 
 AC_PROG_CC_C99
+AC_PROG_CPP
 AX_CFLAGS_WARN_ALL
 
 AC_DEFINE([_ISOC99_SOURCE], [1], [Define if your system supports C99])
@@ -34,12 +35,42 @@ AC_CHECK_FUNC(
     [AC_DEFINE([HAVE_SIGACTION], [1], [Define if sigaction(2) is available])],
 )
 
-PKG_CHECK_MODULES(
-    [NCURSES],
+AC_ARG_WITH(
     [ncurses],
-    [AC_DEFINE([HAVE_NCURSES], [1], [Define if ncurses is available])],
-    [NCURSES_CFLAGS=; NCURSES_LIBS=]
+    [AS_HELP_STRING(
+        [--with-ncurses],
+        [use ncurses @<:@default=check@:>@]
+    )],
+    [],
+    [with_ncurses=check],
 )
+
+if test "$with_ncurses" != no
+then
+    PKG_CHECK_MODULES(
+        [NCURSES],
+        [ncurses],
+        [],
+        [NCURSES_CFLAGS=; NCURSES_LIBS=-lncurses]
+    )
+    AC_MSG_CHECKING([for ncurses.h])
+    AC_PREPROC_IFELSE(
+        [AC_LANG_SOURCE([[#include <ncurses.h>]])],
+        [
+            AC_MSG_RESULT([yes])
+            AC_DEFINE([HAVE_NCURSES], [1], [Define if ncurses is available])
+        ], [
+            AC_MSG_RESULT([no])
+            if test "$with_ncurses" = check
+            then
+                NCURSES_CFLAGS=
+                NCURSES_LIBS=
+            else
+                AC_MSG_ERROR([ncurses.h not found])
+            fi
+        ]
+    )
+fi
 
 AC_ARG_ENABLE(
     [debug],
