@@ -3,6 +3,7 @@ config.o: config.c
 config.o: config.h
 io.o: io.c
 io.o: io.h
+memory.o: autoconfig.h
 memory.o: memory.c
 nonogram.o: autoconfig.h
 nonogram.o: config.h
