@@ -31,7 +31,7 @@ This used to be the default in previous (<< 0.9) version of the program.
 =item B<-u>, B<--utf-8>
 
 If I<stdout> is not a terminal,
-output UTF-8 drawing characters insted of plain ASCII.
+output UTF-8 drawing characters instead of plain ASCII.
 
 =item B<-H>, B<--html>
 
