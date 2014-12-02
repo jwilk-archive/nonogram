@@ -1,6 +1,6 @@
 nonogram (0.9) UNRELEASED; urgency=low
 
-  * Clean up the the code.
+  * Clean up the code.
   * Rewrite the build system, now using autoconf.
   * Make -m/--mono the default. Add the -c/--color option for enabling colors.
   * Reject invalid options and arguments.
