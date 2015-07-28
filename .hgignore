@@ -9,6 +9,7 @@ autom4te.cache
 config.log
 config.status
 configure
+doc/*.1
 m4/*.m4
 nonogram
 tags
