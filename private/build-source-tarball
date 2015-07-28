@@ -49,7 +49,7 @@ cd "$sourceroot"/*
 "$pwd/private/autogen"
 make -C doc/
 rm -rf .hg*
-rm -f .travis*
+rm -f .travis.yml
 rm -rf *.cache
 cd ..
 tar -czf "$pwd/$name-$version.tar.gz" */
