@@ -45,10 +45,10 @@ export TAR_OPTIONS='--owner root --group root --mode a+rX --format ustar'
 export GZIP='-9 -n'
 hg archive -r "$revision" "$sourceroot/$name-$version"
 cd "$sourceroot"/*
-private/autogen
 make -C doc/
 rm .hg*
 rm .travis.yml
+private/autogen
 rm -r *.cache
 cd ..
 tar -czf "$pwd/$name-$version.tar.gz" */
