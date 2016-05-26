@@ -49,6 +49,7 @@ cd "$sourceroot"/*
 make -C doc/
 rm .git*
 rm .travis.yml
+rm private/build-source-tarball
 private/autogen
 rm -r *.cache
 cd ..
