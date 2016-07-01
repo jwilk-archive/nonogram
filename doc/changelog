@@ -30,7 +30,7 @@ nonogram (0.8.4) unstable; urgency=low
 
 nonogram (0.8.3) unstable; urgency=low
 
-  * Fix an memory allocation error which caused bad HTML output.
+  * Fix a memory allocation error which caused bad HTML output.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Thu,  7 Sep 2006 19:13:57 +0200
 
