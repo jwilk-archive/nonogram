@@ -21,8 +21,8 @@
 
 #include <assert.h>
 #include <stddef.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "memory.h"
 #include "nonogram.h"
