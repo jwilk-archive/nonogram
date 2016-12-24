@@ -51,6 +51,7 @@ rm .travis.yml
 rm private/build-source-tarball
 private/autogen
 rm -r *.cache
+mv LICENSE doc/
 make -C doc/
 cd ..
 tar -czf "$pwd/$name-$version.tar.gz" */
