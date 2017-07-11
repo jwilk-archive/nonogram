@@ -52,9 +52,9 @@ static char get_acs(char ch)
   return '\0';
 }
 
-static void tput(char *str, int parm, char **cbuffer, unsigned int *n)
+static void tput(char *str, int parm, char **cbuffer, size_t *n)
 {
-  int len;
+  size_t len;
   char *result = tigetstr(str);
   if (*cbuffer == NULL)
     return;
@@ -125,7 +125,7 @@ void setup_termstrings(bool have_term, bool use_utf8, bool use_color)
   } while (false);
   static char buffer[BUFFER_SIZE];
   char *sbuffer, *cbuffer = buffer;
-  unsigned int freebuf = BUFFER_SIZE;
+  size_t freebuf = BUFFER_SIZE;
   int err;
 
   if (!have_term)
