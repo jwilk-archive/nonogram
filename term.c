@@ -92,17 +92,17 @@ static void tput(char *str, int parm, char **cbuffer, size_t *n)
 void setup_termstrings(bool have_term, bool use_utf8, bool use_color)
 {
   term_strings.init = "";
-  term_strings.hash = use_utf8 ? "\xe2\x96\x88\xe2\x96\x88" : "##";
+  term_strings.hash = use_utf8 ? "\xE2\x96\x88\xE2\x96\x88" : "##";
   term_strings.light[0] = "";
   term_strings.light[1] = "";
   term_strings.dark = "";
   term_strings.error = "";
-  term_strings.v = use_utf8 ? "\xe2\x94\x82" : "|";
-  term_strings.h = use_utf8 ? "\xe2\x94\x80\xe2\x94\x80" : "--";
-  term_strings.tl = use_utf8 ? "\xe2\x94\x8c" : ".";
-  term_strings.tr = use_utf8 ? "\xe2\x94\x90" : ".";
-  term_strings.bl = use_utf8 ? "\xe2\x94\x94" : "`";
-  term_strings.br = use_utf8 ? "\xe2\x94\x98" : "'";
+  term_strings.v = use_utf8 ? "\xE2\x94\x82" : "|";
+  term_strings.h = use_utf8 ? "\xE2\x94\x80\xE2\x94\x80" : "--";
+  term_strings.tl = use_utf8 ? "\xE2\x94\x8C" : ".";
+  term_strings.tr = use_utf8 ? "\xE2\x94\x90" : ".";
+  term_strings.bl = use_utf8 ? "\xE2\x94\x94" : "`";
+  term_strings.br = use_utf8 ? "\xE2\x94\x98" : "'";
 
 #ifdef HAVE_NCURSES
 #define BUFFER_SIZE 4096

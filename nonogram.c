@@ -236,11 +236,11 @@ static void print_picture_html(bit *picture, bool use_xhtml)
   {
     printf("<tr>");
     if (i == 0)
-      printf("<th class='empty' colspan='%u' rowspan='%u'>\xa0</th>", lmax, tmax);
+      printf("<th class='empty' colspan='%u' rowspan='%u'>\xA0</th>", lmax, tmax);
     for (j = 0; j < xsize; j++)
     {
       if (i < tmax - top_desc_size[j])
-        printf("<th>\xa0</th>");
+        printf("<th>\xA0</th>");
       else
         printf("<th>%u</th>", topborder[j * ysize + i - tmax + top_desc_size[j]]);
     }
@@ -256,7 +256,7 @@ static void print_picture_html(bit *picture, bool use_xhtml)
       if (leftborder[i * xsize + j] == 0)
         break;
     for (; j < lmax; j++)
-      printf("<th>\xa0</th>");
+      printf("<th>\xA0</th>");
     for (j = 0; j < lmax; j++)
     {
       unsigned int t = leftborder[i * xsize + j];
@@ -270,7 +270,7 @@ static void print_picture_html(bit *picture, bool use_xhtml)
       printf("<td class='v'>?</td>");
       break;
     case O:
-      printf("<td>\xa0</td>");
+      printf("<td>\xA0</td>");
       break;
     case X:
       printf("<td class='x'>#</td>");
