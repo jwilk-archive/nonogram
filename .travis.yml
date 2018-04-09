@@ -10,7 +10,9 @@ addons:
     - autoconf
     - autoconf-archive
     - automake
+    - cppcheck
 script:
+- cppcheck --error-exitcode=1 *.c
 - ./private/autogen
 - ./configure
 - make
