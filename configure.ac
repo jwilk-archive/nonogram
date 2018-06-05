@@ -21,7 +21,6 @@ dnl | SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 AC_PREREQ([2.61])
 AC_INIT([nonogram], [0.9.1], [jwilk@jwilk.net])
-AC_CONFIG_HEADER([autoconfig.h])
 
 AC_PROG_CC_C99
 AC_PROG_CPP
@@ -83,6 +82,7 @@ AC_ARG_ENABLE(
 enable_debug=$(test "$enable_debug" = yes && echo 1 || echo 0)
 AC_DEFINE_UNQUOTED([ENABLE_DEBUG], [$enable_debug], [Define to enable debugging features])
 
+AC_CONFIG_HEADER([autoconf.h])
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 

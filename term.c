@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-#include "autoconfig.h"
+#include "autoconf.h"
 
 #include <stdbool.h>
 #include <string.h>

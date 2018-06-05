@@ -1,3 +1,3 @@
 #!/bin/sh
 set -e -u -x
-rm -rvf *.cache aclocal.m4 m4 autoconfig.h.in autoconfig.h.in~ configure
+rm -rvf *.cache aclocal.m4 m4 autoconf.h.in* configure
