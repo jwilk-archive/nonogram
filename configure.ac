@@ -45,6 +45,10 @@ AC_ARG_WITH(
 
 if test "$with_ncurses" != no
 then
+    m4_pattern_forbid(
+        [^PKG_CHECK_MODULES],
+        [undefined macro PKG_CHECK_MODULES; install pkg-config and run private/autogen]
+    )
     PKG_CHECK_MODULES(
         [NCURSES],
         [ncurses],
