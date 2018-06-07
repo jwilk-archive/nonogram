@@ -37,7 +37,7 @@ include Makefile.dep
 $(OFILES): %.o: %.c
 
 nonogram$(EXEEXT): $(OFILES)
-	$(LINK.c) $(^) $(LOADLIBES) $(LDLIBS) -o $(@)
+	$(LINK.c) $(^) $(LDLIBS) -o $(@)
 
 .PHONY: test
 test: nonogram
