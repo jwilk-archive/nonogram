@@ -49,12 +49,17 @@ then
         [^PKG_CHECK_MODULES],
         [undefined macro PKG_CHECK_MODULES; install pkg-config and run private/autogen]
     )
+    test -n "$NCURSES_CFLAGS" || fix_ncurses_cflags=y
     PKG_CHECK_MODULES(
         [NCURSES],
         [ncurses],
         [],
         [NCURSES_CFLAGS=; NCURSES_LIBS=-lncurses]
     )
+    if test -n "$fix_ncurses_cflags" && test -n "$NCURSES_CFLAGS"
+    then
+        NCURSES_CFLAGS=$(printf ' %s ' "$NCURSES_CFLAGS" | sed -e 's/ -D_GNU_SOURCE / /; s/ -D_DEFAULT_SOURCE / /; s/^ *//; s/ *$//')
+    fi
     AC_MSG_CHECKING([for ncurses.h])
     AC_PREPROC_IFELSE(
         [AC_LANG_SOURCE([[#include <ncurses.h>]])],
