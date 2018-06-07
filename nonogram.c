@@ -74,6 +74,7 @@ static void raise_input_error(unsigned int n)
   exit(EXIT_FAILURE);
 }
 
+#ifdef HAVE_SIGACTION
 static void handle_sigint()
 {
   const char *reset_colors = term_strings.dark;
@@ -83,6 +84,7 @@ static void handle_sigint()
   fprintf(stderr, "%s\nOuch!\n\n", reset_colors);
   exit(EXIT_FAILURE);
 }
+#endif
 
 static void setup_sigint()
 {
