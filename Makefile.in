@@ -24,18 +24,19 @@ CFLAGS += -Wall -Werror=format
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LDLIBS = @LIBS@ @NCURSES_LIBS@ -lm
+EXEEXT = @EXEEXT@
 
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
 
 .PHONY: all
-all: nonogram
+all: nonogram$(EXEEXT)
 
 include Makefile.dep
 
 $(OFILES): %.o: %.c
 
-nonogram: $(OFILES)
+nonogram$(EXEEXT): $(OFILES)
 	$(LINK.c) $(^) $(LOADLIBES) $(LDLIBS) -o $(@)
 
 .PHONY: test
@@ -44,7 +45,7 @@ test: nonogram
 
 .PHONY: clean
 clean:
-	rm -f *.o nonogram doc/*.1
+	rm -f *.o nonogram$(EXEEXT) doc/*.1
 
 .PHONY: distclean
 distclean: clean
