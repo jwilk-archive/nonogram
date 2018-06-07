@@ -24,7 +24,6 @@ AC_INIT([nonogram], [0.9.1], [jwilk@jwilk.net])
 
 AC_PROG_CC_C99
 AC_PROG_CPP
-AX_CFLAGS_WARN_ALL
 
 AC_DEFINE([_ISOC99_SOURCE], [1], [Define if your system supports C99])
 # _ISOC99_SOURCE enables MinGW ANSI stdio.
