@@ -40,8 +40,8 @@ nonogram$(EXEEXT): $(OFILES)
 	$(LINK.c) $(^) $(LDLIBS) -o $(@)
 
 .PHONY: test
-test: nonogram
-	./nonogram < test-input
+test: nonogram$(EXEEXT)
+	./$(<) < test-input
 
 .PHONY: clean
 clean:
