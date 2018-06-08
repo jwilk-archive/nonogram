@@ -11,6 +11,9 @@ addons:
     - autoconf-archive
     - automake
     - cppcheck
+branches:
+  except:
+  - appveyor
 script:
 - cppcheck --error-exitcode=1 *.c
 - ./private/autogen
