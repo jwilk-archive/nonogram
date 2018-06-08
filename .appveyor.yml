@@ -1,0 +1,14 @@
+install:
+- git config core.symlinks true
+- git reset --hard
+- SET PATH=C:\msys64\usr\bin;%PATH;
+
+build_script:
+- bash private/autogen
+- bash configure
+- make
+
+test_script:
+- make test
+
+# vim:ts=2 sts=2 sw=2 et
