@@ -70,7 +70,7 @@ static void tput(char *str, int parm, char **cbuffer, size_t *n)
     return;
   }
   if (parm != -1)
-    result = tparm(result, parm);
+    result = tiparm(result, parm);
   if ((len = strlen(result)) < *n)
   {
     if (strstr(result, "$<")) {
