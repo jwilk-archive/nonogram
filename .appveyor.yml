@@ -1,3 +1,7 @@
+branches:
+  except:
+  - travis
+
 install:
 - git config core.symlinks true
 - git reset --hard
