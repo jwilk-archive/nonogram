@@ -16,6 +16,8 @@ branches:
   - appveyor
 script:
 - dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
+- make -C doc/
+- make -C doc/ check
 - cppcheck --error-exitcode=1 *.c
 - ./private/autogen
 - ./configure
