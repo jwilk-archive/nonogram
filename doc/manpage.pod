@@ -26,7 +26,7 @@ B<nonogram> is a solver of nonogram puzzles
 If I<stdout> is a color terminal,
 use colors.
 
-This used to be the default in previous (<< 0.9) version of the program.
+This used to be the default in previous (<< 0.9) versions of the program.
 
 =item B<-u>, B<--utf-8>
 
