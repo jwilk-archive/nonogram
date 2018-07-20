@@ -18,15 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-name = nonogram
-uname = $(shell echo $(name) | tr a-z A-Z)
 version = $(shell head -n1 changelog | cut -d ' ' -f2 | tr -d '()')
 
 .PHONY: all
-all: $(name).1
+all: nonogram.1
 
 %.1: manpage.pod changelog
-	pod2man --utf8 -c '' -n $(uname) -r '$(name) $(version)' $(<) \
+	pod2man --utf8 -c '' -n NONOGRAM -r 'nonogram $(version)' $(<) \
 	> $(@).tmp
 	mv $(@).tmp $(@)
 
