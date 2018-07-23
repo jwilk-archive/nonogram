@@ -55,7 +55,7 @@ static void show_usage(void)
 
 static void show_version(void)
 {
-  fprintf(stderr, "%s\n", PACKAGE_STRING);
+  printf("%s\n", PACKAGE_STRING);
   exit(EXIT_FAILURE);
 }
 
