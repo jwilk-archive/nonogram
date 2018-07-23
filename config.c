@@ -56,7 +56,7 @@ static void show_usage(void)
 static void show_version(void)
 {
   printf("%s\n", PACKAGE_STRING);
-  exit(EXIT_FAILURE);
+  exit(EXIT_SUCCESS);
 }
 
 void parse_arguments(int argc, char **argv, char **vfn)
