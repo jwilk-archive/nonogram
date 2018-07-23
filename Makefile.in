@@ -69,4 +69,6 @@ distclean: clean
 	rm -f config.log config.status
 	find . -name '*.in' | sed -e 's/[.]in$$//' | xargs -t rm -f
 
+.error = GNU make is required
+
 # vim:ts=4 sts=4 sw=4 noet
