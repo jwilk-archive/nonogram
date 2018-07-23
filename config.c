@@ -55,9 +55,7 @@ static void show_usage(void)
 
 static void show_version(void)
 {
-  fprintf(stderr,
-    PACKAGE_STRING " -- a nonogram solver\n"
-    "Copyright (c) 2003-2014 Jakub Wilk\n");
+  fprintf(stderr, "%s\n", PACKAGE_STRING);
   exit(EXIT_FAILURE);
 }
 
