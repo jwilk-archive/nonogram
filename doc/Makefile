@@ -36,4 +36,6 @@ test check: manpage.pod
 clean:
 	rm -f *.1 *.tmp
 
+.error = GNU make is required
+
 # vim:ts=4 sts=4 sw=4 noet
