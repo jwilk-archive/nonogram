@@ -26,6 +26,12 @@ LDFLAGS = @LDFLAGS@
 LDLIBS = @LIBS@ @NCURSES_LIBS@ -lm
 EXEEXT = @EXEEXT@
 
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+datarootdir = @datarootdir@
+mandir = @mandir@
+
 CFILES = $(wildcard *.c)
 OFILES = $(CFILES:.c=.o)
 
@@ -38,6 +44,17 @@ $(OFILES): %.o: %.c
 
 nonogram$(EXEEXT): $(OFILES)
 	$(LINK.c) $(^) $(LDLIBS) -o $(@)
+
+.PHONY: install
+install: nonogram$(EXEEXT)
+	install -d $(DESTDIR)$(bindir)
+	install $(<) $(DESTDIR)$(bindir)/$(<)
+ifeq "$(wildcard doc/*.1)" ""
+	# run "$(MAKE) -C doc" to build the manpage
+else
+	install -d $(DESTDIR)$(mandir)/man1
+	install -m644 doc/nonogram.1 $(DESTDIR)$(mandir)/man1/nonogram.1
+endif
 
 .PHONY: test
 test: nonogram$(EXEEXT)
