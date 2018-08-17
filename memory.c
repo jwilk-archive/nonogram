@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "memory.h"
+
 void *alloc(size_t size)
 {
   void *tmp = calloc(1, size);
