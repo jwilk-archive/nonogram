@@ -40,13 +40,13 @@
 #include "queue.h"
 #include "term.h"
 
-Picture *mainpicture;
-unsigned int *leftborder, *topborder;
-uint64_t *gtestfield;
+static Picture *mainpicture;
+static unsigned int *leftborder, *topborder;
+static uint64_t *gtestfield;
 unsigned int xsize, ysize, xysize, xpysize, vsize;
 unsigned int lmax, tmax;
 
-uint64_t fingercounter;
+static uint64_t fingercounter;
 
 static double binomln(int n, int k)
 // Return
