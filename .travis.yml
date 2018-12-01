@@ -19,7 +19,7 @@ script:
 - make -C doc/ check
 - cppcheck --error-exitcode=1 *.c
 - ./private/autogen
-- ./configure --prefix ~/.local
+- ./configure --prefix ~/.local || cat config.log /fail
 - make
 - TERM=dumb make test
 - make install
