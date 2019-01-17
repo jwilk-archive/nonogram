@@ -48,8 +48,8 @@ static void show_usage(void)
 #if ENABLE_DEBUG
     "  -f, --file=FILE   validate the result using FILE\n"
 #endif
-    "  -h, --help        display this help and exit\n"
-    "  -v, --version     output version information and exit\n\n");
+    "  -h, --help        show this help message and exit\n"
+    "  -v, --version     show version information and exit\n\n");
   exit(EXIT_FAILURE);
 }
 
