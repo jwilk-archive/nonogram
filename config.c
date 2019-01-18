@@ -41,15 +41,15 @@ static void show_usage(void)
   fprintf(stderr,
     "Usage: nonogram [OPTIONS]\n\n"
     "Options:\n"
-    "  -c, --colors      use colors\n"
-    "  -u, --utf-8       use UTF-8 drawing characters\n"
-    "  -H, --html        HTML output\n"
-    "  -X, --xhtml       XHTML output\n"
+    "  -c, --colors     use colors\n"
+    "  -u, --utf-8      use UTF-8 drawing characters\n"
+    "  -H, --html       HTML output\n"
+    "  -X, --xhtml      XHTML output\n"
 #if ENABLE_DEBUG
-    "  -f, --file=FILE   validate the result using FILE\n"
+    "  -f, --file=FILE  validate the result using FILE\n"
 #endif
-    "  -h, --help        show this help message and exit\n"
-    "  -v, --version     show version information and exit\n\n");
+    "  -h, --help       show this help message and exit\n"
+    "  -v, --version    show version information and exit\n\n");
   exit(EXIT_FAILURE);
 }
 
