@@ -90,7 +90,7 @@ AC_ARG_ENABLE(
 enable_debug=$(test "$enable_debug" = yes && echo 1 || echo 0)
 AC_DEFINE_UNQUOTED([ENABLE_DEBUG], [$enable_debug], [Define to enable debugging features])
 
-AC_CONFIG_HEADER([autoconf.h])
+AC_CONFIG_HEADERS([autoconf.h])
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
