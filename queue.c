@@ -92,7 +92,7 @@ bool put_into_queue(Queue *queue, unsigned int id, int factor)
 
   assert(id < xpysize);
   i = queue->enqueued[id];
-  if (i == (unsigned int)-1)
+  if (i == -1U)
     i = queue->size++;
   else
   {
@@ -127,7 +127,7 @@ unsigned int get_from_queue(Queue *queue)
     update_queue_enq(queue, 0);
     heapify_queue(queue);
   }
-  queue->enqueued[resultid] = (unsigned int)-1;
+  queue->enqueued[resultid] = -1U;
   return resultid;
 }
 
