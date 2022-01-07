@@ -22,7 +22,6 @@ dnl | SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 AC_PREREQ([2.61])
 AC_INIT([nonogram], [0.9.1], [https://github.com/jwilk/nonogram/issues])
 
-AC_PROG_CC_C99
 AC_PROG_CPP
 
 AC_DEFINE([_ISOC99_SOURCE], [1], [Define if your system supports C99])
