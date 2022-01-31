@@ -28,9 +28,8 @@ char freadchar(FILE *file)
 // If there's nothing to read or an error occurred, return '\0'.
 // Otherwise, return the char.
 {
-  char buf = '\0';
-  fread((void*)&buf, 1, 1, file);
-  return buf;
+  int c = fgetc(file);
+  return c == EOF ? '\0': c;
 }
 
 char readchar(void)
