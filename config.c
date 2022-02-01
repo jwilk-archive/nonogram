@@ -50,7 +50,7 @@ static void show_usage(void)
 #endif
     "  -h, --help       show this help message and exit\n"
     "  -v, --version    show version information and exit\n\n");
-  exit(EXIT_FAILURE);
+  exit(EXIT_SUCCESS);
 }
 
 static void show_version(void)
