@@ -38,7 +38,7 @@ Config config = {
 
 static void show_usage(void)
 {
-  fprintf(stderr,
+  printf(
     "Usage: nonogram [OPTIONS]\n\n"
     "Options:\n"
     "  -c, --colors     use colors\n"
