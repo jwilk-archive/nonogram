@@ -47,9 +47,7 @@ tar_opts='--owner root --group root --mode u=rwX,go=rX --format ustar --sort nam
 gzip='gzip -9 -n'
 git archive "$commit" --prefix="$name-$version/" | tar -C "$sourceroot" -xf -
 cd "$sourceroot"/*
-rm .git*
-rm .appveyor.yml
-rm .travis.yml
+rm -r .git*
 rm private/build-source-tarball
 private/autogen
 rm -r *.cache
